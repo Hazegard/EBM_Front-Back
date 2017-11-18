@@ -48,11 +48,19 @@ class DBAccess {
      * @return string json of all paragraph of the article
      */
     public function getParagraphsWithArticleId($idArticle){
+        if(empty($idArticle)){
+            return _400();
+        }
         $request = $this->bdd->prepare("SELECT * FROM PARAGRAPHE WHERE ARTICLE_ID=:ID ORDER BY ID");
         $request->bindParam(':ID',$idArticle);
         if($request->execute()){
+            $request = $request->fetchAll(PDO::FETCH_ASSOC);
+            if(empty($request)){
+                header("HTTP/1.0 404");
+                return json_encode(['message'=>"No resource found"]);
+            }
             header("HTTP/1.0 200");
-            return fetchToJson($request);
+            return json_encode($request);
         }
         header("HTTP/1.0 400");
         return json_encode(['message'=>'unable to complete request']);
@@ -65,14 +73,16 @@ class DBAccess {
      */
     public function updateParagraphWithId($idPara, $newContent){
         if(empty($idPara)){
-            header("HTTP/1.0 400");
-            return json_encode(['message'=>"An id must be provided"]);
+            return _400();
         }
-        echo $newContent;
         $request = $this->bdd->prepare("UPDATE PARAGRAPHE SET CONTENT=:CONTENT WHERE ID=:ID");
         $request->bindParam(':CONTENT',$newContent);
         $request->bindParam(':ID',$idPara);
         if($request->execute()){
+            if($request->rowCount()==0){
+                header("HTTP/1.0 404");
+                return json_encode(['message'=>"No resource found"]);
+            }
             header("HTTP/1.0 200");
             return json_encode(["message"=>"updated successfully"]);
         }

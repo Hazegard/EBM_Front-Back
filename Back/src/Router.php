@@ -31,9 +31,11 @@ class Router {
      * @param $path : The action to handle (ex: 'paragraph' to handle /v1/paragraph/
      * @param $method : The request method to handle (
      * @param $callback : The function use to handle the request
+     * @return $this
      */
     public function addRoute($path, $method, $callback){
         $this->routes[] = new Route($path, $method, $callback);
+        return $this;
     }
 
     /**
