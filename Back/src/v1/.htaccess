@@ -1,0 +1,2 @@
+# For all request /v1/*, execute controler.php
+FallbackResource /controler.php
