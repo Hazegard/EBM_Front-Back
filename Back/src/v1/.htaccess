@@ -1,2 +1,2 @@
-# For all request /v1/*, execute controler.php
-FallbackResource /controler.php
+# For all request /v1/*, execute Dispatcher.php
+FallbackResource /Dispatcher.php

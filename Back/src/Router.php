@@ -28,9 +28,12 @@ class Router {
 
     /**
      *  Add a new route to the Router
-     * @param $path : The action to handle (ex: 'paragraph' to handle /v1/paragraph/
-     * @param $method : The request method to handle (
-     * @param $callback : The function use to handle the request
+     * @param string $path
+     *      The action to handle (ex: 'paragraph' to handle /v1/paragraph/
+     * @param string $method
+     *      The request method to handle (
+     * @param callable $callback
+     *      The function use to handle the request
      * @return $this
      */
     public function addRoute($path, $method, $callback){
@@ -39,11 +42,13 @@ class Router {
     }
 
     /**
-     * Used to match incomming request [url, method] with registered routes
-     * @param $url : The url of request '/v1/{action}/{id}
-     * @param $method : The method of the request [GET|POST|PUT|PATCH|DELETE]
-     * @return array : [callback function, id]
-     * If not route match the URL, @return 404
+     * Used to match incoming request [url, method] with registered routes
+     * @param string $url
+     *      The url of request '/v1/{action}/{id}
+     * @param string $method
+     *      The method of the request [GET|POST|PUT|PATCH|DELETE]
+     * @return array
+     *      [callback function, id], If not route match the URL, @return 404
      */
     public function match($url, $method){
         /**

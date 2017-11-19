@@ -30,63 +30,44 @@ class DBAccess {
     }
 
     /**
-     * @return string : Json Encoded list of Articles: ID and TITLE
+     * @return array
+     *      List of Articles: ID => TITLE
      */
-    public function getArticles() {
+    public function queryListArticles() {
         $articles = $this->bdd->prepare("SELECT * FROM ARTICLES");
-        if ($articles->execute()) {
-            header("HTTP/1.0 200");
-            return fetchToJson($articles);
-//            return json_encode($articles->fetchAll(PDO::FETCH_ASSOC));
-        };
-        header("HTTP/1.0 204");
-        return json_encode(['message'=>'No articles found :(']);
+        return $articles->execute() ? $articles->fetchAll(PDO::FETCH_ASSOC): null;
     }
 
     /**
-     * @param $idArticle : The id of the article
-     * @return string json of all paragraph of the article
+     * @param int $idArticle
+     *      The id of the article
+     * @return array
+     *      All paragraph of the article, null if an error occurred
      */
-    public function getParagraphsWithArticleId($idArticle){
+    public function queryParagraphsWithArticleId($idArticle){
         if(empty($idArticle)){
-            return _400();
+            return null;
         }
         $request = $this->bdd->prepare("SELECT * FROM PARAGRAPHE WHERE ARTICLE_ID=:ID ORDER BY ID");
         $request->bindParam(':ID',$idArticle);
-        if($request->execute()){
-            $request = $request->fetchAll(PDO::FETCH_ASSOC);
-            if(empty($request)){
-                header("HTTP/1.0 404");
-                return json_encode(['message'=>"No resource found"]);
-            }
-            header("HTTP/1.0 200");
-            return json_encode($request);
-        }
-        header("HTTP/1.0 400");
-        return json_encode(['message'=>'unable to complete request']);
+        return $request->execute()? $request->fetchAll(PDO::FETCH_ASSOC): null;
     }
 
     /**
-     * @param $idPara : The id of the paragraph to update
-     * @param $newContent : The new content of the paragraph
-     * @return string : message to inform if success or failure
+     * @param int $idPara
+     *      The id of the paragraph to update
+     * @param string $newContent
+     *      The new content of the paragraph
+     * @return string
+     *      Number of row affected by the update, null if an error occurred
      */
-    public function updateParagraphWithId($idPara, $newContent){
+    public function queryUpdateParagraphWithId($idPara, $newContent){
         if(empty($idPara)){
             return _400();
         }
         $request = $this->bdd->prepare("UPDATE PARAGRAPHE SET CONTENT=:CONTENT WHERE ID=:ID");
         $request->bindParam(':CONTENT',$newContent);
         $request->bindParam(':ID',$idPara);
-        if($request->execute()){
-            if($request->rowCount()==0){
-                header("HTTP/1.0 404");
-                return json_encode(['message'=>"No resource found"]);
-            }
-            header("HTTP/1.0 200");
-            return json_encode(["message"=>"updated successfully"]);
-        }
-        header("HTTP/1.0 400");
-        return json_encode(['message'=>'unable to complete request']);
+        return $request->execute()?$request->rowCount(): null;
     }
 }

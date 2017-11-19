@@ -13,9 +13,12 @@ class Route {
 
     /**
      * Route constructor.
-     * @param $match : the field that the route must match
-     * @param $method : the method that the route must match
-     * @param $callback : The function return by the route
+     * @param string $match
+     *      The field that the route must match
+     * @param string $method
+     *      The method that the route must match
+     * @param callable $callback
+     *      The function return by the route
      */
     public function __construct($match, $method, $callback) {
         $this->match = $match;

@@ -8,28 +8,32 @@
 
 
 require('Router.php');
-require('DBAccess.php');
+//require('DBAccess.php');
+require ('Controller.php');
 $router = Router::getInstance();
 
+$controler = new Controller();
 /**
  * Create all the routes
  */
 $router->addRoute('paragraph', 'GET',
-    function ($id, $params) {
-        echo DBAccess::getInstance()->getParagraphsWithArticleId($id);
+    function ($id) use ($controler) {
+        echo $controler->getParagraphWithArticleId($id);
     })
     ->addRoute('paragraph', 'POST',
         function () {
             echo "Ceci est un POST sur paragraph";
         })
     ->addRoute('paragraph', 'PATCH',
-        function ($id, $params) {
+        function ($id, $params) use ($controler){
             $params = json_decode($params, TRUE);
-            echo DBAccess::getInstance()->updateParagraphWithId($id, $params["content"]);
+            echo $controler->updateParagraphWithId($id, $params['content']);
+//            echo DBAccess::getInstance()->updateParagraphWithId($id, $params["content"]);
         })
     ->addRoute('listArticle', 'GET',
-        function () {
-            echo DBAccess::getInstance()->getArticles();
+        function () use ($controler){
+            echo $controler->listArticles();
+//            echo DBAccess::getInstance()->queryArticles();
         })
     ->addRoute('article', 'GET',
         function ($id, $params) {
