@@ -44,19 +44,19 @@ class Router {
     /**
      * Used to match incoming request [url, method] with registered routes
      * @param string $url
-     *      The url of request '/v1/{action}/{id}
+     *      The url of request '/v1/{resource}/{id}
      * @param string $method
      *      The method of the request [GET|POST|PUT|PATCH|DELETE]
      * @return array
-     *      [callback function, id], If not route match the URL, @return 404
+     *      [callback function, id], If not route match the URL, @return null
      */
     public function match($url, $method){
         /**
          * Extract the data from the url received
          */
         $explodedUrl = explode("/",$url);
-        $action = $explodedUrl[2];
-        $id = $explodedUrl[3];
+        $action = $explodedUrl[0];
+        $id = $explodedUrl[1];
 
         /**
          * Try to match the current request with registered routes
@@ -70,8 +70,8 @@ class Router {
             }
         }
         /**
-         * If no route is found, return 404 error
+         * If no route is found, return null
          */
-        return array('callback' => function (){echo "404";}, 'id' => null);
+        return null;
     }
 }

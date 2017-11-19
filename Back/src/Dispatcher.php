@@ -8,11 +8,11 @@
 
 
 require('Router.php');
-//require('DBAccess.php');
 require ('Controller.php');
-$router = Router::getInstance();
 
+$router = Router::getInstance();
 $controler = new Controller();
+
 /**
  * Create all the routes
  */
@@ -28,16 +28,14 @@ $router->addRoute('paragraph', 'GET',
         function ($id, $params) use ($controler){
             $params = json_decode($params, TRUE);
             echo $controler->updateParagraphWithId($id, $params['content']);
-//            echo DBAccess::getInstance()->updateParagraphWithId($id, $params["content"]);
         })
     ->addRoute('listArticle', 'GET',
         function () use ($controler){
             echo $controler->listArticles();
-//            echo DBAccess::getInstance()->queryArticles();
         })
     ->addRoute('article', 'GET',
-        function ($id, $params) {
-            echo "Ceci est un GET sur article " . $id . " avec comme json:" . $params;
+        function ($id) use ($controler) {
+            echo $controler->getArticle($id);
         })
     ->addRoute('article', 'POST',
         function ($id, $params) {
@@ -60,7 +58,16 @@ $data = file_get_contents('php://input');
 /**
  * Get the function corresponding to the request
  */
-$result = $router->match($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
+$uri = substr($_SERVER['REQUEST_URI'],8);
+$result = $router->match($uri, $_SERVER['REQUEST_METHOD']);
+
+/**
+ * If no route found, show 404
+ */
+if(is_null($result)){
+    header("HTTP/1.0 404");
+    echo "404";
+}
 
 /**
  * Execute the function with the parameters

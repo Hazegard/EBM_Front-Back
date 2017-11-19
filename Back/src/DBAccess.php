@@ -38,6 +38,20 @@ class DBAccess {
         return $articles->execute() ? $articles->fetchAll(PDO::FETCH_ASSOC): null;
     }
 
+
+    /**
+     * @param int $id The id of the paragraph
+     * @return mixed|null
+     */
+    public function queryArticle($id){
+        if(empty($id)){
+            return null;
+        }
+        $request = $this->bdd->prepare("SELECT * FROM ARTICLES WHERE ID=:ID");
+        $request->bindParam(':ID', $id);
+        return $request->execute()? $request->fetch(PDO::FETCH_ASSOC): null;
+    }
+
     /**
      * @param int $idArticle
      *      The id of the article
@@ -48,7 +62,7 @@ class DBAccess {
         if(empty($idArticle)){
             return null;
         }
-        $request = $this->bdd->prepare("SELECT * FROM PARAGRAPHE WHERE ARTICLE_ID=:ID ORDER BY ID");
+        $request = $this->bdd->prepare("SELECT * FROM PARAGRAPHE WHERE ARTICLE_ID=:ID ORDER BY POSITION");
         $request->bindParam(':ID',$idArticle);
         return $request->execute()? $request->fetchAll(PDO::FETCH_ASSOC): null;
     }

@@ -14,7 +14,7 @@ class Controller {
 
     /**
      * @return string
-     *      Json of all articles {id : title}, or error message if no articles are found
+     *      Json of all articles {id , title}, or error message if no articles are found
      */
     function listArticles(){
         $query = DBAccess::getInstance()->queryListArticles();
@@ -24,6 +24,22 @@ class Controller {
         }
         header("HTTP/1.0 200");
         return json_encode($query);
+    }
+
+    /**
+     * @param int $idArticle
+     *      The id of the article
+     * @return string
+     *      Json of the article {id, title, paragraph}
+     */
+    function getArticle($idArticle){
+        $article = DBAccess::getInstance()->queryArticle($idArticle);
+        $paragraphs = DBAccess::getInstance()->queryParagraphsWithArticleId($idArticle);
+        if(empty($article) || empty($paragraphs)){
+            return _400();
+        }
+        $article['PARAGRAPH'] = $paragraphs;
+        return json_encode($article);
     }
 
     /**

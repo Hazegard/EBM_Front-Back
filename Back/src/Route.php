@@ -26,13 +26,26 @@ class Route {
         $this->callback = $callback;
     }
 
+    /**
+     * @return string
+     *      Return the path to match
+     */
     public function getMatch(){
         return $this->match;
     }
 
+    /**
+     * @return string
+     *      Return the http method to match
+     */
     public function getMethod(){
         return $this->method;
     }
+
+    /**
+     * @return callable
+     *      Return the callback function
+     */
     public function getCallback(){
         return$this->callback;
     }
