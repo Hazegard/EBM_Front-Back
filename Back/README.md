@@ -24,3 +24,7 @@ METHOD=[GET|POST|PUT|PATCH|DELETE]
 action= action de la route
 id= id de la ressource
 ```
+Acriver module apache rewrite:
+```bash
+sudo a2enmod rewrite
+```
