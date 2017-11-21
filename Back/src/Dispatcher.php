@@ -11,31 +11,31 @@ require('Router.php');
 require ('Controller.php');
 
 $router = Router::getInstance();
-$controler = new Controller();
+$controller = new Controller();
 
 /**
  * Create all the routes
  */
 $router->addRoute('paragraph', 'GET',
-    function ($id) use ($controler) {
-        echo $controler->getParagraphWithArticleId($id);
+    function ($id) use ($controller) {
+        echo $controller->getParagraphWithArticleId($id);
     })
     ->addRoute('paragraph', 'POST',
         function () {
             echo "Ceci est un POST sur paragraph";
         })
     ->addRoute('paragraph', 'PATCH',
-        function ($id, $params) use ($controler){
+        function ($id, $params) use ($controller){
             $params = json_decode($params, TRUE);
-            echo $controler->updateParagraphWithId($id, $params['content']);
+            echo $controller->updateParagraphWithId($id, $params['content']);
         })
     ->addRoute('listArticle', 'GET',
-        function () use ($controler){
-            echo $controler->listArticles();
+        function () use ($controller){
+            echo $controller->listArticles();
         })
     ->addRoute('article', 'GET',
-        function ($id) use ($controler) {
-            echo $controler->getArticle($id);
+        function ($id) use ($controller) {
+            echo $controller->getArticle($id);
         })
     ->addRoute('article', 'POST',
         function ($id, $params) {
