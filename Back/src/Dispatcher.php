@@ -5,8 +5,6 @@
  * Date: 17/11/17
  * Time: 18:32
  */
-
-
 require('Router.php');
 require ('Controller.php');
 
@@ -25,14 +23,16 @@ $router->addRoute('paragraph', 'GET',
             echo "Ceci est un POST sur paragraph";
         })
     ->addRoute('paragraph', 'PATCH',
-        function ($id, $params) use ($controller){
+        function ($id, $params) use ($controller) {
             $params = json_decode($params, TRUE);
             echo $controller->updateParagraphWithId($id, $params['content']);
         })
+
     ->addRoute('listArticle', 'GET',
-        function () use ($controller){
+        function () use ($controller) {
             echo $controller->listArticles();
         })
+    
     ->addRoute('article', 'GET',
         function ($id) use ($controller) {
             echo $controller->getArticle($id);
@@ -64,8 +64,8 @@ $result = $router->match($uri, $_SERVER['REQUEST_METHOD']);
 /**
  * If no route found, show 404
  */
-if(is_null($result)){
-    header("HTTP/1.0 404");
+if(is_null($result)) {
+    header("HTTP/1.1 404");
     echo "404";
 }
 

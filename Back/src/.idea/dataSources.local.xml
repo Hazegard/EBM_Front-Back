@@ -11,5 +11,15 @@
       <user-name>root</user-name>
       <introspection-schemas>*:Tp_Final</introspection-schemas>
     </data-source>
+    <data-source name="Tp_Final@172.17.0.2" uuid="7b7f294a-09d4-41db-86ee-80b4931ee190">
+      <database-info product="MySQL" version="5.5.5-10.2.10-MariaDB-10.2.10+maria~jessie" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.44 ( Revision: b3cda4f864902ffdde495b9df93937c3e20009be )">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <introspection-schemas>*:Tp_FInal</introspection-schemas>
+    </data-source>
   </component>
 </project>

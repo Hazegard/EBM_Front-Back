@@ -15,10 +15,10 @@ class Router {
      */
     private static $_instance = null;
 
-    private function __construct(){}
+    private function __construct() {}
 
-    public static function getInstance(){
-        if(is_null(self::$_instance)){
+    public static function getInstance() {
+        if(is_null(self::$_instance)) {
             self::$_instance = new Router();
         }
         return self::$_instance;
@@ -36,7 +36,7 @@ class Router {
      *      The function use to handle the request
      * @return $this
      */
-    public function addRoute($path, $method, $callback){
+    public function addRoute($path, $method, $callback) {
         $this->routes[] = new Route($path, $method, $callback);
         return $this;
     }
@@ -50,7 +50,7 @@ class Router {
      * @return array
      *      [callback function, id], If not route match the URL, @return null
      */
-    public function match($url, $method){
+    public function match($url, $method) {
         /**
          * Extract the data from the url received
          */
@@ -61,8 +61,8 @@ class Router {
         /**
          * Try to match the current request with registered routes
          */
-        foreach ($this->routes as $route){
-            if($action==$route->getMatch() && $method==$route->getMethod()){
+        foreach ($this->routes as $route) {
+            if($action==$route->getMatch() && $method==$route->getMethod()) {
                 /**
                  * If a route if found, return the callback and the id
                  */
