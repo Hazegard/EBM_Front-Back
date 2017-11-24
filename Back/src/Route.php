@@ -27,10 +27,10 @@ class Route {
     }
 
     /**
-     * @return string
+     * @return Route
      *      Return the path to match
      */
-    public function getMatch() {
+    public function getMatch(): String {
         return $this->match;
     }
 
@@ -38,7 +38,7 @@ class Route {
      * @return string
      *      Return the http method to match
      */
-    public function getMethod() {
+    public function getMethod(): string {
         return $this->method;
     }
 
@@ -46,7 +46,7 @@ class Route {
      * @return callable
      *      Return the callback function
      */
-    public function getCallback() {
+    public function getCallback(): callable {
         return$this->callback;
     }
 }

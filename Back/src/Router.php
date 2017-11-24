@@ -17,7 +17,7 @@ class Router {
 
     private function __construct() {}
 
-    public static function getInstance() {
+    public static function getInstance():Router {
         if(is_null(self::$_instance)) {
             self::$_instance = new Router();
         }
@@ -36,7 +36,7 @@ class Router {
      *      The function use to handle the request
      * @return $this
      */
-    public function addRoute($path, $method, $callback) {
+    public function addRoute(string $path,string $method,callable $callback): Router {
         $this->routes[] = new Route($path, $method, $callback);
         return $this;
     }
@@ -47,17 +47,16 @@ class Router {
      *      The url of request '/v1/{resource}/{id}
      * @param string $method
      *      The method of the request [GET|POST|PUT|PATCH|DELETE]
-     * @return array
-     *      [callback function, id], If not route match the URL, @return null
+     * @return callable
+     *      callback function, If not route match the URL, @return null
      */
-    // TODO : sortir l'id de match pour le mettre dans le dispatcher
-    public function match($url, $method) {
+    public function match(string $url,string $method):callable {
         /**
          * Extract the data from the url received
          */
         $explodedUrl = explode("/",$url);
         $action = $explodedUrl[0];
-        $id = $explodedUrl[1];
+//        $id = $explodedUrl[1];
 
         /**
          * Try to match the current request with registered routes
@@ -67,7 +66,7 @@ class Router {
                 /**
                  * If a route is found, return the callback and the id
                  */
-                return array('callback' =>$route->getCallback(), 'id' =>$id);
+                return $route->getCallback();
             }
         }
         /**

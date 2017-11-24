@@ -15,15 +15,24 @@ class Controller {
      * @return string
      *      Json of all articles {id , title}, or error message if no articles are found
      */
-    function listArticles() {
-        $query = DBAccess::getInstance()->queryListArticles();
-        if(is_null($query)) {
-            header("HTTP/1.1 204");
+    function listArticles(): string {
+        $articles = DBAccess::getInstance()->queryArticles();
+        $paragraph = DBAccess::getInstance()->queryParagraph();
+        if(is_null($articles)) {
+            http_response_code(204);
             return json_encode(['message'=>'No articles found :(']);
         }
-        //TODO 'http_response_code'
-        header("HTTP/1.1 200");
-        return json_encode($query);
+        http_response_code(200);
+
+        foreach ($articles as $key=>$article){
+            $articles[$key] = array('ID'=> $key, 'TITLE' => $article, 'CONTENT' => array());
+        }
+
+        foreach ($paragraph as $para) {
+                array_push($articles[$para['ARTICLE_ID']]['CONTENT'], $para);
+        }
+        $articles = array_values($articles);
+        return json_encode($articles, true);
     }
 
     /**
@@ -32,15 +41,14 @@ class Controller {
      * @return string
      *      Json of the article {id, title, paragraph}
      */
-    function getArticle($idArticle) {
-        $article = DBAccess::getInstance()->queryArticle($idArticle);
+    function getArticle(int $idArticle): string {
+        $article = DBAccess::getInstance()->queryArticleById($idArticle);
         $paragraphs = DBAccess::getInstance()->queryParagraphsWithArticleId($idArticle);
-        if(empty($article) || empty($paragraphs)) {
+        if(empty($article) ) {
             return _400();
         }
-        // TODO : les paragraphes peuvent être nuls !
-        $article['PARAGRAPH'] = $paragraphs;
-        header("HTTP/2.0 200");
+        $article['CONTENT'] = $paragraphs;
+        http_response_code(200);
         return json_encode($article);
     }
 
@@ -50,20 +58,20 @@ class Controller {
      * @return string
      *      Json of the paragraph if found, json of error message
      */
-    function getParagraphWithArticleId($articleId) {
+    function getParagraphWithArticleId(int $articleId): string  {
         if(empty($articleId)){
             return _400();
         }
         $query = DBAccess::getInstance()->queryParagraphsWithArticleId($articleId);
         if(empty($query)) {
-            header("HTTP/1.1 404");
+            http_response_code(404);
             return json_encode(['message'=>'no resource found']);
         }
         if(is_null($query)) {
-            header("HTTP/1.1 400");
+            http_response_code(400);
             return json_encode(['message'=>'unable to complete request']);
         }
-        header("HTTP/1.1 200");
+        http_response_code(200);
         return json_encode($query);
     }
 
@@ -75,20 +83,20 @@ class Controller {
      * @return string
      *      Message to inform if the request was succeeded
      */
-    function updateParagraphWithId($idPara, $newContent) {
+    function updateParagraphWithId(int $idPara,string $newContent): string {
         if(empty($idPara)) {
             return _400();
         }
         $query = DBAccess::getInstance()->queryUpdateParagraphWithId($idPara, $newContent);
         if(is_null($query)) {
-            header("HTTP/1.1 400");
+            http_response_code(400);
             return json_encode(['message'=>'unable to complete request']);
         }
         if($query ==0) {
-            header("HTTP/1.1 404");
+            http_response_code(404);
             return json_encode(['message'=>"No resource found"]);
         }
-        header("HTTP/1.1 200");
+        http_response_code(200);
         return json_encode(["message"=>"updated successfully"]);
 
     }

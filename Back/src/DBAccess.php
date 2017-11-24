@@ -30,7 +30,7 @@ class DBAccess {
      */
     private static $_instance = null;
 
-    public static function getInstance() {
+    public static function getInstance(): DBAccess {
         if (is_null(self::$_instance)) {
             self::$_instance = new DBAccess();
         }
@@ -41,18 +41,23 @@ class DBAccess {
      * @return array
      *      List of Articles: ID => TITLE
      */
-    public function queryListArticles() {
+    public function queryArticles(): array {
         $articles = $this->bdd->prepare("SELECT * FROM ARTICLES");
-        return $articles->execute() ? $articles->fetchAll(PDO::FETCH_ASSOC) : null;
+        return $articles->execute() ? $articles->fetchAll(PDO::FETCH_KEY_PAIR) : null;
+    }
+
+    public function queryParagraph(): array {
+        $paragraph = $this->bdd->prepare("SELECT * FROM PARAGRAPHE G");
+        return $paragraph->execute() ? $paragraph->fetchAll(PDO::FETCH_ASSOC): null;
     }
 
 
     /**
      * @param int $id
      *      The id of the paragraph
-     * @return mixed|null
+     * @return array
      */
-    public function queryArticle($id) {
+    public function queryArticleById(int $id): array {
         if (empty($id)) {
             return null;
         }
@@ -67,7 +72,7 @@ class DBAccess {
      * @return array
      *      All paragraph of the article, null if an error occurred
      */
-    public function queryParagraphsWithArticleId($idArticle) {
+    public function queryParagraphsWithArticleId(int $idArticle): array {
         if (empty($idArticle)) {
             return null;
         }
@@ -81,13 +86,12 @@ class DBAccess {
      *      The id of the paragraph to update
      * @param string $newContent
      *      The new content of the paragraph
-     * @return string
+     * @return int
      *      Number of row affected by the update, null if an error occurred
      */
-    public function queryUpdateParagraphWithId($idPara, $newContent) {
-        // TODO : change 400
+    public function queryUpdateParagraphWithId(int $idPara,string $newContent): int {
         if (empty($idPara)) {
-            return _400();
+            return null;
         }
         $request = $this->bdd->prepare("UPDATE PARAGRAPHE SET CONTENT=:CONTENT WHERE ID=:ID");
         $request->bindParam(':CONTENT', $newContent);
@@ -95,7 +99,7 @@ class DBAccess {
         return $request->execute() ? $request->rowCount() : null;
     }
 
-    public function queryMoveparagraph($oldPos, $newPos) {
+    public function queryMoveparagraph(int $oldPos,int $newPos) {
 
     }
 }

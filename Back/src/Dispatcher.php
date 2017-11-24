@@ -28,14 +28,18 @@ $router->addRoute('paragraph', 'GET',
             echo $controller->updateParagraphWithId($id, $params['content']);
         })
 
-    ->addRoute('listArticle', 'GET',
-        function () use ($controller) {
-            echo $controller->listArticles();
-        })
-    
+//    ->addRoute('listArticle', 'GET',
+//        function () use ($controller) {
+//            echo $controller->listArticles();
+//        })
     ->addRoute('article', 'GET',
         function ($id) use ($controller) {
-            echo $controller->getArticle($id);
+        print_r(is_null($id));
+            if (is_null($id)) {
+                echo $controller->listArticles();
+            } else {
+                echo $controller->getArticle($id);
+            }
         })
     ->addRoute('article', 'POST',
         function ($id, $params) {
@@ -58,20 +62,20 @@ $data = file_get_contents('php://input');
 /**
  * Get the function corresponding to the request
  */
-// TODO : Éventuellement faire mieux que commencer au 8e caractère par la suite, p.ex split par rapport au 2e slash
-$uri = substr($_SERVER['REQUEST_URI'],8);
-$result = $router->match($uri, $_SERVER['REQUEST_METHOD']);
+$explodedUrl = explode("/",$_SERVER['REQUEST_URI']);
+$resource = $explodedUrl[3];
+$id = $explodedUrl[4];
+$result = $router->match($resource, $_SERVER['REQUEST_METHOD']);
 
 /**
  * If no route found, show 404
  */
 if(is_null($result)) {
-    header("HTTP/1.1 404");
+    http_response_code(404);
     echo "404";
 }
 
 /**
  * Execute the function with the parameters
  */
-// TODO : à améliorer (maxime) : distinction de cas par id nécessaire ou non
-call_user_func_array($result['callback'], array($result['id'], $data));
+call_user_func_array($result, array($id, $data));

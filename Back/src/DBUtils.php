@@ -7,6 +7,6 @@
  */
 
 function _400() {
-    header("HTTP/1.1 400");
+    http_response_code(400);
     return json_encode(['message'=>"An id must be provided"]);
 }
