@@ -21,6 +21,7 @@ class Controller {
             header("HTTP/1.1 204");
             return json_encode(['message'=>'No articles found :(']);
         }
+        //TODO 'http_response_code'
         header("HTTP/1.1 200");
         return json_encode($query);
     }
