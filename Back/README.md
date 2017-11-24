@@ -4,6 +4,12 @@
 
 * Ajouter à  apache2.conf, si les fchiers sont stockes dans `/var/www`:
 
+
+Acriver module apache rewrite:
+```bash
+sudo a2enmod rewrite
+```
+###### OLD, ne plus utiliser
 ```html
 <Directory /var/www/>
         AllowOverride All
@@ -23,8 +29,4 @@ json='{"param1":"value1","param2":"value2"}'
 METHOD=[GET|POST|PUT|PATCH|DELETE]
 action= action de la route
 id= id de la ressource
-```
-Acriver module apache rewrite:
-```bash
-sudo a2enmod rewrite
 ```

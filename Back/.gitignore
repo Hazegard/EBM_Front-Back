@@ -1,2 +1,4 @@
 Dockerfile
 config/
+RUN.md
+.idea/
