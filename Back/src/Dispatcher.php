@@ -51,13 +51,14 @@ $router->addRoute('paragraph', 'GET',
         });
 
 /**
- * Get incoming data from request
+ * Get incoming data from request, same as $_GET and $_POST but also works with PUT, PATCH and DELETE
  */
 $data = file_get_contents('php://input');
 
 /**
  * Get the function corresponding to the request
  */
+// TODO : Éventuellement faire mieux que commencer au 8e caractère par la suite, p.ex split par rapport au 2e slash
 $uri = substr($_SERVER['REQUEST_URI'],8);
 $result = $router->match($uri, $_SERVER['REQUEST_METHOD']);
 
@@ -72,4 +73,5 @@ if(is_null($result)) {
 /**
  * Execute the function with the parameters
  */
+// TODO : à améliorer (maxime) : distinction de cas par id nécessaire ou non
 call_user_func_array($result['callback'], array($result['id'], $data));

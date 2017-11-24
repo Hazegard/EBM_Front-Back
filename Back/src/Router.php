@@ -50,6 +50,7 @@ class Router {
      * @return array
      *      [callback function, id], If not route match the URL, @return null
      */
+    // TODO : sortir l'id de match pour le mettre dans le dispatcher
     public function match($url, $method) {
         /**
          * Extract the data from the url received
@@ -64,7 +65,7 @@ class Router {
         foreach ($this->routes as $route) {
             if($action==$route->getMatch() && $method==$route->getMethod()) {
                 /**
-                 * If a route if found, return the callback and the id
+                 * If a route is found, return the callback and the id
                  */
                 return array('callback' =>$route->getCallback(), 'id' =>$id);
             }

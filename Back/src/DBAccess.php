@@ -84,6 +84,7 @@ class DBAccess {
      *      Number of row affected by the update, null if an error occurred
      */
     public function queryUpdateParagraphWithId($idPara, $newContent) {
+        // TODO : change 400
         if (empty($idPara)) {
             return _400();
         }
@@ -93,7 +94,7 @@ class DBAccess {
         return $request->execute() ? $request->rowCount() : null;
     }
 
-    public function queryMoveparagrahp($oldPos, $newPos) {
+    public function queryMoveparagraph($oldPos, $newPos) {
 
     }
 }

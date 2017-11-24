@@ -8,7 +8,7 @@
 
 require('DBAccess.php');
 class Controller {
-
+    // TODO : singleton ?
     function __construct() {}
 
     /**
@@ -37,6 +37,7 @@ class Controller {
         if(empty($article) || empty($paragraphs)) {
             return _400();
         }
+        // TODO : les paragraphes peuvent être nuls !
         $article['PARAGRAPH'] = $paragraphs;
         header("HTTP/2.0 200");
         return json_encode($article);
