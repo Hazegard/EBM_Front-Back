@@ -7,7 +7,6 @@
  */
 
 require ('Route.php');
-
 class Router {
 
     /**
@@ -28,7 +27,7 @@ class Router {
 
     /**
      *  Add a new route to the Router
-     * @param string $path
+     * @param string $regex
      *      The action to handle (ex: 'paragraph' to handle /v1/paragraph/
      * @param string $method
      *      The request method to handle (
@@ -36,8 +35,8 @@ class Router {
      *      The function use to handle the request
      * @return $this
      */
-    public function addRoute(string $path,string $method,callable $callback): Router {
-        $this->routes[] = new Route($path, $method, $callback);
+    public function addRoute(string $regex,string $method,callable $callback): Router {
+        $this->routes[] = new Route($regex, $method, $callback);
         return $this;
     }
 
@@ -50,23 +49,17 @@ class Router {
      * @return callable
      *      callback function, If not route match the URL, @return null
      */
-    public function match(string $url,string $method):callable {
-        /**
-         * Extract the data from the url received
-         */
-        $explodedUrl = explode("/",$url);
-        $action = $explodedUrl[0];
-//        $id = $explodedUrl[1];
-
+    public function match(string $url,string $method) {
         /**
          * Try to match the current request with registered routes
          */
         foreach ($this->routes as $route) {
-            if($action==$route->getMatch() && $method==$route->getMethod()) {
+            if(preg_match($route->getRegex(),$url,$params) && $method==$route->getMethod()) {
                 /**
                  * If a route is found, return the callback and the id
                  */
-                return $route->getCallback();
+                array_shift($params);
+                return [$route->getCallback(), ($params)];
             }
         }
         /**

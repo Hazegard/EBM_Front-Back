@@ -8,35 +8,35 @@
 
 class Route {
     private $callback;
-    private $match;
+    private $regex;
     private $method;
 
     /**
      * Route constructor.
-     * @param string $match
-     *      The field that the route must match
+     * @param string $regex
+     *      The field that the route must regex
      * @param string $method
-     *      The method that the route must match
+     *      The method that the route must regex
      * @param callable $callback
      *      The function return by the route
      */
-    public function __construct($match, $method, $callback) {
-        $this->match = $match;
+    public function __construct(string $regex,string $method,callable $callback) {
+        $this->regex = $regex;
         $this->method = $method;
         $this->callback = $callback;
     }
 
     /**
-     * @return Route
-     *      Return the path to match
+     * @return string
+     *      Return the regex to match
      */
-    public function getMatch(): String {
-        return $this->match;
+    public function getRegex(): String {
+        return $this->regex;
     }
 
     /**
      * @return string
-     *      Return the http method to match
+     *      Return the http method to regex
      */
     public function getMethod(): string {
         return $this->method;
