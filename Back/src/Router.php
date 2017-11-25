@@ -9,6 +9,12 @@
 require ('Route.php');
 class Router {
 
+
+    public static const GET    = 'GET';
+    public static const POST   = 'POST';
+    public static const PATCH  = 'PATCH';
+    public static const PUT    = 'PUT';
+    public static const DELETE = 'DELETE';
     /**
      * Singleton Pattern to prevent class from being instantiated more thane once
      */

@@ -14,44 +14,44 @@ $controller = new Controller();
 /**
  * Create all the routes
  */
-$router->addRoute('~^/articles/?$~', 'GET',
+$router->addRoute('~^/articles/?$~', Router::GET,
     function () use ($controller) {
         echo $controller->listArticles();
     })
-    ->addRoute('~^/articles/?$~', 'POST',
+    ->addRoute('~^/articles/?$~', Router::POST,
         function ($args) use ($controller) {
             $data = $args['DATA'];
             echo "Ceci est un post sur /articles/ avec comme json: ".($data);
         })
-    ->addRoute('~^/articles/?$~', 'PUT',
+    ->addRoute('~^/articles/?$~', Router::PUT,
         function ($args) use ($controller) {
             $data = $args['DATA'];
             echo "Ceci est un put sur /articles/ avec comme json: ".($data);
         })
 
-    ->addRoute('~^/articles/(\d+)/?$~', 'GET',
+    ->addRoute('~^/articles/(\d+)/?$~', Router::GET,
         function ($args) use ($controller) {
             $id = intval($args['PARAMS'][0]);
             echo $controller->getArticle($id);
         })
-    ->addRoute('~^/articles/(\d+)/?$~','PATCH',
+    ->addRoute('~^/articles/(\d+)/?$~',Router::PATCH,
         function ($args) use ($controller) {
             $id = intval($args['PARAMS'][0]);
             $data = $args['DATA'];
             echo "Ceci est un patch sur /articles/".$id."/ avec comme json : ".$data;
         })
 
-    ->addRoute('~^/paragraphs/?$~', 'GET',
+    ->addRoute('~^/paragraphs/?$~', Router::GET,
         function () use ($controller) {
             echo $controller->listParagraphs();
         })
 
-    ->addRoute('~^/paragraphs/(\d+)/?$~', 'GET',
+    ->addRoute('~^/paragraphs/(\d+)/?$~', Router::GET,
         function ($params) use ($controller) {
             $id = intval($params[0]);
             echo $controller->getParagraphById($id);
         })
-    ->addRoute('~^/paragraphs/(\d+)/?$~','PATCH',
+    ->addRoute('~^/paragraphs/(\d+)/?$~',Router::PATCH,
         function ($args) use ($controller) {
             $id = intval($args['PARAMS'][0]);
             $data = $args['DATA'];
@@ -59,13 +59,13 @@ $router->addRoute('~^/articles/?$~', 'GET',
         })
 
 
-    ->addRoute('~^/articles/(\d+)/paragraphs/?$~','GET',
+    ->addRoute('~^/articles/(\d+)/paragraphs/?$~',Router::GET,
         function($params) use ($controller) {
         $id = intval($params[0]);
         echo $controller->getParagraphsByArticleId($id);
     })
 
-    ->addRoute('~^/articles/(\d+)/paragraphs/(\d+)/?$~','GET',
+    ->addRoute('~^/articles/(\d+)/paragraphs/(\d+)/?$~',Router::GET,
         function($params) use ($controller) {
         $articleId = intval($params[0]);
         $paragraphPosition = intval($params[1]);
