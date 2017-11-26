@@ -7,7 +7,7 @@
  */
 require('Router.php');
 require('Controller.php');
-
+require('RouterUtils.php');
 $router = Router::getInstance();
 $controller = new Controller();
 
@@ -21,7 +21,7 @@ $router->addRoute('~^/articles/?$~', Router::GET,
     ->addRoute('~^/articles/?$~', Router::POST,
         function ($args) use ($controller) {
             $data = $args['DATA'];
-            echo "Ceci est un post sur /articles/ avec comme json: ".($data);
+            echo "Ceci est un post sur /articles/ avec comme json: ".print_r($data);
         })
     ->addRoute('~^/articles/?$~', Router::PUT,
         function ($args) use ($controller) {
@@ -60,38 +60,33 @@ $router->addRoute('~^/articles/?$~', Router::GET,
 
 
     ->addRoute('~^/articles/(\d+)/paragraphs/?$~',Router::GET,
-        function($params) use ($controller) {
-        $id = intval($params[0]);
+        function($args) use ($controller) {
+        $id = intval($args['PARAMS'][0]);
         echo $controller->getParagraphsByArticleId($id);
     })
 
     ->addRoute('~^/articles/(\d+)/paragraphs/(\d+)/?$~',Router::GET,
-        function($params) use ($controller) {
-        $articleId = intval($params[0]);
-        $paragraphPosition = intval($params[1]);
+        function($args) use ($controller) {
+        $articleId = intval($args['PARAMS'][0]);
+        $paragraphPosition = intval($args['PARAMS'][1]);
         echo $controller->getParagraphByArticleIdAndPosition($articleId,$paragraphPosition);
         });
 
 /**
  * Get incoming data from request, same as $_GET and $_POST but also works with PUT, PATCH and DELETE
  */
-$data = file_get_contents('php://input');
+$data = RouterUtils::getBodyData();
 /**
  * Get the function corresponding to the request
  */
-$url1 = substr($_SERVER['REQUEST_URI'], 7);
-$result = $router->match($url1, $_SERVER['REQUEST_METHOD']);
+$url= RouterUtils::extractRealApiRoute($_SERVER['REQUEST_URI']);
+$result = $router->match($url, $_SERVER['REQUEST_METHOD']);
 
 /**
  * If no route found, show 404
  */
-if (is_null($result)) {
-    echo 'No match';
-    return cError::_404();
+if(RouterUtils::isRouteFound($result)){
+    RouterUtils::executeRoute($result, $data);
 } else {
-    /**
-     * Execute the function with the parameters
-     */
-    $args = array('PARAMS'=>$result[1],'DATA'=>$data);
-    call_user_func($result[0], $args);
+    echo cError::_404();
 }

@@ -6,6 +6,9 @@
  * Time: 10:35
  */
 
+/**
+ * Class Route
+ */
 class Route {
     private $callback;
     private $regex;

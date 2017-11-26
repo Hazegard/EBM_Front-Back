@@ -7,6 +7,11 @@
  */
 
 require ('Route.php');
+
+/**
+ * Class Router that store all routes of the application
+ * And is called to math a route with the incoming request
+ */
 class Router {
 
 
@@ -34,7 +39,7 @@ class Router {
     /**
      *  Add a new route to the Router
      * @param string $regex
-     *      The action to handle (ex: 'paragraph' to handle /v1/paragraph/
+     *      The regex to handle (ex: '~^/arcticles/?$~' to handle /api/v1/articles/
      * @param string $method
      *      The request method to handle (
      * @param callable $callback
@@ -52,10 +57,10 @@ class Router {
      *      The url of request '/v1/{resource}/{id}
      * @param string $method
      *      The method of the request [GET|POST|PUT|PATCH|DELETE]
-     * @return callable
-     *      callback function, If not route match the URL, @return null
+     * @return array
+     *      array that contain [callback function, [expract parameters from the regex]], If not route match the URL, @return null
      */
-    public function match(string $url,string $method) {
+    public function match(string $url,string $method): array {
         /**
          * Try to match the current request with registered routes
          */
@@ -71,6 +76,6 @@ class Router {
         /**
          * If no route is found, return null
          */
-        return null;
+        return array();
     }
 }

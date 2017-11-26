@@ -6,6 +6,9 @@
  * Time: 10:57
  */
 
+/**
+ * Class cError : handle the errors and send it to the user
+ */
 class cError {
     private function __construct() {}
 

@@ -8,9 +8,16 @@
 
 require('DBAccess.php');
 require('Error.php');
+
+/**
+ * Class Controller
+ *      Class the handle the action called by the dispatcher
+ */
 class Controller {
+
     // TODO : singleton ?
     function __construct() {}
+
 
     /**
      * @return string

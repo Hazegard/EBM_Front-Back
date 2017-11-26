@@ -7,6 +7,11 @@
  */
 
 include_once('config.php');
+
+/**
+ * Class DBAccess
+ *      Handle the connexion to the database, and the requests
+ */
 class DBAccess {
     private $bdd = null;
 
@@ -17,12 +22,11 @@ class DBAccess {
             global $username;
             global $password;
             $this->bdd = new PDO('mysql:host='.$host.';dbname='.$dbname.';charset=utf8',$username,$password);
-            //$this->bdd = new PDO('mysql:host=localhost;dbname=Tp_Final;charset=utf8', 'root', 'mysql');
         } catch (Exception $e) {
             die('Erreur : ' . $e->getmessage());
         }
     }
-    //TODO Séparer en fonction de la ressource utilisée
+    //TODO Séparer en fonction de la ressource utilisée ?
 
     /**
      * Singleton Pattern to prevent the class from being instantiate more than once
@@ -37,6 +41,7 @@ class DBAccess {
     }
 
     /**
+     * Get the list of all articles
      * @return array
      *      List of Articles: ID => TITLE
      */
@@ -45,6 +50,11 @@ class DBAccess {
         return $articles->execute() ? $articles->fetchAll(PDO::FETCH_KEY_PAIR) : array();
     }
 
+    /**
+     * Get the list of all paragraphs
+     * @return array
+     *      List of paragraphs ID => CONTENT
+     */
     public function queryParagraphs(): array {
         $paragraph = $this->bdd->prepare("SELECT * FROM PARAGRAPHE G");
         return $paragraph->execute() ? $paragraph->fetchAll(PDO::FETCH_ASSOC): array();
@@ -52,6 +62,7 @@ class DBAccess {
 
 
     /**
+     * Get an article by his ID
      * @param int $id
      *      The id of the paragraph
      * @return array
@@ -67,6 +78,7 @@ class DBAccess {
     }
 
     /**
+     * Get a paragraph by his ID
      * @param int $id
      *      The id of the paragraph
      * @return array
@@ -82,6 +94,7 @@ class DBAccess {
     }
 
     /**
+     * Get all paragraphs associated the an article by the article ID
      * @param int $idArticle
      *      The id of the article
      * @return array
@@ -97,8 +110,9 @@ class DBAccess {
     }
 
     /**
+     * Get a paragraph by his position in an article
      * @param int $articleId
-     *      The if of the article accosiated to the paragraph
+     *      The if of the article associated to the paragraph
      * @param int $position
      *      The position of the paragraph in the article
      * @return array
@@ -111,6 +125,7 @@ class DBAccess {
     }
 
     /**
+     * Update the content of a paragraph by his ID
      * @param int $idPara
      *      The id of the paragraph to update
      * @param string $newContent
