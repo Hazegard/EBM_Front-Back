@@ -8,7 +8,8 @@
 
 require('DBAccess.php');
 require('Error.php');
-
+require('Model/Article.php');
+require ('Model/Paragraphs.php');
 /**
  * Class Controller
  *      Class the handle the action called by the dispatcher
@@ -18,14 +19,13 @@ class Controller {
     // TODO : singleton ?
     function __construct() {}
 
-
     /**
      * @return string
      *      Json of all articles {id , title}, or error message if no articles are found
      */
     function listArticles(): string {
-        $articles = DBAccess::getInstance()->queryArticles();
-        $paragraph = DBAccess::getInstance()->queryParagraphs();
+        $articles = Article::queryArticles();
+        $paragraph = Paragraphs::queryParagraphs();
         if(is_null($articles)) {
             return cError::_204();
         }
@@ -52,8 +52,8 @@ class Controller {
         if(empty($idArticle)) {
             return cError::_400();
         }
-        $article = DBAccess::getInstance()->queryArticleById($idArticle);
-        $paragraphs = DBAccess::getInstance()->queryParagraphsByArticleId($idArticle);
+        $article = Article::queryArticleById($idArticle);
+        $paragraphs = Paragraphs::queryParagraphsByArticleId($idArticle);
         if(empty($article) ) {
             return cError::_204();
         }
@@ -67,7 +67,7 @@ class Controller {
      *      Json of all paragraphs, or error message if not found
      */
     function listParagraphs():string {
-        $paragraph = DBAccess::getInstance()->queryParagraphs();
+        $paragraph = Paragraphs::queryParagraphs();
         if(empty($paragraph)){
             return cError::_204();
         }
@@ -85,7 +85,7 @@ class Controller {
         if(empty($id)) {
             return cError::_400();
         }
-        $paragraph = DBAccess::getInstance()->queryParagraphById($id);
+        $paragraph = Paragraphs::queryParagraphById($id);
         if(empty($paragraph)) {
             return cError::_204();
         }
@@ -103,7 +103,7 @@ class Controller {
         if(empty($articleId)){
             return cError::_400();
         }
-        $query = DBAccess::getInstance()->queryParagraphsByArticleId($articleId);
+        $query = Paragraphs::queryParagraphsByArticleId($articleId);
         if(empty($query)) {
             return cError::_404();
         }
@@ -123,7 +123,7 @@ class Controller {
         if(empty($articleId) || empty($position)) {
             return cError::_400();
         }
-        $query = DBAccess::getInstance()->queryParagraphByArticleIdAndPosition($articleId, $position);
+        $query = Paragraphs::queryParagraphByArticleIdAndPosition($articleId,$position);
         if(empty($query)){
             return cError::_404();
         }
@@ -143,7 +143,7 @@ class Controller {
         if(empty($idPara)) {
             return cError::_400();
         }
-        $query = DBAccess::getInstance()->queryUpdateParagraphWithId($idPara, $newContent);
+        $query = Paragraphs::queryUpdateParagraphWithId($idPara,$newContent);
         if(is_null($query)) {
             return cError::_204();
         }

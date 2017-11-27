@@ -41,109 +41,52 @@ class DBAccess {
     }
 
     /**
-     * Get the list of all articles
+     * Prepare and execute a query that should return more than one row
+     * @param string $sql
+     *      The sql statement
+     * @param array $values
+     *      The values to bind to the sql statement
+     *      The values in the statement and in the array must be in the same order
+     * @param int $fetch_method
+     *      Method to fetch the result, PDO::FETCH_ASSOC by default
      * @return array
-     *      List of Articles: ID => TITLE
+     *      Result of the query fetched
      */
-    public function queryArticles(): array {
-        $articles = $this->bdd->prepare("SELECT * FROM ARTICLES");
-        return $articles->execute() ? $articles->fetchAll(PDO::FETCH_KEY_PAIR) : array();
+    public function queryAll(string $sql,array $values=array(), int $fetch_method=PDO::FETCH_ASSOC){
+        $query = $this->bdd->prepare($sql);
+        return $query->execute($values)? $query->fetchAll($fetch_method) : array();
     }
 
     /**
-     * Get the list of all paragraphs
+     * Prepare and execute a query that should return only one row
+     * @param string $sql
+     *      The sql statement
+     * @param array $values
+     *      The values to bind to the sql statement
+     *      The values in the statement and in the array must be in the same order
+     * @param int $fetch_method
+     *      Method to fetch the result, PDO::FETCH_ASSOC by default
      * @return array
-     *      List of paragraphs ID => CONTENT
+     *      Result of the query fetched
      */
-    public function queryParagraphs(): array {
-        $paragraph = $this->bdd->prepare("SELECT * FROM PARAGRAPHE G");
-        return $paragraph->execute() ? $paragraph->fetchAll(PDO::FETCH_ASSOC): array();
-    }
-
-
-    /**
-     * Get an article by his ID
-     * @param int $id
-     *      The id of the paragraph
-     * @return array
-     *      array of articles
-     */
-    public function queryArticleById(int $id): array {
-        if (empty($id)) {
-            return array();
-        }
-        $request = $this->bdd->prepare("SELECT * FROM ARTICLES WHERE ID=:ID");
-        $request->bindParam(':ID', $id);
-        return $request->execute() ? $request->fetch(PDO::FETCH_ASSOC) : array();
+    public function queryOne(string $sql,array $values=array(), int $fetch_method=PDO::FETCH_ASSOC){
+        $query = $this->bdd->prepare($sql);
+        return $query->execute($values)? $query->fetch($fetch_method) : array();
     }
 
     /**
-     * Get a paragraph by his ID
-     * @param int $id
-     *      The id of the paragraph
-     * @return array
-     *      array of paragraphs
+     * Perpare and execute an update query
+     * @param string $sql
+     *      The sql statement
+     * @param array $values
+     *      The values to bind to the sql statement
+     *      The values in the statement and in the array must be in the same order
+     * @return int|null
+     *      Number of row affected by the update, null if error
      */
-    public function queryParagraphById(int $id) :array {
-        if(empty($id)) {
-            return array();
-        }
-        $request = $this->bdd->prepare("SELECT * FROM PARAGRAPHE WHERE ID=:ID ORDER BY PARAGRAPHE.POSITION");
-        $request->bindParam(':ID',$id);
-        return $request->execute()? $request->fetchAll(PDO::FETCH_ASSOC) : array();
+    public function queryUpdate(string $sql, array $values) {
+        $query = $this->bdd->prepare($sql,$values);
+        return $query->execute()? $query->rowCount() : null;
     }
 
-    /**
-     * Get all paragraphs associated the an article by the article ID
-     * @param int $idArticle
-     *      The id of the article
-     * @return array
-     *      All paragraph of the article, empty array if an error occurred
-     */
-    public function queryParagraphsByArticleId(int $idArticle): array {
-        if (empty($idArticle)) {
-            return array();
-        }
-        $request = $this->bdd->prepare("SELECT * FROM PARAGRAPHE WHERE ARTICLE_ID=:ID ORDER BY POSITION");
-        $request->bindParam(':ID', $idArticle);
-        return $request->execute()? $request->fetchAll(PDO::FETCH_ASSOC) : array();
-    }
-
-    /**
-     * Get a paragraph by his position in an article
-     * @param int $articleId
-     *      The if of the article associated to the paragraph
-     * @param int $position
-     *      The position of the paragraph in the article
-     * @return array
-     */
-    public function queryParagraphByArticleIdAndPosition(int $articleId, int $position): array {
-        $request = $this->bdd->prepare("SELECT * FROM PARAGRAPHE WHERE ARTICLE_ID=:ARTICLEID AND POSITION=:POSITION");
-        $request->bindParam(':ARTICLEID',$articleId);
-        $request->bindParam(':POSITION', $position);
-        return $request->execute()? $request->fetch(PDO::FETCH_ASSOC) : array();
-    }
-
-    /**
-     * Update the content of a paragraph by his ID
-     * @param int $idPara
-     *      The id of the paragraph to update
-     * @param string $newContent
-     *      The new content of the paragraph
-     * @return int
-     *      Number of row affected by the update, null if an error occurred
-     */
-    public function queryUpdateParagraphWithId(int $idPara,string $newContent): int {
-        if (empty($idPara)) {
-            return null;
-        }
-        $request = $this->bdd->prepare("UPDATE PARAGRAPHE SET CONTENT=:CONTENT WHERE ID=:ID");
-        $request->bindParam(':CONTENT', $newContent);
-        $request->bindParam(':ID', $idPara);
-        return $request->execute() ? $request->rowCount() : null;
-    }
-
-    public function queryMoveparagraph(int $oldPos,int $newPos) {
-
-    }
 }

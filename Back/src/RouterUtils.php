@@ -10,9 +10,9 @@
  * Class RouterUtils
  * Tools to facilitate the use of the Router
  */
-class RouterUtils {
+class RouterUtils{
 
-    private function __construct(){}
+    private function __construct() {}
 
     /**
      * @param string $url
@@ -20,12 +20,12 @@ class RouterUtils {
      * @return string
      *      url used for routing the API, ex: /articles/2/paragraphs/1
      */
-    static function extractRealApiRoute(string $url): string{
+    static function extractRealApiRoute(string $url): string {
         $temp = explode('/', $url);
         array_shift($temp);
         array_shift($temp);
         array_shift($temp);
-        return '/'.implode('/',$temp);
+        return '/' . implode('/', $temp);
     }
 
     /**
@@ -33,8 +33,9 @@ class RouterUtils {
      * @return array
      *      Associative array corresponding to the json in the body of the request
      */
-    static function getBodyData():array {
-        return json_decode(file_get_contents('php://input'), true);
+    static function getBodyData(): array {
+        $data = json_decode(file_get_contents('php://input'));
+        return !is_null($data)? $data:array();
     }
 
     /**
@@ -45,7 +46,7 @@ class RouterUtils {
      * @return bool
      */
     static function isRouteFound(array $result): bool {
-        if(empty($result)) {
+        if (empty($result)) {
             echo 'No match';
             echo cError::_404();
             return false;
@@ -54,8 +55,6 @@ class RouterUtils {
         }
     }
 
-    //TODO : Write phpDoc
-
     /**
      * Execute the callback corresponding to the route
      * @param array $result
@@ -63,8 +62,8 @@ class RouterUtils {
      * @param array $data
      *      Array corresponding to the json of the body of the incoming request
      */
-    static function executeRoute(array $result,array $data){
-        $args = array('PARAMS'=>$result[1], 'DATA'=>$data);
+    static function executeRoute(array $result, array $data) {
+        $args = array('PARAMS' => $result[1], 'DATA' => $data);
         call_user_func($result[0], $args);
     }
 }

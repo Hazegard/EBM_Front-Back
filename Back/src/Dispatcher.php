@@ -58,24 +58,27 @@ $router->addRoute('~^/articles/?$~', Router::GET,
             echo "Ceci est un patch sur /paragraphs/".$id."/ avec comme json : ".$data;
         })
 
+    ->addRoute('~^/articles/(\d+)/paragraphs/?$~', Router::GET,
+        function ($args) use ($controller) {
+            $id = intval($args['PARAMS'][0]);
+            echo $controller->getParagraphsByArticleId($id);
+        })
 
-    ->addRoute('~^/articles/(\d+)/paragraphs/?$~',Router::GET,
-        function($args) use ($controller) {
-        $id = intval($args['PARAMS'][0]);
-        echo $controller->getParagraphsByArticleId($id);
-    })
-
-    ->addRoute('~^/articles/(\d+)/paragraphs/(\d+)/?$~',Router::GET,
-        function($args) use ($controller) {
-        $articleId = intval($args['PARAMS'][0]);
-        $paragraphPosition = intval($args['PARAMS'][1]);
-        echo $controller->getParagraphByArticleIdAndPosition($articleId,$paragraphPosition);
-        });
+    ->addRoute('~^/articles/(\d+)/paragraphs/(\d+)/?$~', Router::GET,
+        function ($args) use ($controller) {
+            $articleId = intval($args['PARAMS'][0]);
+            $paragraphPosition = intval($args['PARAMS'][1]);
+            echo $controller->getParagraphByArticleIdAndPosition($articleId, $paragraphPosition);
+        })
+    ->addRoute('~^/test/$~',Router::GET,function ($args) use ($controller) {
+            echo $controller->test();
+    });
 
 /**
  * Get incoming data from request, same as $_GET and $_POST but also works with PUT, PATCH and DELETE
  */
 $data = RouterUtils::getBodyData();
+
 /**
  * Get the function corresponding to the request
  */
