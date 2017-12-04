@@ -4,7 +4,7 @@ function getArticles() {
         $(".dropdown-item").remove();
         for (let i in data) {
             titles.push(data[i].TITLE);
-            $(".dropdown-menu").append('<a class="dropdown-item" href="#">' + titles[i] + '</a>');
+            $(".dropdown-menu").append('<a class="dropdown-item">' + titles[i] + '</a>');
         }
     })
 }
