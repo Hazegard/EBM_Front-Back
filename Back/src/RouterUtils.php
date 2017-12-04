@@ -34,7 +34,8 @@ class RouterUtils{
      *      Associative array corresponding to the json in the body of the request
      */
     static function getBodyData(): array {
-        $data = json_decode(file_get_contents('php://input'));
+        $data = json_decode(file_get_contents('php://input'), true);
+        print_r($data);
         return !is_null($data)? $data:array();
     }
 
