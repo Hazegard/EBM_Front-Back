@@ -39,7 +39,6 @@ class Controller {
                 array_push($articles[$para['ARTICLE_ID']]['CONTENT'], $para);
         }
         $articles = array_values($articles);
-        print_r($articles);
         return json_encode($articles, true);
     }
 
