@@ -7,9 +7,5 @@ RewriteBase /
 
 RewriteRule ^api/v1/ /Back/src/Dispatcher.php
 
-<<<<<<< HEAD
-RewriteRule  ^$ Front/src/index.html
-=======
 RewriteRule ^$ Front/src/index.html
 RewriteRule ^node_modules Front/src/node_modules
->>>>>>> refs/remotes/origin/develop
