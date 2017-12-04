@@ -4,11 +4,10 @@ function getArticles() {
         for (let i in data) {
             let item = $('<a class="dropdown-item">' + data[i].TITLE + '</a>')
                 .on("click", function () {
-                console.log($(this).data('article'))
-            })
+                    console.log($(this).data('article'))
+                })
                 .data("article", data[i]);
             $("#listeArticles").append(item)
         }
-        console.log(data);
     })
 }
