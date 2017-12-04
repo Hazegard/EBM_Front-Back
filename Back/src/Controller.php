@@ -32,13 +32,14 @@ class Controller {
         http_response_code(200);
 
         foreach ($articles as $key=>$article){
-            $articles[$key] = array('ID'=> $key, 'TITLE' => $article, 'CONTENT' => array());
+            $articles[$key] = array('ID'=> $key, 'TITLE' => $article['TITLE'], 'CONTENT' => array());
         }
 
         foreach ($paragraph as $para) {
                 array_push($articles[$para['ARTICLE_ID']]['CONTENT'], $para);
         }
         $articles = array_values($articles);
+        print_r($articles);
         return json_encode($articles, true);
     }
 
