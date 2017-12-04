@@ -72,14 +72,30 @@ class Paragraphs {
      *      The id of the paragraph to update
      * @param string $newContent
      *      The new content of the paragraph
+     * @param float $newPos
+     *      The position of the new paragraph
      * @return int
      *      Number of row affected by the update, null if an error occurred
      */
-    public static function queryUpdateParagraphWithId(int $idPara, string $newContent): int {
+    public static function queryUpdateParagraphWithId(int $idPara, string $newContent='', float $newPos = null): int {
         if (empty($idPara)) {
             return null;
         }
-        return DBAccess::getInstance()->queryUpdate("UPDATE PARAGRAPHE SET CONTENT=? WHERE ID=?", [$newContent, $idPara]);
+        $params = array();
+        $sql = "UPDATE PARAGRAPHE SET";
+        if(!is_null($newContent)) {
+            $sql = $sql." CONTENT=?";
+            $params = array_push($params, $newContent);
+        }
+        if(!is_null($newPos) && !is_null($newContent)) {
+            $sql = $sql . " , ";
+        }
+        if(!is_null($newPos)) {
+            $sql = $sql . "POSITION=? ";
+            $params = array_push($params, $newPos);
+        }
+        return DBAccess::getInstance()->queryUpdate($sql, $params);
+//        return DBAccess::getInstance()->queryUpdate("UPDATE PARAGRAPHE SET CONTENT=? WHERE ID=?", [$newContent, $idPara]);
     }
 
 }

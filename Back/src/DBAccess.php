@@ -26,7 +26,6 @@ class DBAccess {
             die('Erreur : ' . $e->getmessage());
         }
     }
-    //TODO Séparer en fonction de la ressource utilisée ?
 
     /**
      * Singleton Pattern to prevent the class from being instantiate more than once

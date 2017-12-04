@@ -12,7 +12,7 @@
  */
 class RouterUtils{
 
-    private function __construct() {}
+//    private function __construct() {}
 
     /**
      * @param string $url
