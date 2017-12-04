@@ -20,7 +20,7 @@ class Paragraphs {
      *      List of paragraphs ID => CONTENT
      */
     public static function queryParagraphs(): array {
-        return DBAccess::getInstance()->queryAll("SELECT * FROM PARAGRAPHE");
+        return DBAccess::getInstance()->queryAll("SELECT * FROM PARAGRAPHES");
     }
 
     /**
@@ -34,7 +34,7 @@ class Paragraphs {
         if (empty($id)) {
             return array();
         }
-        return DBAccess::getInstance()->queryOne("SELECT * FROM PARAGRAPHE WHERE ID=?", [$id]);
+        return DBAccess::getInstance()->queryOne("SELECT * FROM PARAGRAPHES WHERE ID=?", [$id]);
     }
 
     /**
@@ -48,7 +48,7 @@ class Paragraphs {
         if (empty($articleId)) {
             return array();
         }
-        return DBAccess::getInstance()->queryAll("SELECT * FROM PARAGRAPHE WHERE ARTICLE_ID=?", [$articleId]);
+        return DBAccess::getInstance()->queryAll("SELECT * FROM PARAGRAPHES WHERE ARTICLE_ID=?", [$articleId]);
     }
 
     /**
@@ -63,7 +63,7 @@ class Paragraphs {
         if (empty($articleId) || empty($position)) {
             return array();
         }
-        return DBAccess::getInstance()->queryOne("SELECT * FROM PARAGRAPHE WHERE ARTICLE_ID=? AND POSITION=?", [$articleId, $position]);
+        return DBAccess::getInstance()->queryOne("SELECT * FROM PARAGRAPHES WHERE ARTICLE_ID=? AND POSITION=?", [$articleId, $position]);
     }
 
     /**
