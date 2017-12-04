@@ -70,6 +70,9 @@ $router->addRoute('~^/articles/?$~', Router::GET,
             $paragraphPosition = intval($args['PARAMS'][1]);
             echo $controller->getParagraphByArticleIdAndPosition($articleId, $paragraphPosition);
         });
+//    ->addRoute('~/app/?$~', Router::GET, function ($args) use ($controller) {
+//        echo readfile('../../Front/src/index.html');
+//    });
 
 /**
  * Get incoming data from request, same as $_GET and $_POST but also works with PUT, PATCH and DELETE

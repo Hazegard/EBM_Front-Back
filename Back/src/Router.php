@@ -70,7 +70,7 @@ class Router {
                  * If a route is found, return the callback and the id
                  */
                 array_shift($params);
-                return [$route->getCallback(), ($params)];
+                return [$route->getCallback(), $params];
             }
         }
         /**
