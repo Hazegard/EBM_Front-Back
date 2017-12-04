@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteBase /
+
+RewriteRule api/v1/ /Back/src/Dispatcher.php
+
+RewriteRule "" Front/src/index.html
