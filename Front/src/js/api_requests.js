@@ -1,14 +1,10 @@
-function getArticlesJSON() {
-    return $.getJSON('/api/v1/articles/')
-}
-
 function getArticles() {
-    getArticlesJSON().done(function (data) {
+    $.getJSON('/api/v1/articles/').done(function (data) {
         let titles = [];
+        $(".dropdown-item").remove();
         for (let i in data) {
             titles.push(data[i].TITLE);
+            $(".dropdown-menu").append('<a class="dropdown-item" href="#">' + titles[i] + '</a>');
         }
-        console.log(titles);
-        console.log(data);
     })
 }
