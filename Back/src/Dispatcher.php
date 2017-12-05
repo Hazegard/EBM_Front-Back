@@ -16,7 +16,7 @@ $controller = new Controller();
  */
 $router->addRoute('~^/articles/?$~', Router::GET,
     function () use ($controller) {
-        echo $controller->listArticles();
+        RouterUtils::response($controller->listArticles());
     })
     ->addRoute('~^/articles/?$~', Router::POST,
         function ($args) use ($controller) {
@@ -32,24 +32,24 @@ $router->addRoute('~^/articles/?$~', Router::GET,
     ->addRoute('~^/articles/(\d+)/?$~', Router::GET,
         function ($args) use ($controller) {
             $id = intval($args['PARAMS'][0]);
-            echo $controller->getArticle($id);
+            RouterUtils::response( $controller->getArticle($id));
         })
     ->addRoute('~^/articles/(\d+)/?$~',Router::PATCH,
         function ($args) use ($controller) {
             $id = intval($args['PARAMS'][0]);
             $data = $args['DATA'];
-            echo "Ceci est un patch sur /articles/".$id."/ avec comme json : ".$data;
+            RouterUtils::response( "Ceci est un patch sur /articles/".$id."/ avec comme json : ".$data);
         })
 
     ->addRoute('~^/paragraphs/?$~', Router::GET,
         function () use ($controller) {
-            echo $controller->listParagraphs();
+            RouterUtils::response( $controller->listParagraphs());
         })
 
     ->addRoute('~^/paragraphs/(\d+)/?$~', Router::GET,
         function ($params) use ($controller) {
             $id = intval($params[0]);
-            echo $controller->getParagraphById($id);
+            RouterUtils::response( $controller->getParagraphById($id));
         })
     ->addRoute('~^/paragraphs/(\d+)/?$~',Router::PATCH,
         function ($args) use ($controller) {
@@ -61,18 +61,15 @@ $router->addRoute('~^/articles/?$~', Router::GET,
     ->addRoute('~^/articles/(\d+)/paragraphs/?$~', Router::GET,
         function ($args) use ($controller) {
             $id = intval($args['PARAMS'][0]);
-            echo $controller->getParagraphsByArticleId($id);
+            RouterUtils::response( $controller->getParagraphsByArticleId($id));
         })
 
     ->addRoute('~^/articles/(\d+)/paragraphs/(\d+)/?$~', Router::GET,
         function ($args) use ($controller) {
             $articleId = intval($args['PARAMS'][0]);
             $paragraphPosition = intval($args['PARAMS'][1]);
-            echo $controller->getParagraphByArticleIdAndPosition($articleId, $paragraphPosition);
+            RouterUtils::response( $controller->getParagraphByArticleIdAndPosition($articleId, $paragraphPosition));
         });
-//    ->addRoute('~/app/?$~', Router::GET, function ($args) use ($controller) {
-//        echo readfile('../../Front/src/index.html');
-//    });
 
 /**
  * Get incoming data from request, same as $_GET and $_POST but also works with PUT, PATCH and DELETE

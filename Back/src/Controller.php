@@ -15,20 +15,17 @@ require('Model/Paragraphs.php');
  * Class Controller
  *      Class the handle the action called by the dispatcher
  */
-class Controller
-{
+class Controller {
 
     // TODO : singleton ?
-    function __construct()
-    {
+    function __construct()     {
     }
 
     /**
      * @return string
      *      Json of all articles {id , title}, or error message if no articles are found
      */
-    function listArticles(): string
-    {
+    function listArticles(): string     {
         $articles = Article::queryArticles();
         $paragraph = Paragraphs::queryParagraphs();
         if (is_null($articles)) {
@@ -40,14 +37,11 @@ class Controller
             $arts[$article['ID']] = array('ID' => $article['ID'], 'TITLE' => $article['TITLE'], 'CONTENT' => array());
         }
 
-//        print_r($articles);
-//        print_r($paragraph);
         foreach ($paragraph as $para) {
 //            print_r($articles[$para['ARTICLE_ID']]);
             array_push($arts[$para['ARTICLE_ID']]['CONTENT'], $para);
         }
         $arts = array_values($arts);
-//        print_r($arts);
         return json_encode($arts, true);
     }
 
@@ -57,8 +51,7 @@ class Controller
      * @return string
      *      Json of the article {id, title, paragraph}
      */
-    function getArticle(int $idArticle): string
-    {
+    function getArticle(int $idArticle): string {
         if (empty($idArticle)) {
             return cError::_400();
         }
@@ -76,8 +69,7 @@ class Controller
      * @return string
      *      Json of all paragraphs, or error message if not found
      */
-    function listParagraphs(): string
-    {
+    function listParagraphs(): string {
         $paragraph = Paragraphs::queryParagraphs();
         if (empty($paragraph)) {
             return cError::_204();
@@ -92,8 +84,7 @@ class Controller
      * @return string
      *      Json of the paragraph
      */
-    function getParagraphById(int $id): string
-    {
+    function getParagraphById(int $id): string {
         if (empty($id)) {
             return cError::_400();
         }
@@ -111,8 +102,7 @@ class Controller
      * @return string
      *      Json of the paragraph if found, json of error message
      */
-    function getParagraphsByArticleId(int $articleId): string
-    {
+    function getParagraphsByArticleId(int $articleId): string {
         if (empty($articleId)) {
             return cError::_400();
         }
@@ -132,8 +122,7 @@ class Controller
      * @return string
      *      Json of the paragraph
      */
-    function getParagraphByArticleIdAndPosition(int $articleId, int $position): string
-    {
+    function getParagraphByArticleIdAndPosition(int $articleId, int $position): string {
         if (empty($articleId) || empty($position)) {
             return cError::_400();
         }
@@ -153,8 +142,7 @@ class Controller
      * @return string
      *      Message to inform if the request was succeeded
      */
-    function updateParagraphWithId(int $idPara, string $newContent): string
-    {
+    function updateParagraphWithId(int $idPara, string $newContent): string {
         if (empty($idPara)) {
             return cError::_400();
         }

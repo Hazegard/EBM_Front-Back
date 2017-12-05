@@ -67,4 +67,9 @@ class RouterUtils{
         $args = array('PARAMS' => $result[1], 'DATA' => $data);
         call_user_func($result[0], $args);
     }
+
+    static function response(string $json){
+        header('Content-Type: application/json');
+        echo $json;
+    }
 }
