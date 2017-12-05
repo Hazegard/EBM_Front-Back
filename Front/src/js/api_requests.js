@@ -1,13 +1,13 @@
 const defaultItem = $('#paragraphs').children();
 
 getArticles = () => {
-    $.getJSON('/api/v1/articles/').done(function (data) {
+    $.getJSON('/api/v1/articles').done(function (data) {
         $(".dropdown-item").remove();
         console.log(data); // TODO : À enlever plus tard
         for (let i in data) {
             let item = $('<a class="dropdown-item">' + data[i].TITLE + '</a>')
                 .on("click", function () {
-                    displayParagraphs($(this).data('article').TITLE, $(this).data('article').CONTENT);
+                    getParagraphs($(this).data('article').ID);
                 })
                 .data("article", data[i]);
             $("#listeArticles").append(item)
@@ -17,6 +17,12 @@ getArticles = () => {
 
 emptyParagraphs = () => {
     $('#paragraphs').empty().append(defaultItem);
+};
+
+getParagraphs = (id) => {
+    $.getJSON('/api/v1/articles/' + id).done(function (data) {
+        displayParagraphs(data.TITLE, data.CONTENT);
+    })
 };
 
 displayParagraphs = (title, paragraphs) => {
