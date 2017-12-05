@@ -14,7 +14,7 @@ function getArticles() {
 }
 
 function displayParagraphs(title, paragraphs) {
-    let item = $('<div class="container"><h1 class="display-3">' + title + '</h1>');
+    let item = $('<div class="container"><h1 class="display-3">' + title + '</h1><hr class="my-2">');
     paragraphs.map(para => item.append('<p class="lead">' + para.CONTENT + '</p>'));
     $('#paragraphs').empty().append(item);
 }
