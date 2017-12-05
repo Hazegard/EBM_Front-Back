@@ -1,4 +1,4 @@
-function getArticles() {
+getArticles = () => {
     $.getJSON('/api/v1/articles/').done(function (data) {
         $(".dropdown-item").remove();
         for (let i in data) {
@@ -11,10 +11,10 @@ function getArticles() {
             $("#listeArticles").append(item)
         }
     })
-}
+};
 
-function displayParagraphs(title, paragraphs) {
+displayParagraphs = (title, paragraphs) => {
     let item = $('<div class="container"><h1 class="display-3">' + title + '</h1><hr class="my-2">');
     paragraphs.map(para => item.append('<p class="lead">' + para.CONTENT + '</p>'));
     $('#paragraphs').empty().append(item);
-}
+};
