@@ -25,7 +25,7 @@ class Controller {
      * @return string
      *      Json of all articles {id , title}, or error message if no articles are found
      */
-    function listArticles(): string     {
+    function listArticlesWithParagraphs(): string {
         $articles = Article::queryArticles();
         $paragraph = Paragraphs::queryParagraphs();
         if (is_null($articles)) {
@@ -45,6 +45,10 @@ class Controller {
         return json_encode($arts, true);
     }
 
+    function listArticles(): string {
+        $articles = Article::queryArticles();
+        return json_encode($articles);
+    }
     /**
      * @param int $idArticle
      *      The id of the article
