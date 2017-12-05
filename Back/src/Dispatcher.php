@@ -16,7 +16,6 @@ $controller = new Controller();
  */
 $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
     function ($args) use ($controller) {
-        echo($args['PARAMS'][1] == 'true');
         if ($args['PARAMS'][1] == 'true') {
             RouterUtils::response($controller->listArticlesWithParagraphs());
         } else {
