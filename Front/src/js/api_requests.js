@@ -10,7 +10,7 @@ getArticles = () => {
                     getParagraphs($(this).data('article').ID);
                 })
                 .data("article", data[i]);
-            $("#listeArticles").append(item)
+            $("#listeArticles").append(item).css('cursor', 'default');
         }
     })
 };
