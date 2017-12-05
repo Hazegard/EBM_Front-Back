@@ -1,3 +1,5 @@
+const defaultItem = $('#paragraphs').children();
+
 getArticles = () => {
     $.getJSON('/api/v1/articles/').done(function (data) {
         $(".dropdown-item").remove();
@@ -14,8 +16,7 @@ getArticles = () => {
 };
 
 emptyParagraphs = () => {
-    let item = $('<p>Sélectionnez un article...</p>');
-    $('#paragraphs').empty().append(item);
+    $('#paragraphs').empty().append(defaultItem);
 };
 
 displayParagraphs = (title, paragraphs) => {
