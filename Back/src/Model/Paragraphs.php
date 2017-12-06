@@ -14,6 +14,10 @@ class Paragraphs {
 
     private function __construct() {}
 
+    const ID = "ID";
+    const CONTENT = "CONTENT";
+    const POSITION = "POSITION";
+    const IDARTICLE = "ARTICLE_ID";
     /**
      * Get the list of all paragraphs
      * @return array
@@ -34,7 +38,7 @@ class Paragraphs {
         if (empty($id)) {
             return array();
         }
-        return DBAccess::getInstance()->queryOne("SELECT * FROM PARAGRAPHES WHERE ID=?", [$id]);
+        return DBAccess::getInstance()->queryOne("SELECT * FROM PARAGRAPHES WHERE ".Paragraphs::ID."=?", [$id]);
     }
 
     /**
@@ -48,7 +52,7 @@ class Paragraphs {
         if (empty($articleId)) {
             return array();
         }
-        return DBAccess::getInstance()->queryAll("SELECT * FROM PARAGRAPHES WHERE ARTICLE_ID=?", [$articleId]);
+        return DBAccess::getInstance()->queryAll("SELECT * FROM PARAGRAPHES WHERE ".Paragraphs::ID."=?", [$articleId]);
     }
 
     /**
@@ -63,7 +67,9 @@ class Paragraphs {
         if (empty($articleId) || empty($position)) {
             return array();
         }
-        return DBAccess::getInstance()->queryOne("SELECT * FROM PARAGRAPHES WHERE ARTICLE_ID=? AND POSITION=?", [$articleId, $position]);
+        return DBAccess::getInstance()->queryOne(
+            "SELECT * FROM PARAGRAPHES WHERE ".Paragraphs::IDARTICLE."=? AND  ".Paragraphs::POSITION."=?",
+            [$articleId, $position]);
     }
 
     /**
@@ -82,20 +88,59 @@ class Paragraphs {
             return null;
         }
         $params = array();
-        $sql = "UPDATE PARAGRAPHE SET";
+        $sql = "UPDATE PARAGRAPHES SET";
         if(!is_null($newContent)) {
-            $sql = $sql." CONTENT=?";
+            $sql = $sql." ".Paragraphs::CONTENT."=?";
             $params = array_push($params, $newContent);
         }
         if(!is_null($newPos) && !is_null($newContent)) {
             $sql = $sql . " , ";
         }
         if(!is_null($newPos)) {
-            $sql = $sql . "POSITION=? ";
+            $sql = $sql . " ".Paragraphs::POSITION."=? ";
             $params = array_push($params, $newPos);
         }
         return DBAccess::getInstance()->queryUpdate($sql, $params);
-//        return DBAccess::getInstance()->queryUpdate("UPDATE PARAGRAPHE SET CONTENT=? WHERE ID=?", [$newContent, $idPara]);
+    }
+
+    /**
+     * Get the position of the last paragraph in the article
+     * @param int $idArticle
+     *      The id of the article
+     * @return array
+     *      Array that containing the position, or empty array if no paragraphs
+     */
+    public static function getCurrentMaxPositionOfArticle(int $idArticle){
+        return DBAccess::getInstance()->queryOne(
+            "SELECT POSITION FROM PARAGRAPHES WHERE " . Paragraphs::IDARTICLE . " = ? ORDER BY "
+            . Paragraphs::POSITION . " DESC LIMIT 1", [$idArticle]);
+    }
+
+    /**
+     * Insert a new paragraph at a position
+     * @param int $idArticle
+     *      The id of the article
+     * @param string $newContent
+     *      The content of the new paragraph
+     * @param float|null $position
+     *      The position where the paragraph must be inserted
+     * @return array
+     *      Array of the new paragraph if insertion succeed, empty array if failed
+     */
+    public static function insertParagraphInArticle(int $idArticle, string $newContent, float $position = null): array {
+        if (is_null($position)) {
+            $position = ceil(self::getCurrentMaxPositionOfArticle($idArticle)[self::POSITION]);
+            empty($position) ?
+                $position = 1 :
+                $position += 1;
+        }
+
+        if (DBAccess::getInstance()->queryInsert(
+            "INSERT INTO PARAGRAPHES (CONTENT, POSITION, ARTICLE_ID) VALUES (?,?,?) ",
+            [$newContent, $position, $idArticle])) {
+            return Paragraphs::queryParagraphById(DBAccess::getInstance()->getLastInserted());
+        }
+        return array();
     }
 
 }

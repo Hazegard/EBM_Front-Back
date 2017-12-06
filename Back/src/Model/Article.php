@@ -13,6 +13,8 @@
 class Article {
     private function __construct() {}
 
+    const ID = "ID";
+    const TITLE = "TITLE";
     /**
      * Get the list of all articles
      * @return array
@@ -33,7 +35,19 @@ class Article {
         if (empty($id)) {
             return array();
         }
-        return DBAccess::getInstance()->queryOne("SELECT * FROM ARTICLES WHERE ID=?", [$id]);
+        return DBAccess::getInstance()->queryOne("SELECT * FROM ARTICLES WHERE ".Article::ID."=?", [$id]);
     }
 
+    /**
+     * Insert a new article in the database
+     * @param string $title
+     *      The title of the article to insert
+     * @return array
+     */
+    public static function insertArticle(string $title): array {
+        if (DBAccess::getInstance()->queryInsert("INSERT INTO ARTICLES (" . Article::TITLE . ") VALUE (?)", [$title])) {
+            return Article::queryArticleById(DBAccess::getInstance()->getLastInserted());
+        }
+        return array();
+    }
 }

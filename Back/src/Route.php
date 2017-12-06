@@ -33,7 +33,7 @@ class Route {
      * @return string
      *      Return the regex to match
      */
-    public function getRegex(): String {
+    public function getRegex(): string {
         return $this->regex;
     }
 

@@ -57,7 +57,7 @@ class Controller {
      */
     function getArticle(int $idArticle): string {
         if (empty($idArticle)) {
-            return cError::_400();
+            return cError::_400("ARTICLE_ID");
         }
         $article = Article::queryArticleById($idArticle);
         $paragraphs = Paragraphs::queryParagraphsByArticleId($idArticle);
@@ -90,7 +90,7 @@ class Controller {
      */
     function getParagraphById(int $id): string {
         if (empty($id)) {
-            return cError::_400();
+            return cError::_400("ID");
         }
         $paragraph = Paragraphs::queryParagraphById($id);
         if (empty($paragraph)) {
@@ -108,7 +108,7 @@ class Controller {
      */
     function getParagraphsByArticleId(int $articleId): string {
         if (empty($articleId)) {
-            return cError::_400();
+            return cError::_400("ARTICLE_ID");
         }
         $query = Paragraphs::queryParagraphsByArticleId($articleId);
         if (empty($query)) {
@@ -127,8 +127,11 @@ class Controller {
      *      Json of the paragraph
      */
     function getParagraphByArticleIdAndPosition(int $articleId, int $position): string {
-        if (empty($articleId) || empty($position)) {
-            return cError::_400();
+        if (empty($articleId)) {
+            return cError::_400("ARTICLE_ID");
+        }
+        if(empty($position)){
+            return cError::_400("POSITION");
         }
         $query = Paragraphs::queryParagraphByArticleIdAndPosition($articleId, $position);
         if (empty($query)) {
@@ -148,7 +151,7 @@ class Controller {
      */
     function updateParagraphWithId(int $idPara, string $newContent): string {
         if (empty($idPara)) {
-            return cError::_400();
+            return cError::_400("ID");
         }
         $query = Paragraphs::queryUpdateParagraphWithId($idPara, $newContent);
         if (is_null($query)) {
@@ -156,6 +159,41 @@ class Controller {
         }
         http_response_code(200);
         return json_encode(["message" => "updated successfully"]);
+    }
 
+    /**
+     * @param string $title
+     *      The title of the new article
+     * @return string
+     *      Error message if an error occurred, or json of the created article
+     */
+    function insertNewArticle(string $title): string {
+        if(empty($title)){
+            return cError::_400("TITLE");
+        }
+        $query = Article::insertArticle($title);
+        if(is_null($query)) {
+            return cError::_400("");
+        }
+        http_response_code(200);
+        return json_encode($query);
+    }
+
+    /**
+     * Insert a new paragraph at a position
+     * @param int $idArticle
+     *      The id of the article
+     * @param string $newContent
+     *      The content of the new paragraph
+     * @param float $position
+     *      The position where the new paragraph must be inserted
+     * @return string
+     *      Json of the new paragraph
+     */
+    function insertNewParagraphInArticle(int $idArticle, string $newContent, float $position):string {
+        if(empty($idArticle)){
+            return cError::_400("ARTICLE_ID");
+        }
+        return json_encode(Paragraphs::insertParagraphInArticle($idArticle, $newContent, $position));
     }
 }

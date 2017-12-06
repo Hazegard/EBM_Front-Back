@@ -12,8 +12,6 @@
  */
 class RouterUtils{
 
-//    private function __construct() {}
-
     /**
      * @param string $url
      *      The input url, ex: /api/v1/articles/2/paragraphs/1
@@ -27,6 +25,8 @@ class RouterUtils{
         array_shift($temp);
         return '/' . implode('/', $temp);
     }
+    const URL_PARAMS = 'URL_PARAMS';
+    const BODY_DATA = "BODY_DATA";
 
     /**
      * Get the body data of the incoming request
@@ -64,10 +64,15 @@ class RouterUtils{
      *      Array corresponding to the json of the body of the incoming request
      */
     static function executeRoute(array $result, array $data) {
-        $args = array('PARAMS' => $result[1], 'DATA' => $data);
+        $args = array(self::URL_PARAMS => $result[1], self::BODY_DATA => $data);
         call_user_func($result[0], $args);
     }
 
+    /**
+     * Send the response to the client
+     * @param string $json
+     *      THe message to send
+     */
     static function response(string $json){
         header('Content-Type: application/json');
         echo $json;

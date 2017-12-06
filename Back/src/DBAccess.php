@@ -39,6 +39,10 @@ class DBAccess {
         return self::$_instance;
     }
 
+    public function getLastInserted(){
+        return $this->bdd->lastInsertId();
+    }
+
     /**
      * Prepare and execute a query that should return more than one row
      * @param string $sql
@@ -51,7 +55,7 @@ class DBAccess {
      * @return array
      *      Result of the query fetched
      */
-    public function queryAll(string $sql,array $values=array(), int $fetch_method=PDO::FETCH_ASSOC){
+    public function queryAll(string $sql,array $values=array(), int $fetch_method=PDO::FETCH_ASSOC):array {
         $query = $this->bdd->prepare($sql);
         return $query->execute($values)? $query->fetchAll($fetch_method) : array();
     }
@@ -68,13 +72,14 @@ class DBAccess {
      * @return array
      *      Result of the query fetched
      */
-    public function queryOne(string $sql,array $values=array(), int $fetch_method=PDO::FETCH_ASSOC){
+    public function queryOne(string $sql,array $values=array(), int $fetch_method=PDO::FETCH_ASSOC):array {
         $query = $this->bdd->prepare($sql);
-        return $query->execute($values)? $query->fetch($fetch_method) : array();
+        $return = $query->execute($values) ? $query->fetch($fetch_method) : array();
+        return $return === false ? array() : $return;
     }
 
     /**
-     * Perpare and execute an update query
+     * Prepare and execute an update query
      * @param string $sql
      *      The sql statement
      * @param array $values
@@ -83,9 +88,23 @@ class DBAccess {
      * @return int|null
      *      Number of row affected by the update, null if error
      */
-    public function queryUpdate(string $sql, array $values) {
+    public function queryUpdate(string $sql, array $values):int{
         $query = $this->bdd->prepare($sql,$values);
         return $query->execute()? $query->rowCount() : null;
+    }
+
+    /**
+     * Prepare and execute insert query
+     * @param string $sql
+     *      The query to execute
+     * @param array $values
+     *      The values to insert
+     * @return bool
+     *      True if the insert wes successful, false otherwise
+     */
+    public function queryInsert(string $sql, array $values):bool {
+        $query = $this->bdd->prepare($sql);
+        return $query->execute($values);
     }
 
 }

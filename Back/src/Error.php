@@ -22,12 +22,13 @@ class cError {
     }
 
     /**
+     * @param string
      * @return string
      *      Error 400
      */
-    public static function _400(): string {
+    public static function _400(string $missing): string {
         http_response_code(400);
-        return "";
+        return $missing." is missing";
     }
 
     /**
