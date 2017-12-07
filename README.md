@@ -37,7 +37,8 @@ Ainsi le routage s'effectue à l'aide de regex, qui nous permet de facilement fa
 Nous voulons récupérer le ```5``` associé à un ID d'article, ainsi que le `5`, associé à un paragraph dans l'article `1`.
 
 Cela est, grâce à l'utilisation re regex, facilement réalisable, par exemple en utilisant cette regex:
-```
+
+```regex
 ~^/articles/(\d+)/paragraphs/(\d+)/?$~
 ```
 
@@ -47,8 +48,175 @@ Ainsi, le Framework se compose de 3 classes :
 > * Router.php
 > * RouterUtils.php
 
+#### Route.php
 
+La classe Route est un objet qui contient:
+
+* L'expression régulière qui doit correspondre
+* La méthode HTTP qui doit correspondre
+* La fonction de callback utilisé lorsque la Route est apelée
+
+#### Router.php
+
+La classe Router.php se charge de lister l'ensemble des routes de l'application.
+Elle est également appelée lors d'une nouvelle requête afin d'essayer de trouver une route qui correspond à la requête.
+
+#### RouterUtils.php
+
+Cette classe permet de réaliser divers traitements sur la requete:
+
+* Récupérer la partie intéressante de la route (retirer la partie `/api/v1`)
+* Récupérer leBody de la requête
+* Executer le callback de la route
+* Emettre la réponse au client
+
+#### Utilisation
+
+La manière dont sont transmis les paramètres s'effectue de la manière suivante:
+
+La classe Router récupére les paramètres issues des parenthèses capturantes de l'expression régulière.
+
+Ils sont transmis dans un tableau et dans l'ordre d'apparition au sein de l'expression régulière.
+
+La fonction match() renvoie ainsi un tbleau contenant comme premier argument le callback de la route, et comme deuxième argument, un tableau des identifiants récupérés par la regex.
+
+AU seins de executeRoute() de RouterUtils,
+Le tableau [callback, params] et les données du Body sont transformé pour donner un tableau associatif contenant les paramètres et les données du Body. 
+
+En résumé, le callback reçoit un unique paramètre qui est un tableau associatif et qui contient;
+
+* Dans 'URL_PARAMS', un tableau contenant les paramètres récupérés dans l'url de la requete
+* Dans 'BODY_DATA', un tableau associatif correspondant au json envoyé dans la requête
+
+Le callback se charge ainsi simplement d'extraire les valeurs des paramètres et des données du Body, et au besoin, d'affecter des valeurs par défaut dans le cas d'arguments facultatifs.
+
+Elle appelle ensuite la bonne fonction du contrôleur, qui, lui v
+
+1.Le Callback extrait les valeurs des paramètres des données du Body, et assigne des valeurs par défaut si besoin.
+2. Le controlleur, appelé par le callback, vérifie la validité des arguments extraits par le callback.
 
 ## Perspectives d'amélioration
 
 ## Bilan du module
+
+## APIDOC
+
+### /api/v1/articles
+
+#### GET
+
+Renvoie la liste des articles sous forme :
+
+``` json
+[
+    {
+        ID: 1,
+        TITLE: 'Article 1'
+    },
+...
+]
+```
+
+#### POST
+
+Ajoute un nouvel article dans la base de donnée.
+
+Le Body de la requête doit contenir une json de type:
+
+```json
+{
+    TITLE: 'Article 42'
+}
+```
+
+### /api/v1/articles/{id}
+
+#### GET
+
+Renvoie l'article sous la forme
+
+```json
+{
+    ID: 5,
+    TITLE: 'Article 5',
+    CONTENT: [
+        {
+            ID: 1,
+            ARTICLE_ID: 5,
+            CONTENT: 'Para1, article5'
+        },
+        ...
+    ]
+}
+```
+
+### /api/v1/articles?paragraphs=true
+
+#### GET
+
+Renvoie la liste des articles avec leurs paragraphes, ordonné selon leur position, sous la forme:
+
+```json
+[
+    {
+        ID: 5,
+        TITLE: 'Article 5',
+        CONTENT: [
+            {
+                ID: 1,
+                ARTICLE_ID: 5,
+                POSITION: 1,
+                CONTENT: 'Paragraphe 1 de l'article 5'
+            },
+            ...
+        ]
+    },
+...
+]
+```
+
+### /api/v1/articles/{id}/paragraphs
+
+#### GET
+
+Renvoie l'ensemble des paragraphs associé à l'article ayant pour ID {id}
+
+```json
+[
+    {
+        ID: 1,
+        ARTICLE_ID: 4,
+        POSITION: 1,
+        CONTENT: 'Paragraphe 1 de l'article 4
+    },
+    ...
+]
+```
+
+#### POST
+
+Ajoute un paragraph dans l'article.
+
+Le Body de la requête doit contenir une json de type:
+
+```json
+{
+    CONTENT: 'Paragraphe 42 de l'article 3',
+    POSITION: 5
+}
+```
+
+La position est facultative, le paragraphe sera ajouté à la fin si la position n'est pas précisée.
+
+### /api/v1/articles/{idA}/paragraphs/{pos}
+
+Renvoie la pos-ième paragraphe de l'article idA, sous la forme:
+
+```json
+{
+    ID: 5
+    CONTENT: 'Para pos article idA',
+    ARTICLE_ID: idA,
+    POSITION: pos
+}
+```
