@@ -24,10 +24,11 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
             RouterUtils::response($controller->listArticles());
         }
     })
+
     ->addRoute('~^/articles/?$~', Router::POST,
         function ($args) use ($controller) {
             $data = $args[RouterUtils::BODY_DATA];
-            $title = is_null($data[Article::TITLE])? "": $data[Article::TITLE];
+            $title = array_key_exists(Article::TITLE,$data)? $data[Article::TITLE]:"";
             RouterUtils::response($controller->insertNewArticle($title));
         })
     ->addRoute('~^/articles/?$~', Router::PUT,
@@ -35,10 +36,16 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
             $data = $args[RouterUtils::BODY_DATA];
             echo "Ceci est un put sur /articles/ avec comme json: " . ($data);
         })
+
     ->addRoute('~^/articles/(\d+)/?$~', Router::GET,
         function ($args) use ($controller) {
             $id = intval($args[RouterUtils::URL_PARAMS][0]);
             RouterUtils::response($controller->getArticle($id));
+        })
+    ->addRoute('~^/articles/(\d+)/?$~', Router::DELETE,
+        function ($args) use ($controller) {
+            $id = intval($args[RouterUtils::URL_PARAMS][0]);
+//            RouterUtils::response($controller->getArticle($id));
         })
     ->addRoute('~^/articles/(\d+)/?$~', Router::PATCH,
         function ($args) use ($controller) {
@@ -46,21 +53,25 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
             $data = $args[RouterUtils::BODY_DATA];
             RouterUtils::response("Ceci est un patch sur /articles/" . $id . "/ avec comme json : " . $data);
         })
+
     ->addRoute('~^/paragraphs/?$~', Router::GET,
         function () use ($controller) {
             RouterUtils::response($controller->listParagraphs());
         })
+
     ->addRoute('~^/paragraphs/(\d+)/?$~', Router::GET,
         function ($params) use ($controller) {
             $id = intval($params[0]);
             RouterUtils::response($controller->getParagraphById($id));
         })
+
     ->addRoute('~^/paragraphs/(\d+)/?$~', Router::PATCH,
         function ($args) use ($controller) {
             $id = intval($args[RouterUtils::URL_PARAMS][0]);
             $data = $args[RouterUtils::BODY_DATA];
             echo "Ceci est un patch sur /paragraphs/" . $id . "/ avec comme json : " . $data;
         })
+
     ->addRoute('~^/articles/(\d+)/paragraphs/?$~', Router::GET,
         function ($args) use ($controller) {
             $id = intval($args[RouterUtils::URL_PARAMS][0]);

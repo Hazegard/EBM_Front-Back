@@ -196,4 +196,12 @@ class Controller {
         }
         return json_encode(Paragraphs::insertParagraphInArticle($idArticle, $newContent, $position));
     }
+
+    function deleteArticleById(int $id){
+        if(empty($id)){
+            return cError::_400("ID");
+        }
+        return json_encode(Article::queryDeleteArticleById($id));
+
+    }
 }

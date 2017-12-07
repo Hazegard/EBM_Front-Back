@@ -50,4 +50,9 @@ class Article {
         }
         return array();
     }
+
+    public static function queryDeleteArticleById(int $id){
+        $sql = "DELETE FROM ARTICLES WHERE ".Article::ID."=?";
+        return DBAccess::getInstance()->queryUpdate($sql, [$id]);
+    }
 }
