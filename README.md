@@ -94,6 +94,10 @@ Elle appelle ensuite la bonne fonction du contrôleur, qui, lui v
 
 1.Le Callback extrait les valeurs des paramètres des données du Body, et assigne des valeurs par défaut si besoin.
 2. Le controlleur, appelé par le callback, vérifie la validité des arguments extraits par le callback.
+3. Le modèle, appelé par le controlleur, construit la requête SQL adapté, avec la éventuels paramètres.
+4. DBAccess, appelé par le modèle, se charge d'executer la requête.
+5. Le controlleur reçoit la réponse de DBAccess, vérifie sa validité, et transforme le résultat en json.
+6. Le callback apelle la fonction response() de RouterUtils avec comme paramètre le résultat du contrôlleur pour l'émmettre au client.
 
 ## Perspectives d'amélioration
 
