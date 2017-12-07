@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -28,6 +29,10 @@
                 <div class="dropdown-menu" id="listeArticles" aria-labelledby="navbarDropdown">
                 </div>
             </li>
+            <form class="form-inline">
+                <input type="text" class="span2" placeholder="Titre du nouvel article..."> <!-- TODO: Changer le placeholder -->
+                <input type="submit" value="Ajouter" id="addArticleBtn" class="btn btn-outline-secondary btn-sm"/>
+            </form>
         </ul>
     </div>
 </nav>
