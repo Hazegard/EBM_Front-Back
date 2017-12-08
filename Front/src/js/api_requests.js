@@ -42,6 +42,7 @@ postArticle = () => {
     }).done(function (data) {
         console.log('Succeed:', data); // TODO : À virer
         getParagraphs(data.ID);
+        $('#addArticleTxt').val('');
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log('Failed:', errorThrown);
     });
