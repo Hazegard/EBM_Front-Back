@@ -175,7 +175,7 @@ class Controller {
         if(is_null($query)) {
             return cError::_400("");
         }
-        http_response_code(200);
+        http_response_code(201);
         return json_encode($query);
     }
 
@@ -194,14 +194,27 @@ class Controller {
         if(empty($idArticle)){
             return cError::_400("ARTICLE_ID");
         }
+        http_response_code(201);
         return json_encode(Paragraphs::insertParagraphInArticle($idArticle, $newContent, $position));
     }
 
+    /**
+     * Delete an article and his paragraphs by id
+     * @param int $id
+     *      The id of the article to delete
+     * @return string
+     *      Json of success / failure
+     */
     function deleteArticleById(int $id){
         if(empty($id)){
             return cError::_400("ID");
         }
-        return json_encode(Article::queryDeleteArticleById($id));
+        if(Article::queryDeleteArticleById($id)){
 
+            return json_encode("Deleted");
+        } else {
+            http_response_code(400);
+            return json_encode("Failed");
+        }
     }
 }

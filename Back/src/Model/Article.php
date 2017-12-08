@@ -51,8 +51,15 @@ class Article {
         return array();
     }
 
+    /**
+     * Delete the article by d, and all associated paragraphs
+     * @param int $id
+     *      The id of the article to delete
+     * @return bool
+     *      Deletion succeeded?
+     */
     public static function queryDeleteArticleById(int $id){
         $sql = "DELETE FROM ARTICLES WHERE ".Article::ID."=?";
-        return DBAccess::getInstance()->queryUpdate($sql, [$id]);
+        return DBAccess::getInstance()->queryDelete($sql, [$id]);
     }
 }

@@ -45,7 +45,7 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
     ->addRoute('~^/articles/(\d+)/?$~', Router::DELETE,
         function ($args) use ($controller) {
             $id = intval($args[RouterUtils::URL_PARAMS][0]);
-//            RouterUtils::response($controller->getArticle($id));
+            RouterUtils::response($controller->deleteArticleById($id));
         })
     ->addRoute('~^/articles/(\d+)/?$~', Router::PATCH,
         function ($args) use ($controller) {

@@ -90,7 +90,7 @@ class DBAccess {
      */
     public function queryUpdate(string $sql, array $values):int{
         $query = $this->bdd->prepare($sql,$values);
-        return $query->execute()? $query->rowCount() : null;
+        return $query->execute()? $query->rowCount() : 0;
     }
 
     /**
@@ -103,6 +103,11 @@ class DBAccess {
      *      True if the insert wes successful, false otherwise
      */
     public function queryInsert(string $sql, array $values):bool {
+        $query = $this->bdd->prepare($sql);
+        return $query->execute($values);
+    }
+
+    public function queryDelete(string $sql, array $values):bool {
         $query = $this->bdd->prepare($sql);
         return $query->execute($values);
     }
