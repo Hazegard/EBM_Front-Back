@@ -39,8 +39,9 @@ postArticle = (title) => {
     $.ajax({
         type: 'POST',
         url: "/api/v1/articles",
-        data: { TITLE: title},
-        dataType: 'json'
+        data: JSON.stringify({ TITLE: "ttt"}),
+        dataType: 'json',
+        contentType: "application/json"
     }).done(function(data, textStatus, jqXHR) {
         console.log('Succeed:', data);
     }).fail(function(jqXHR, textStatus, errorThrown) {
