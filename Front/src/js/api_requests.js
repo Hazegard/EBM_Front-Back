@@ -30,3 +30,20 @@ displayParagraphs = (title, paragraphs) => {
     paragraphs.map(para => item.append('<p class="lead text-justify">' + para.CONTENT + '</p>'));
     $('#paragraphs').empty().append(item);
 };
+
+postArticle = (title) => {
+    console.log('postArticle is called');
+    console.log(title);
+    let json = {'TITLE': title};
+    console.log(json);
+    $.ajax({
+        type: 'POST',
+        url: "/api/v1/articles",
+        data: { TITLE: title},
+        dataType: 'json'
+    }).done(function(data, textStatus, jqXHR) {
+        console.log('Succeed:', data);
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        console.log('Failed:', errorThrown);
+    });
+};

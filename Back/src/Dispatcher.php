@@ -99,7 +99,6 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
  * Get incoming data from request, same as $_GET and $_POST but also works with PUT, PATCH and DELETE
  */
 $data = RouterUtils::getBodyData();
-
 /**
  * Get the function corresponding to the request
  */
