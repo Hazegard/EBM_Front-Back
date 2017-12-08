@@ -205,16 +205,36 @@ class Controller {
      * @return string
      *      Json of success / failure
      */
-    function deleteArticleById(int $id){
+    function deleteArticleById(int $id):string {
         if(empty($id)){
             return cError::_400("ID");
         }
         if(Article::queryDeleteArticleById($id)){
-
-            return json_encode("Deleted");
+            http_response_code(200);
+            return json_encode("true");
         } else {
             http_response_code(400);
-            return json_encode("Failed");
+            return json_encode("false");
+        }
+    }
+
+    /**
+     * Delete a paragraph by id
+     * @param int $id
+     *      The id of the paragraph to delete
+     * @return string
+     *      Json of success / failure
+     */
+    function deleteParagraphById(int $id){
+        if(empty($id)){
+            return cError::_400("ID");
+        }
+        if(Paragraphs::queryDeleteParagraphById($id)){
+            http_response_code(200);
+            return json_encode("true");
+        } else {
+            http_response_code(400);
+            return json_encode("false");
         }
     }
 }

@@ -143,4 +143,16 @@ class Paragraphs {
         return array();
     }
 
+    /**
+     * Delete a paragraph by his id
+     * @param int $id
+     *      The id of the paragraph to delete
+     * @return bool
+     *      Bool confirming the deletion, or note
+     */
+    public static function queryDeleteParagraphById(int $id){
+        $sql = "DELETE FROM PARAGRAPHES WHERE ".self::ID."=?";
+        return DBAccess::getInstance()->queryDelete($sql, [$id]);
+    }
+
 }

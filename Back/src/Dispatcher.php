@@ -60,11 +60,17 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
         })
 
     ->addRoute('~^/paragraphs/(\d+)/?$~', Router::GET,
-        function ($params) use ($controller) {
+        function ($args) use ($controller) {
+            $params = $args[RouterUtils::URL_PARAMS];
             $id = intval($params[0]);
             RouterUtils::response($controller->getParagraphById($id));
         })
-
+    ->addRoute('~^/paragraphs/(\d+)/?$~', Router::DELETE,
+        function ($args) use ($controller) {
+            $params = $args[RouterUtils::URL_PARAMS];
+            $id = intval($params[0]);
+            RouterUtils::response($controller->deleteParagraphById($id));
+        })
     ->addRoute('~^/paragraphs/(\d+)/?$~', Router::PATCH,
         function ($args) use ($controller) {
             $id = intval($args[RouterUtils::URL_PARAMS][0]);
@@ -81,6 +87,7 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
         function ($args) use ($controller) {
             $idArticle = intval($args[RouterUtils::URL_PARAMS][0]);
             $data = $args[RouterUtils::BODY_DATA];
+            print_r($data);
             $newContent = $data[Paragraphs::CONTENT];
             $position = isset($data[Paragraphs::POSITION])?$data[Paragraphs::POSITION] : null;
             RouterUtils::response($controller->insertNewParagraphInArticle($idArticle, $newContent, $position));
