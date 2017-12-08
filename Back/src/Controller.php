@@ -22,8 +22,9 @@ class Controller {
     }
 
     /**
+     * List all articles with their paragraphs
      * @return string
-     *      Json of all articles {id , title}, or error message if no articles are found
+     *      Json of all articles {id , title, paragraphs},  or error message if no articles are found
      */
     function listArticlesWithParagraphs(): string {
         $articles = Article::queryArticles();
@@ -38,13 +39,17 @@ class Controller {
         }
 
         foreach ($paragraph as $para) {
-//            print_r($articles[$para['ARTICLE_ID']]);
             array_push($arts[$para['ARTICLE_ID']]['CONTENT'], $para);
         }
         $arts = array_values($arts);
         return json_encode($arts, true);
     }
 
+    /**
+     * List all articles
+     * @return string
+     *      Json of all articles
+     */
     function listArticles(): string {
         $articles = Article::queryArticles();
         return json_encode($articles);
@@ -55,9 +60,14 @@ class Controller {
      * @return string
      *      Json of the article {id, title, paragraph}
      */
-    function getArticle(int $idArticle): string {
+    function getArticle($idArticle): string {
+        if(is_numeric($idArticle)){
+            $idArticle = intval($idArticle);
+        } else {
+            return cError::_400("The ID must be an integer");
+        }
         if (empty($idArticle)) {
-            return cError::_400("ARTICLE_ID");
+            return cError::_400("ARTICLE_ID is missing");
         }
         $article = Article::queryArticleById($idArticle);
         $paragraphs = Paragraphs::queryParagraphsByArticleId($idArticle);
@@ -88,9 +98,14 @@ class Controller {
      * @return string
      *      Json of the paragraph
      */
-    function getParagraphById(int $id): string {
+    function getParagraphById($id): string {
+        if(is_numeric($id)){
+            $id = intval($id);
+        } else {
+            return cError::_400("The ID must be an integer");
+        }
         if (empty($id)) {
-            return cError::_400("ID");
+            return cError::_400("ID  is missing");
         }
         $paragraph = Paragraphs::queryParagraphById($id);
         if (empty($paragraph)) {
@@ -106,9 +121,14 @@ class Controller {
      * @return string
      *      Json of the paragraph if found, json of error message
      */
-    function getParagraphsByArticleId(int $articleId): string {
+    function getParagraphsByArticleId($articleId): string {
+        if(is_numeric($articleId)){
+            $articleId = intval($articleId);
+        } else {
+            return cError::_400("The ID must be an integer");
+        }
         if (empty($articleId)) {
-            return cError::_400("ARTICLE_ID");
+            return cError::_400("ARTICLE_ID  is missing");
         }
         $query = Paragraphs::queryParagraphsByArticleId($articleId);
         if (empty($query)) {
@@ -126,12 +146,22 @@ class Controller {
      * @return string
      *      Json of the paragraph
      */
-    function getParagraphByArticleIdAndPosition(int $articleId, int $position): string {
+    function getParagraphByArticleIdAndPosition($articleId, $position): string {
+        if(is_numeric($articleId)){
+            $articleId = intval($articleId);
+        } else {
+            return cError::_400("The ID must be an integer");
+        }
+        if(is_numeric($position)){
+            $position = intval($position);
+        } else {
+            return cError::_400("The POSITION must be a float/ingeter ??"); //TODO Changer pour float?
+        }
         if (empty($articleId)) {
-            return cError::_400("ARTICLE_ID");
+            return cError::_400("ARTICLE_ID  is missing");
         }
         if(empty($position)){
-            return cError::_400("POSITION");
+            return cError::_400("POSITION  is missing");
         }
         $query = Paragraphs::queryParagraphByArticleIdAndPosition($articleId, $position);
         if (empty($query)) {
@@ -149,9 +179,14 @@ class Controller {
      * @return string
      *      Message to inform if the request was succeeded
      */
-    function updateParagraphWithId(int $idPara, string $newContent): string {
+    function updateParagraphWithId($idPara, string $newContent): string {
+        if(is_numeric($idPara)){
+            $idPara = intval($idPara);
+        } else {
+            return cError::_400("The ID must be an integer");
+        }
         if (empty($idPara)) {
-            return cError::_400("ID");
+            return cError::_400("ID  is missing");
         }
         $query = Paragraphs::queryUpdateParagraphWithId($idPara, $newContent);
         if (is_null($query)) {
@@ -169,11 +204,11 @@ class Controller {
      */
     function insertNewArticle(string $title): string {
         if(empty($title)){
-            return cError::_400("TITLE");
+            return cError::_400("TITLE  is missing");
         }
         $query = Article::insertArticle($title);
         if(is_null($query)) {
-            return cError::_400("");
+            return cError::_400("An error occurred");
         }
         http_response_code(201);
         return json_encode($query);
@@ -190,9 +225,19 @@ class Controller {
      * @return string
      *      Json of the new paragraph
      */
-    function insertNewParagraphInArticle(int $idArticle, string $newContent, float $position):string {
+    function insertNewParagraphInArticle($idArticle, string $newContent, $position):string {
+        if(is_numeric($idArticle)){
+            $idArticle = intval($idArticle);
+        } else {
+            return cError::_400("The ID must be an integer");
+        }
+        if(is_numeric($position)){
+            $position = floatval($position);
+        } else {
+            return cError::_400("The POSITION must be a float");
+        }
         if(empty($idArticle)){
-            return cError::_400("ARTICLE_ID");
+            return cError::_400("ARTICLE_ID  is missing");
         }
         http_response_code(201);
         return json_encode(Paragraphs::insertParagraphInArticle($idArticle, $newContent, $position));
@@ -206,8 +251,13 @@ class Controller {
      *      Json of success / failure
      */
     function deleteArticleById(int $id):string {
+        if(is_numeric($id)){
+            $id = intval($id);
+        } else {
+            return cError::_400("The ID must be an integer");
+        }
         if(empty($id)){
-            return cError::_400("ID");
+            return cError::_400("ID  is missing");
         }
         if(Article::queryDeleteArticleById($id)){
             http_response_code(200);
@@ -225,9 +275,14 @@ class Controller {
      * @return string
      *      Json of success / failure
      */
-    function deleteParagraphById(int $id){
+    function deleteParagraphById($id): string{
+        if(is_numeric($id)){
+            $id = intval($id);
+        } else {
+            return cError::_400("The ID must be an integer");
+        }
         if(empty($id)){
-            return cError::_400("ID");
+            return cError::_400("ID  is missing");
         }
         if(Paragraphs::queryDeleteParagraphById($id)){
             http_response_code(200);

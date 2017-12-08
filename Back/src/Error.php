@@ -18,7 +18,7 @@ class cError {
      */
     public static function _204(): string {
         http_response_code(204);
-        return "";
+        return json_encode("");
     }
 
     /**
@@ -26,9 +26,9 @@ class cError {
      * @return string
      *      Error 400
      */
-    public static function _400(string $missing): string {
+    public static function _400(string $error): string {
         http_response_code(400);
-        return $missing." is missing";
+        return json_encode("Error : ".$error);
     }
 
     /**
@@ -37,6 +37,6 @@ class cError {
      */
     public static function _404(): string {
         http_response_code(404);
-        return "";
+        return json_encode("");
     }
 }
