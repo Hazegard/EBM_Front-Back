@@ -31,20 +31,17 @@ displayParagraphs = (title, paragraphs) => {
     $('#paragraphs').empty().append(item);
 };
 
-postArticle = (title) => {
-    console.log('postArticle is called');
-    console.log(title);
-    let json = {'TITLE': title};
-    console.log(json);
+postArticle = () => {
+    const title = $('#addArticleTxt').val();
     $.ajax({
         type: 'POST',
         url: "/api/v1/articles",
-        data: JSON.stringify({ TITLE: "ttt"}),
+        data: JSON.stringify({TITLE: title}),
         dataType: 'json',
         contentType: "application/json"
-    }).done(function(data, textStatus, jqXHR) {
+    }).done(function (data, textStatus, jqXHR) {
         console.log('Succeed:', data);
-    }).fail(function(jqXHR, textStatus, errorThrown) {
+    }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log('Failed:', errorThrown);
     });
 };
