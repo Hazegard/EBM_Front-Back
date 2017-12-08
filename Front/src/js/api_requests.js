@@ -39,8 +39,9 @@ postArticle = () => {
         data: JSON.stringify({TITLE: title}),
         dataType: 'json',
         contentType: "application/json"
-    }).done(function (data, textStatus, jqXHR) {
-        console.log('Succeed:', data);
+    }).done(function (data) {
+        console.log('Succeed:', data); // TODO : À virer
+        getParagraphs(data.ID);
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log('Failed:', errorThrown);
     });
