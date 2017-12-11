@@ -20,11 +20,11 @@ emptyParagraphs = () => {
 
 getParagraphs = (id, edit = false) => {
     $.getJSON('/api/v1/articles/' + id).done(function (data) {
-        edit ? displayParagraphs(data) : viewParagraphs(data);
+        edit ? editParagraphs(data) : viewParagraphs(data);
     })
 };
 
-displayParagraphs = (article) => {
+editParagraphs = (article) => {
     let deleteButton = $('<input type="button" value="Supprimer l\'article" id="deleteArticleBtn" class="btn btn-outline-danger"/>')
         .on("click", () => {
             deleteArticle(article);
@@ -45,7 +45,7 @@ displayParagraphs = (article) => {
 viewParagraphs = (article) => {
     let editButton = $('<input type="button" value="Mode édition" class="btn btn-outline-primary"/>')
         .on("click", () => {
-            displayParagraphs(article);
+            editParagraphs(article);
         });
     let item = $('<div class="container"><h1 class="display-4">' + article.TITLE + '</h1><hr class="my-2"></div>');
     article.CONTENT.map(para => item.append('<p class="lead text-justify">' + para.CONTENT + '</p>'));
