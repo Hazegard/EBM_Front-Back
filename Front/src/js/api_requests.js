@@ -34,10 +34,11 @@ editParagraphs = (article) => {
             viewParagraphs(article);
         });
     let item = $('<div class="container"><h1 class="display-4">' + article.TITLE + '</h1>' +
-        '<hr class="my-2"></div>').append('<p id="emptyP"><input type="submit" value="+" id="addArticleBtn" class="btn btn-outline-secondary btn-sm"/></p><br>');
+        '<hr class="my-2"></div>').append('<p id="emptyP"><input type="button" value="+" class="btn btn-outline-secondary btn-sm" ' +
+        'onclick="postParagraph($(this).parent())"/></p><br>');
     article.CONTENT.map((para) => {
         item.append('<p class="lead text-justify">' + para.CONTENT +
-            '<input type="submit" value="+" id="addArticleBtn" class="btn btn-outline-secondary btn-sm"/></p>')
+            '<input type="button" value="+" class="btn btn-outline-secondary btn-sm" onclick="postParagraph($(this).parent())"/></p>')
     });
     $('#paragraphs').empty().append(viewButton).append(deleteButton).append(item);
 };
@@ -77,6 +78,10 @@ deleteArticle = (article) => {
     });
 };
 
-postParagraph = () => {
-    // ...
+postParagraph = (position) => {
+    console.log('postParagraph appelé');
+    let champ = $(' <div class="form-group">\n' +
+        '<textarea class="form-control" rows="5" id="comment"></textarea>\n' +
+        '</div> ');
+    position.append(champ);
 };
