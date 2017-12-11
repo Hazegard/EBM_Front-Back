@@ -3,7 +3,6 @@ const defaultItem = $('#paragraphs').children();
 getArticles = () => {
     $.getJSON('/api/v1/articles').done(function (data) {
         $(".dropdown-item").remove();
-        console.log(data); // TODO : À enlever plus tard
         for (let i in data) {
             let item = $('<a class="dropdown-item">' + data[i].TITLE + '</a>')
                 .on("click", function () {
