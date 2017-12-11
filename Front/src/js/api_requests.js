@@ -24,13 +24,14 @@ getParagraphs = (id) => {
     })
 };
 
+// TODO : ajouter un "mode vue" sans bouton intrusif, et juste un bouton "mode édition" qui affiche tous les boutons
 displayParagraphs = (article) => {
     let deleteButton = $('<input type="button" value="Supprimer" id="deleteArticleBtn" class="btn btn-outline-danger"/>')
         .on("click", () => {
             deleteArticle(article);
         });
     let item = $('<div class="container"><h1 class="display-4">' + article.TITLE + '</h1>' +
-        '<hr class="my-2"></div>');
+        '<hr class="my-2"></div>').append('<p><input type="submit" value="+" id="addArticleBtn" class="btn btn-outline-secondary btn-sm"/></p><br>');
     article.CONTENT.map((para) => {
         item.append('<p class="lead text-justify">' + para.CONTENT +
             '<input type="submit" value="+" id="addArticleBtn" class="btn btn-outline-secondary btn-sm"/></p>')
