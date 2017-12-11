@@ -62,7 +62,7 @@ class Controller {
      */
     function getArticle($idArticle): string {
         if(is_numeric($idArticle)){
-            $idArticle = intval($idArticle);
+            $idArticle = intval /* //TODO Change to check only integer and not floats */($idArticle);
         } else {
             return cError::_400("The ID must be an integer");
         }
@@ -100,7 +100,7 @@ class Controller {
      */
     function getParagraphById($id): string {
         if(is_numeric($id)){
-            $id = intval($id);
+            $id = intval /* //TODO Change to check only integer and not floats */($id);
         } else {
             return cError::_400("The ID must be an integer");
         }
@@ -123,7 +123,7 @@ class Controller {
      */
     function getParagraphsByArticleId($articleId): string {
         if(is_numeric($articleId)){
-            $articleId = intval($articleId);
+            $articleId = intval /* //TODO Change to check only integer and not floats */($articleId);
         } else {
             return cError::_400("The ID must be an integer");
         }
@@ -148,12 +148,12 @@ class Controller {
      */
     function getParagraphByArticleIdAndPosition($articleId, $position): string {
         if(is_numeric($articleId)){
-            $articleId = intval($articleId);
+            $articleId = intval /* //TODO Change to check only integer and not floats */($articleId);
         } else {
             return cError::_400("The ID must be an integer");
         }
         if(is_numeric($position)){
-            $position = intval($position);
+            $position = intval /* //TODO Change to check only integer and not floats */($position);
         } else {
             return cError::_400("The POSITION must be a float/ingeter ??"); //TODO Changer pour float?
         }
@@ -181,7 +181,7 @@ class Controller {
      */
     function updateParagraphWithId($idPara, string $newContent): string {
         if(is_numeric($idPara)){
-            $idPara = intval($idPara);
+            $idPara = intval /* //TODO Change to check only integer and not floats */($idPara);
         } else {
             return cError::_400("The ID must be an integer");
         }
@@ -227,7 +227,7 @@ class Controller {
      */
     function insertNewParagraphInArticle($idArticle, string $newContent, $position):string {
         if(is_numeric($idArticle)){
-            $idArticle = intval($idArticle);
+            $idArticle = intval /* //TODO Change to check only integer and not floats */($idArticle);
         } else {
             return cError::_400("The ID must be an integer");
         }
@@ -252,7 +252,7 @@ class Controller {
      */
     function deleteArticleById(int $id):string {
         if(is_numeric($id)){
-            $id = intval($id);
+            $id = intval /* //TODO Change to check only integer and not floats */($id);
         } else {
             return cError::_400("The ID must be an integer");
         }
@@ -277,7 +277,7 @@ class Controller {
      */
     function deleteParagraphById($id): string{
         if(is_numeric($id)){
-            $id = intval($id);
+            $id = intval /* //TODO Change to check only integer and not floats */($id);
         } else {
             return cError::_400("The ID must be an integer");
         }
