@@ -5,3 +5,7 @@
 .navbar > div > ul > * {
     margin-left: 15px;
 }
+
+#deleteArticleBtn {
+    float: right;
+}
