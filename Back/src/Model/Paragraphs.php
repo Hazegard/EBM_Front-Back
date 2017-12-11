@@ -83,24 +83,34 @@ class Paragraphs {
      * @return int
      *      Number of row affected by the update, null if an error occurred
      */
-    public static function queryUpdateParagraphWithId(int $idPara, string $newContent='', float $newPos = null): int {
+    public static function queryUpdateParagraphWithId(int $idPara, string $newContent, float $newPos, int $idArticle) {
         if (empty($idPara)) {
             return null;
         }
         $params = array();
         $sql = "UPDATE PARAGRAPHES SET";
-        if(!is_null($newContent)) {
-            $sql = $sql." ".Paragraphs::CONTENT."=?";
-            $params = array_push($params, $newContent);
+        if($newContent!=='') {
+            $sql = $sql." ".Paragraphs::CONTENT."=? , ";
+            $params[] = $newContent;
         }
-        if(!is_null($newPos) && !is_null($newContent)) {
-            $sql = $sql . " , ";
+        if($newPos!==0) {
+            $sql = $sql . " ".Paragraphs::POSITION."=? , ";
+            $params[] = $newPos;
         }
-        if(!is_null($newPos)) {
-            $sql = $sql . " ".Paragraphs::POSITION."=? ";
-            $params = array_push($params, $newPos);
+        if($idArticle!==0) {
+            $sql = $sql . " ".Paragraphs::POSITION."=? , ";
+            $params[] = $idArticle;
         }
+        $sql = substr($sql,0,strlen($sql)-2);
+        $sql = $sql . "WHERE ".Paragraphs::ID . "=?";
+        $params[] = $idPara;
         return DBAccess::getInstance()->queryUpdate($sql, $params);
+    }
+
+    public static function queryUpdateFullParagraphWithId(int $idPara, string $newContent, float $newPos, int $idArticle){
+        $sql = "UPDATE PARAGRAPHES SET ".self::CONTENT."=? AND ".self::POSITION."=? AND ".self::IDARTICLE."=? WHERE ID=?";
+        $params = [$newContent, $newPos, $idArticle, $idPara];
+        return DBAccess::getInstance()->queryUpdate($sql,$params);
     }
 
     /**

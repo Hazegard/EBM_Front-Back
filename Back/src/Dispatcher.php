@@ -77,9 +77,7 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
         })
     ->addRoute('~^/paragraphs/(\d+)/?$~', Router::PATCH,
         function ($args) use ($controller) {
-            $id = $args[RouterUtils::URL_PARAMS][0];
-            $data = $args[RouterUtils::BODY_DATA];
-            echo "Ceci est un patch sur /paragraphs/" . $id . "/ avec comme json : " . $data;
+            RouterUtils::response($controller->partialUpdateParagraphWithId($args));
         })
 
 

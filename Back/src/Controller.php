@@ -176,10 +176,12 @@ class Controller {
      *      Id of the paragraph to update
      * @param string $newContent
      *      Content of the paragraph
+     * @param float $newPosition
+     * @param int $idArticle
      * @return string
      *      Message to inform if the request was succeeded
      */
-    function updateParagraphWithId($idPara, string $newContent): string {
+    function fullUpdateParagraphWithId(int $idPara, string $newContent, float $newPosition, int $idArticle): string {
         if(is_numeric($idPara)){
             $idPara = intval /* //TODO Change to check only integer and not floats */($idPara);
         } else {
@@ -188,12 +190,40 @@ class Controller {
         if (empty($idPara)) {
             return cError::_400("ID  is missing");
         }
-        $query = Paragraphs::queryUpdateParagraphWithId($idPara, $newContent);
+        if(empty($newContent)) {
+            return cError::_400("CONTENT is missing");
+        }
+        if(empty($idArticle)){
+            return cError::_400("ARTICLE_ID is missing");
+        }
+        if(empty($newPosition)){
+            return cError::_400("POSITION is missing");
+        }
+        $query = Paragraphs::queryUpdateFullParagraphWithId($idPara, $newContent, $newPosition, $idArticle);
         if (is_null($query)) {
             return cError::_204();
         }
         http_response_code(200);
         return json_encode(["message" => "updated successfully"]);
+    }
+
+    function partialUpdateParagraphWithId($args): string {
+        $data = $args[RouterUtils::BODY_DATA];
+        $params = $args[RouterUtils::URL_PARAMS];
+        $newPosition = array_key_exists(Paragraphs::POSITION, $data)? $data[Paragraphs::POSITION]:0;
+        $idArticle = array_key_exists(Paragraphs::IDARTICLE, $data)? $data[Paragraphs::IDARTICLE]:-1;
+        $idArticle = ctype_digit($idArticle)?intval($idArticle):0;
+        $newContent = array_key_exists(Paragraphs::CONTENT, $data)? $data[Paragraphs::CONTENT]:'';
+        echo $newContent;
+        $idPara = $params[0];
+        $idPara = ctype_digit($idPara)?intval($idPara):0;
+        if(!is_numeric($newPosition)){
+            return cError::_400("POSITION must be non null ");
+        }
+        if($idArticle===0){
+            return cError::_400("ARTICLE_ID must be a non null integer");
+        }
+        return Paragraphs::queryUpdateParagraphWithId($idPara, $newContent,$newPosition,$idArticle);
     }
 
     /**

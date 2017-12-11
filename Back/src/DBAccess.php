@@ -89,8 +89,8 @@ class DBAccess {
      *      Number of row affected by the update, null if error
      */
     public function queryUpdate(string $sql, array $values):int{
-        $query = $this->bdd->prepare($sql,$values);
-        return $query->execute()? $query->rowCount() : 0;
+        $query = $this->bdd->prepare($sql);
+        return $query->execute($values)? $query->rowCount() : 0;
     }
 
     /**
