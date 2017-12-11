@@ -6,8 +6,9 @@
     margin-left: 15px;
 }
 
-#deleteArticleBtn {
+.btn {
     float: right;
+    margin-left: 10px;
 }
 
 #paragraphs > div > p > .btn {
