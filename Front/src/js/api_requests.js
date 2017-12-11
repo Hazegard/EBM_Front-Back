@@ -29,7 +29,7 @@ displayParagraphs = (article) => {
         .on("click", () => {
             deleteArticle(article);
         });
-    let viewButton = $('<input type="button" value="Mode vue" id="editBtn" class="btn btn-outline-primary"/>')
+    let viewButton = $('<input type="button" value="Mode vue" class="btn btn-outline-primary"/>')
         .on("click", () => {
             viewParagraphs(article);
         });
@@ -43,7 +43,7 @@ displayParagraphs = (article) => {
 };
 
 viewParagraphs = (article) => {
-    let editButton = $('<input type="button" value="Mode édition" id="editBtn" class="btn btn-outline-primary"/>')
+    let editButton = $('<input type="button" value="Mode édition" class="btn btn-outline-primary"/>')
         .on("click", () => {
             displayParagraphs(article);
         });
