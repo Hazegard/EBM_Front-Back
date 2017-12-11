@@ -31,7 +31,10 @@ displayParagraphs = (article) => {
         });
     let item = $('<div class="container"><h1 class="display-4">' + article.TITLE + '</h1>' +
         '<hr class="my-2"></div>');
-    article.CONTENT.map(para => item.append('<p class="lead text-justify">' + para.CONTENT + '</p>'));
+    article.CONTENT.map((para) => {
+        item.append('<p class="lead text-justify">' + para.CONTENT +
+            '<input type="submit" value="+" id="addArticleBtn" class="btn btn-outline-secondary btn-sm"/></p>')
+    });
     $('#paragraphs').empty().append(deleteButton).append(item);
 };
 
@@ -49,6 +52,7 @@ postArticle = () => {
     });
 };
 
+// TODO : ajouter un truc de confirmation avant de supprimer
 deleteArticle = (article) => {
     $.ajax({
         type: 'DELETE',
@@ -56,4 +60,8 @@ deleteArticle = (article) => {
     }).done(() => {
         emptyParagraphs();
     });
+};
+
+postParagraph = () => {
+    // ...
 };

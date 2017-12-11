@@ -9,3 +9,11 @@
 #deleteArticleBtn {
     float: right;
 }
+
+#paragraphs > div > p > .btn {
+    float: right;
+    padding: 0;
+    padding-left: 6px;
+    padding-right: 6px;
+    margin-top: 8px;
+}
