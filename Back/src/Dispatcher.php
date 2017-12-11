@@ -28,12 +28,11 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
 
     ->addRoute('~^/articles/?$~', Router::POST,
         function ($args) use ($controller) {
-            $data = $args[RouterUtils::BODY_DATA];
-            $title = array_key_exists(Article::TITLE,$data)? $data[Article::TITLE]:"";
-            RouterUtils::response($controller->insertNewArticle($title));
+            RouterUtils::response($controller->insertNewArticle($args));
         })
     ->addRoute('~^/articles/?$~', Router::PUT,
         function ($args) use ($controller) {
+        // TODO
             $data = $args[RouterUtils::BODY_DATA];
             echo "Ceci est un put sur /articles/ avec comme json: " . ($data);
         })
@@ -41,16 +40,15 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
 
     ->addRoute('~^/articles/(\d+)/?$~', Router::GET,
         function ($args) use ($controller) {
-            $id = $args[RouterUtils::URL_PARAMS][0];
-            RouterUtils::response($controller->getArticle($id));
+            RouterUtils::response($controller->getArticle($args));
         })
     ->addRoute('~^/articles/(\d+)/?$~', Router::DELETE,
         function ($args) use ($controller) {
-            $id = $args[RouterUtils::URL_PARAMS][0];
-            RouterUtils::response($controller->deleteArticleById($id));
+            RouterUtils::response($controller->deleteArticleById($args));
         })
     ->addRoute('~^/articles/(\d+)/?$~', Router::PATCH,
         function ($args) use ($controller) {
+            // TODO
             $id = $args[RouterUtils::URL_PARAMS][0];
             $data = $args[RouterUtils::BODY_DATA];
             RouterUtils::response("Ceci est un patch sur /articles/" . $id . "/ avec comme json : " . $data);
@@ -65,15 +63,11 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
 
     ->addRoute('~^/paragraphs/(\d+)/?$~', Router::GET,
         function ($args) use ($controller) {
-            $params = $args[RouterUtils::URL_PARAMS];
-            $id = $params[0];
-            RouterUtils::response($controller->getParagraphById($id));
+            RouterUtils::response($controller->getParagraphById($args));
         })
     ->addRoute('~^/paragraphs/(\d+)/?$~', Router::DELETE,
         function ($args) use ($controller) {
-            $params = $args[RouterUtils::URL_PARAMS];
-            $id = $params[0];
-            RouterUtils::response($controller->deleteParagraphById($id));
+            RouterUtils::response($controller->deleteParagraphById($args));
         })
     ->addRoute('~^/paragraphs/(\d+)/?$~', Router::PATCH,
         function ($args) use ($controller) {
@@ -83,24 +77,17 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
 
     ->addRoute('~^/articles/(\d+)/paragraphs/?$~', Router::GET,
         function ($args) use ($controller) {
-            $id = $args[RouterUtils::URL_PARAMS][0];
-            RouterUtils::response($controller->getParagraphsByArticleId($id));
+            RouterUtils::response($controller->getParagraphsByArticleId($args));
         })
     ->addRoute('~^/articles/(\d+)/paragraphs/?$~', Router::POST,
         function ($args) use ($controller) {
-            $idArticle = $args[RouterUtils::URL_PARAMS][0];
-            $data = $args[RouterUtils::BODY_DATA];
-            $newContent = $data[Paragraphs::CONTENT];
-            $position = isset($data[Paragraphs::POSITION])?$data[Paragraphs::POSITION] : null;
-            RouterUtils::response($controller->insertNewParagraphInArticle($idArticle, $newContent, $position));
+            RouterUtils::response($controller->insertNewParagraphInArticle($args));
         })
 
 
     ->addRoute('~^/articles/(\d+)/paragraphs/(\d+)/?$~', Router::GET,
         function ($args) use ($controller) {
-            $articleId = $args[RouterUtils::URL_PARAMS][0];
-            $paragraphPosition = $args[RouterUtils::URL_PARAMS][1];
-            RouterUtils::response($controller->getParagraphByArticleIdAndPosition($articleId, $paragraphPosition));
+            RouterUtils::response($controller->getParagraphByArticleIdAndPosition($args));
         })
 
 

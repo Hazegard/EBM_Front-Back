@@ -138,7 +138,7 @@ class Paragraphs {
      *      Array of the new paragraph if insertion succeed, empty array if failed
      */
     public static function insertParagraphInArticle(int $idArticle, string $newContent, float $position = null): array {
-        if (is_null($position)) {
+        if ($position===0) {
             $position = ceil(self::getCurrentMaxPositionOfArticle($idArticle)[self::POSITION]);
             empty($position) ?
                 $position = 1 :

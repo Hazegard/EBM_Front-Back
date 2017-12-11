@@ -54,13 +54,15 @@ class Controller {
         $articles = Article::queryArticles();
         return json_encode($articles);
     }
+
     /**
-     * @param int $idArticle
-     *      The id of the article
+     * @param $args
      * @return string
      *      Json of the article {id, title, paragraph}
      */
-    function getArticle($idArticle): string {
+    function getArticle($args): string {
+        $params = $args[RouterUtils::URL_PARAMS];
+        $idArticle = $params[0];
         if(is_numeric($idArticle)){
             $idArticle = intval /* //TODO Change to check only integer and not floats */($idArticle);
         } else {
@@ -98,7 +100,9 @@ class Controller {
      * @return string
      *      Json of the paragraph
      */
-    function getParagraphById($id): string {
+    function getParagraphById($args): string {
+        $params = $args[RouterUtils::URL_PARAMS];
+        $id = $params[0];
         if(is_numeric($id)){
             $id = intval /* //TODO Change to check only integer and not floats */($id);
         } else {
@@ -121,7 +125,9 @@ class Controller {
      * @return string
      *      Json of the paragraph if found, json of error message
      */
-    function getParagraphsByArticleId($articleId): string {
+    function getParagraphsByArticleId($args): string {
+        $params = $args[RouterUtils::URL_PARAMS];
+        $articleId = $params[0];
         if(is_numeric($articleId)){
             $articleId = intval /* //TODO Change to check only integer and not floats */($articleId);
         } else {
@@ -146,7 +152,10 @@ class Controller {
      * @return string
      *      Json of the paragraph
      */
-    function getParagraphByArticleIdAndPosition($articleId, $position): string {
+    function getParagraphByArticleIdAndPosition($args): string {
+        $params = $args[RouterUtils::URL_PARAMS];
+        $articleId = $params[0];
+        $position = $params[1];
         if(is_numeric($articleId)){
             $articleId = intval /* //TODO Change to check only integer and not floats */($articleId);
         } else {
@@ -227,13 +236,15 @@ class Controller {
     }
 
     /**
-     * @param string $title
-     *      The title of the new article
+     * @param $args
+     *      Arguments of the request
      * @return string
      *      Error message if an error occurred, or json of the created article
      */
-    function insertNewArticle(string $title): string {
-        if(empty($title)){
+    function insertNewArticle($args): string {
+        $data = $args[RouterUtils::BODY_DATA];
+        $title = array_key_exists(Article::TITLE, $data)? $data[Article::TITLE]:'';
+        if($title===''){
             return cError::_400("TITLE  is missing");
         }
         $query = Article::insertArticle($title);
@@ -255,19 +266,26 @@ class Controller {
      * @return string
      *      Json of the new paragraph
      */
-    function insertNewParagraphInArticle($idArticle, string $newContent, $position):string {
+    function insertNewParagraphInArticle($args):string {
+        $data = $args[RouterUtils::BODY_DATA];
+        $params = $args[RouterUtils::URL_PARAMS];
+        $idArticle = $params[0];
+        $position = array_key_exists(Paragraphs::POSITION, $data)?$data[Paragraphs::POSITION]:0;
+        $position = is_numeric($position)? floatval($position):-1;
+        $newContent = array_key_exists(Paragraphs::CONTENT, $data)? $data[Paragraphs::CONTENT] : '';
         if(is_numeric($idArticle)){
             $idArticle = intval /* //TODO Change to check only integer and not floats */($idArticle);
         } else {
             return cError::_400("The ID must be an integer");
         }
-        if(is_numeric($position)){
-            $position = floatval($position);
-        } else {
-            return cError::_400("The POSITION must be a float");
+        if($position == -1){
+            return cError::_400("POSITION must be a number");
         }
-        if(empty($idArticle)){
+        if($idArticle===0){
             return cError::_400("ARTICLE_ID  is missing");
+        }
+        if($newContent===''){
+            return cError::_400("CONTENT is missing");
         }
         http_response_code(201);
         return json_encode(Paragraphs::insertParagraphInArticle($idArticle, $newContent, $position));
@@ -280,7 +298,9 @@ class Controller {
      * @return string
      *      Json of success / failure
      */
-    function deleteArticleById(int $id):string {
+    function deleteArticleById($args):string {
+        $params = $args[RouterUtils::URL_PARAMS];
+        $id = $params[0];
         if(is_numeric($id)){
             $id = intval /* //TODO Change to check only integer and not floats */($id);
         } else {
@@ -305,7 +325,9 @@ class Controller {
      * @return string
      *      Json of success / failure
      */
-    function deleteParagraphById($id): string{
+    function deleteParagraphById($args): string{
+        $params = $args[RouterUtils::URL_PARAMS];
+        $id = $params[0];
         if(is_numeric($id)){
             $id = intval /* //TODO Change to check only integer and not floats */($id);
         } else {
