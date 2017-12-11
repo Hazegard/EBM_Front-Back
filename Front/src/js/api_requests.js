@@ -21,14 +21,19 @@ emptyParagraphs = () => {
 
 getParagraphs = (id) => {
     $.getJSON('/api/v1/articles/' + id).done(function (data) {
-        displayParagraphs(data.TITLE, data.CONTENT);
+        displayParagraphs(data);
     })
 };
 
-displayParagraphs = (title, paragraphs) => {
-    let item = $('<div class="container"><h1 class="display-4">' + title + '</h1><hr class="my-2">');
-    paragraphs.map(para => item.append('<p class="lead text-justify">' + para.CONTENT + '</p>'));
-    $('#paragraphs').empty().append(item);
+displayParagraphs = (article) => {
+    let deleteButton = $('<input type="button" value="Supprimer" id="deleteArticleBtn" class="btn btn-outline-danger"/>')
+        .on("click", () => {
+            deleteArticle(article);
+        });
+    let item = $('<div class="container"><h1 class="display-4">' + article.TITLE + '</h1>' +
+        '<hr class="my-2"></div>');
+    article.CONTENT.map(para => item.append('<p class="lead text-justify">' + para.CONTENT + '</p>'));
+    $('#paragraphs').empty().append(deleteButton).append(item);
 };
 
 postArticle = () => {
@@ -40,10 +45,16 @@ postArticle = () => {
         dataType: 'json',
         contentType: "application/json"
     }).done(function (data) {
-        console.log('Succeed:', data); // TODO : À virer
         getParagraphs(data.ID);
         $('#addArticleTxt').val('');
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.log('Failed:', errorThrown);
+    });
+};
+
+deleteArticle = (article) => {
+    $.ajax({
+        type: 'DELETE',
+        url: '/api/v1/articles/' + article.ID,
+    }).done(() => {
+        emptyParagraphs();
     });
 };
