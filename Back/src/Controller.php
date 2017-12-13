@@ -57,6 +57,7 @@ class Controller {
 
     /**
      * @param $args
+     *      Incoming arguments
      * @return string
      *      Json of the article {id, title, paragraph}
      */
@@ -95,8 +96,8 @@ class Controller {
     }
 
     /**
-     * @param int $id
-     *      The id of the pararaph
+     * @param $args
+     *      Incoming arguments
      * @return string
      *      Json of the paragraph
      */
@@ -120,8 +121,8 @@ class Controller {
     }
 
     /**
-     * @param int $articleId
-     *      The id of the requested paragraph
+     * @param $args
+     *      Incoming arguments
      * @return string
      *      Json of the paragraph if found, json of error message
      */
@@ -145,10 +146,8 @@ class Controller {
     }
 
     /**
-     * @param int $articleId
-     *      The article associated to the paragraph
-     * @param int $position
-     *      The position of the paragraph in the article
+     * @param $args
+     *      Incoming arguments
      * @return string
      *      Json of the paragraph
      */
@@ -216,6 +215,12 @@ class Controller {
         return json_encode(["message" => "updated successfully"]);
     }
 
+    /**
+     * @param $args
+     *      Incoming arguments
+     * @return string
+     *      Json of the updated paragraph
+     */
     function partialUpdateParagraphWithId($args): string {
         $data = $args[RouterUtils::BODY_DATA];
         $params = $args[RouterUtils::URL_PARAMS];
@@ -223,16 +228,9 @@ class Controller {
         $idArticle = array_key_exists(Paragraphs::IDARTICLE, $data)? $data[Paragraphs::IDARTICLE]:-1;
         $idArticle = ctype_digit($idArticle)?intval($idArticle):0;
         $newContent = array_key_exists(Paragraphs::CONTENT, $data)? $data[Paragraphs::CONTENT]:'';
-        echo $newContent;
         $idPara = $params[0];
         $idPara = ctype_digit($idPara)?intval($idPara):0;
-        if(!is_numeric($newPosition)){
-            return cError::_400("POSITION must be non null ");
-        }
-        if($idArticle===0){
-            return cError::_400("ARTICLE_ID must be a non null integer");
-        }
-        return Paragraphs::queryUpdateParagraphWithId($idPara, $newContent,$newPosition,$idArticle);
+        return json_encode(Paragraphs::queryUpdateParagraphWithId($idPara, $newContent,$newPosition,$idArticle));
     }
 
     /**
@@ -256,13 +254,8 @@ class Controller {
     }
 
     /**
-     * Insert a new paragraph at a position
-     * @param int $idArticle
-     *      The id of the article
-     * @param string $newContent
-     *      The content of the new paragraph
-     * @param float $position
-     *      The position where the new paragraph must be inserted
+     * @param $args
+     *      Incoming arguments
      * @return string
      *      Json of the new paragraph
      */
@@ -292,9 +285,8 @@ class Controller {
     }
 
     /**
-     * Delete an article and his paragraphs by id
-     * @param int $id
-     *      The id of the article to delete
+     * @param $args
+     *      Incoming arguments
      * @return string
      *      Json of success / failure
      */
@@ -320,7 +312,7 @@ class Controller {
 
     /**
      * Delete a paragraph by id
-     * @param int $id
+     * @param $args
      *      The id of the paragraph to delete
      * @return string
      *      Json of success / failure
@@ -343,5 +335,23 @@ class Controller {
             http_response_code(400);
             return json_encode("false");
         }
+    }
+
+    /**
+     * @param $args
+     *      Incoming arguments
+     * @return string
+     *      Json of the updated article
+     */
+    function updateArticleById($args): string{
+        $params = $args[RouterUtils::URL_PARAMS];
+        $data = $args[RouterUtils::BODY_DATA];
+
+        $id = $params[0];
+        $title = array_key_exists(Article::TITLE, $data) ? $data[Article::TITLE] : '';
+        if($title === '' ){
+            return cError::_400("TITLE is missing");
+        }
+        return json_encode(Article::queryUpdateArticleById($id, $title));
     }
 }

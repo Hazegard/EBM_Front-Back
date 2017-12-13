@@ -18,6 +18,7 @@ class Paragraphs {
     const CONTENT = "CONTENT";
     const POSITION = "POSITION";
     const IDARTICLE = "ARTICLE_ID";
+
     /**
      * Get the list of all paragraphs
      * @return array
@@ -80,8 +81,8 @@ class Paragraphs {
      *      The new content of the paragraph
      * @param float $newPos
      *      The position of the new paragraph
-     * @return int
-     *      Number of row affected by the update, null if an error occurred
+     * @return array
+     *      Updated paragraph
      */
     public static function queryUpdateParagraphWithId(int $idPara, string $newContent, float $newPos, int $idArticle) {
         if (empty($idPara)) {
@@ -104,9 +105,18 @@ class Paragraphs {
         $sql = substr($sql,0,strlen($sql)-2);
         $sql = $sql . "WHERE ".Paragraphs::ID . "=?";
         $params[] = $idPara;
-        return DBAccess::getInstance()->queryUpdate($sql, $params);
+        DBAccess::getInstance()->queryUpdate($sql, $params);
+        return self::queryParagraphById($idPara);
     }
 
+    /**
+     * @param int $idPara
+     * @param string $newContent
+     * @param float $newPos
+     * @param int $idArticle
+     * @return int|null
+     */
+    //TODO Virer la fonction?
     public static function queryUpdateFullParagraphWithId(int $idPara, string $newContent, float $newPos, int $idArticle){
         $sql = "UPDATE PARAGRAPHES SET ".self::CONTENT."=? AND ".self::POSITION."=? AND ".self::IDARTICLE."=? WHERE ID=?";
         $params = [$newContent, $newPos, $idArticle, $idPara];

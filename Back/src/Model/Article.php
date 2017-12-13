@@ -15,6 +15,7 @@ class Article {
 
     const ID = "ID";
     const TITLE = "TITLE";
+
     /**
      * Get the list of all articles
      * @return array
@@ -61,5 +62,18 @@ class Article {
     public static function queryDeleteArticleById(int $id){
         $sql = "DELETE FROM ARTICLES WHERE ".Article::ID."=?";
         return DBAccess::getInstance()->queryDelete($sql, [$id]);
+    }
+
+    /**
+     * @param int $id
+     *      The id of the article to update
+     * @param string $title
+     *      The new title of the
+     * @return array
+     */
+    public static function queryUpdateArticleById(int $id, string $title): array{
+        $sql = "UPDATE ARTICLES SET ".Article::TITLE."=? WHERE ".Article::ID."=?";
+        DBAccess::getInstance()->queryUpdate($sql, [$title, $id]);
+        return self::queryArticleById($id);
     }
 }

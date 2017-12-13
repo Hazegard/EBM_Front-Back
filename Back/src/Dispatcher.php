@@ -45,7 +45,8 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
             // TODO
             $id = $args[RouterUtils::URL_PARAMS][0];
             $data = $args[RouterUtils::BODY_DATA];
-            RouterUtils::response("Ceci est un patch sur /articles/" . $id . "/ avec comme json : " . $data);
+            RouterUtils::response($controller->updateArticleById($args));
+//            RouterUtils::response("Ceci est un patch sur /articles/" . $id . "/ avec comme json : " . $data);
         })
 
 
