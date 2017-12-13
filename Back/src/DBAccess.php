@@ -107,6 +107,15 @@ class DBAccess {
         return $query->execute($values);
     }
 
+    /**
+     * Prepare and execute the delete statement
+     * @param string $sql
+     *      The query to execute
+     * @param array $values
+     *      The parameters of the request
+     * @return bool
+     *      True if deletion was completed, false otherwise
+     */
     public function queryDelete(string $sql, array $values):bool {
         $query = $this->bdd->prepare($sql);
         return $query->execute($values);
