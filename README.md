@@ -129,7 +129,7 @@ Le Body de la requête doit contenir une json de type:
 
 ```json
 {
-    TITLE: 'Article 42'
+    "TITLE": "Article 42"
 }
 ```
 
@@ -141,18 +141,44 @@ Renvoie l'article sous la forme
 
 ```json
 {
-    ID: 5,
-    TITLE: 'Article 5',
-    CONTENT: [
+    "ID": 5,
+    "TITLE": "Article 5",
+    "CONTENT": [
         {
-            ID: 1,
-            ARTICLE_ID: 5,
-            CONTENT: 'Para1, article5'
+            "ID": 1,
+            "ARTICLE_ID": 5,
+            "CONTENT": "Para1, article5"
         },
         ...
     ]
 }
 ```
+
+#### PATCH
+
+//TODO
+
+Modifie l'article avec l'id {id}
+```json
+{
+    "TITLE": "Article 5.1"
+}
+```
+
+La réponse du serveur, si la modification a été réussie, est le paragraph modifié:
+
+```json
+{
+    "ID": 5,
+    "TITLE": "Article 5.1"
+}
+```
+
+#### DELETE
+
+Supprime l'article avec l'id associé.
+
+Rénvoie true si réussite, false sinon
 
 ### /api/v1/articles?paragraphs=true
 
@@ -163,14 +189,14 @@ Renvoie la liste des articles avec leurs paragraphes, ordonné selon leur positi
 ```json
 [
     {
-        ID: 5,
-        TITLE: 'Article 5',
-        CONTENT: [
+        "ID": 5,
+        "TITLE": "Article 5",
+        "CONTENT": [
             {
-                ID: 1,
-                ARTICLE_ID: 5,
-                POSITION: 1,
-                CONTENT: 'Paragraphe 1 de l'article 5'
+                "ID": 1,
+                "ARTICLE_ID": 5,
+                "POSITION": 1,
+                "CONTENT": "Paragraphe 1 de l'article 5"
             },
             ...
         ]
@@ -188,10 +214,10 @@ Renvoie l'ensemble des paragraphs associé à l'article ayant pour ID {id}
 ```json
 [
     {
-        ID: 1,
-        ARTICLE_ID: 4,
-        POSITION: 1,
-        CONTENT: 'Paragraphe 1 de l'article 4
+        "ID": 1,
+        "ARTICLE_ID": 4,
+        "POSITION": 1,
+        "CONTENT": "Paragraphe 1 de l'article 4"
     },
     ...
 ]
@@ -205,8 +231,8 @@ Le Body de la requête doit contenir une json de type:
 
 ```json
 {
-    CONTENT: 'Paragraphe 42 de l'article 3',
-    POSITION: 5
+    "CONTENT": "Paragraphe 42 de l'article 3",
+    "POSITION": 5
 }
 ```
 
@@ -214,13 +240,81 @@ La position est facultative, le paragraphe sera ajouté à la fin si la position
 
 ### /api/v1/articles/{idA}/paragraphs/{pos}
 
+
+#### GET
+
 Renvoie la pos-ième paragraphe de l'article idA, sous la forme:
 
 ```json
 {
-    ID: 5
-    CONTENT: 'Para pos article idA',
-    ARTICLE_ID: idA,
-    POSITION: pos
+    "ID": 5,
+    "CONTENT": "Para pos article idA",
+    "ARTICLE_ID": idA,
+    "POSITION": pos
+}
+```
+
+### /api/v1/paragraphs
+
+#### GET
+
+Renvoie la liste des paragraphs sous la forme:
+
+```json
+[
+    {
+        "ID": 1,
+        "ARTICLE_ID": 5,
+        "POSITION": 1,
+        "CONTENT": "Paragraphe 1 de l'article 5"
+    },
+    ...
+]
+```
+
+### /api/v1/paragraphs/{id}
+
+#### GET
+
+Renvoie l'article ayant pour id {id} sous la forme:
+
+```json
+{
+    "ID": 1,
+    "ARTICLE_ID": 5,
+    "CONTENT": "Para1, article5"
+}
+```
+
+#### DELETE
+
+Supprime l'article avec l'id {id}.
+
+Renvoie true ou false si la suppression a été réussi ou non.
+
+#### PATCH
+
+Modifie l'article.
+
+le json doit être envoyé sous la forme:
+
+```json
+{
+     "ARTICLE_ID": 4,
+     "POSITION": 1,
+     "CONTENT": "Paragraphe 1 de l'article 4"
+}
+```
+
+Les éléments sont facultatifs: seules les valeurs dans le json seront modifiées dans la base de donnée.
+
+La réponse est un json contenant le paragraphe mis à jour:
+
+```json
+{
+     "ID" : {id}
+     "ARTICLE_ID": 4,
+     "POSITION": 1,
+     "CONTENT": "Paragraphe 1 de l'article 4"
 }
 ```

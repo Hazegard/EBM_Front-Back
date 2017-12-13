@@ -30,12 +30,6 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
         function ($args) use ($controller) {
             RouterUtils::response($controller->insertNewArticle($args));
         })
-    ->addRoute('~^/articles/?$~', Router::PUT,
-        function ($args) use ($controller) {
-        // TODO
-            $data = $args[RouterUtils::BODY_DATA];
-            echo "Ceci est un put sur /articles/ avec comme json: " . ($data);
-        })
 
 
     ->addRoute('~^/articles/(\d+)/?$~', Router::GET,
@@ -88,12 +82,7 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
     ->addRoute('~^/articles/(\d+)/paragraphs/(\d+)/?$~', Router::GET,
         function ($args) use ($controller) {
             RouterUtils::response($controller->getParagraphByArticleIdAndPosition($args));
-        })
-
-
-    ->addRoute('~^/test/?$~', Router::GET, function () use ($controller) {
-        RouterUtils::response($controller->test());
-    });
+        });
 
 /**
  * Get incoming data from request, same as $_GET and $_POST but also works with PUT, PATCH and DELETE
