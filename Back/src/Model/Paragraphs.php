@@ -81,6 +81,8 @@ class Paragraphs {
      *      The new content of the paragraph
      * @param float $newPos
      *      The position of the new paragraph
+     * @param int $idArticle
+     *      The id of the article associated to the paragraph
      * @return array
      *      Updated paragraph
      */

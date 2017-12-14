@@ -17,9 +17,9 @@ class Route {
     /**
      * Route constructor.
      * @param string $regex
-     *      The field that the route must regex
+     *      The regex that the route must match
      * @param string $method
-     *      The method that the route must regex
+     *      The method that the route must match
      * @param callable $callback
      *      The function return by the route
      */

@@ -25,6 +25,7 @@ class RouterUtils{
         array_shift($temp);
         return '/' . implode('/', $temp);
     }
+
     const URL_PARAMS = 'URL_PARAMS';
     const BODY_DATA = "BODY_DATA";
 
@@ -35,7 +36,6 @@ class RouterUtils{
      */
     static function getBodyData(): array {
         $data = json_decode(file_get_contents('php://input'), true);
-//        print_r($data);
         return !is_null($data)? $data:array();
     }
 
@@ -48,8 +48,7 @@ class RouterUtils{
      */
     static function isRouteFound(array $result): bool {
         if (empty($result)) {
-            echo 'No match';
-            echo cError::_404();
+            self::response(cError::_404('No match'));
             return false;
         } else {
             return true;

@@ -98,7 +98,8 @@ class DBAccess {
      * @param string $sql
      *      The query to execute
      * @param array $values
-     *      The values to insert
+     *      The values to bind to the sql statement
+     *      The values in the statement and in the array must be in the same order
      * @return bool
      *      True if the insert wes successful, false otherwise
      */
@@ -112,7 +113,8 @@ class DBAccess {
      * @param string $sql
      *      The query to execute
      * @param array $values
-     *      The parameters of the request
+     *      The values to bind to the sql statement
+     *      The values in the statement and in the array must be in the same order
      * @return bool
      *      True if deletion was completed, false otherwise
      */

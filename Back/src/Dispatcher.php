@@ -8,8 +8,6 @@
 require('Router.php');
 require('Controller.php');
 require('RouterUtils.php');
-//require('Model/Article.php');
-//require ('Model/Paragraphs.php');
 $router = Router::getInstance();
 $controller = new Controller();
 
@@ -42,11 +40,7 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
         })
     ->addRoute('~^/articles/(\d+)/?$~', Router::PATCH,
         function ($args) use ($controller) {
-            // TODO
-            $id = $args[RouterUtils::URL_PARAMS][0];
-            $data = $args[RouterUtils::BODY_DATA];
             RouterUtils::response($controller->updateArticleById($args));
-//            RouterUtils::response("Ceci est un patch sur /articles/" . $id . "/ avec comme json : " . $data);
         })
 
 

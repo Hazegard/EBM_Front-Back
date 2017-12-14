@@ -23,6 +23,7 @@ class cError {
 
     /**
      * @param string
+     *      The error to send to the client
      * @return string
      *      Error 400
      */
@@ -32,11 +33,13 @@ class cError {
     }
 
     /**
+     * @param string
+     *      The error to send to the client
      * @return string
      *      Error 404
      */
-    public static function _404(): string {
+    public static function _404(string $error): string {
         http_response_code(404);
-        return json_encode("");
+        return json_encode($error);
     }
 }

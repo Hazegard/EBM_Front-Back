@@ -14,12 +14,12 @@ require ('Route.php');
  */
 class Router {
 
-
     const GET    = "GET";
     const POST   = 'POST';
     const PATCH  = 'PATCH';
     const PUT    = 'PUT';
     const DELETE = 'DELETE';
+
     /**
      * Singleton Pattern to prevent class from being instantiated more thane once
      */
@@ -39,7 +39,7 @@ class Router {
     /**
      *  Add a new route to the Router
      * @param string $regex
-     *      The regex to handle (ex: '~^/arcticles/?$~' to handle /api/v1/articles/
+     *      The regex to handle (ex: '~^/articles/?$~' to handle /api/v1/articles/
      * @param string $method
      *      The request method to handle (
      * @param callable $callback

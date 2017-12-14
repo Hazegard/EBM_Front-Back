@@ -17,7 +17,6 @@ require('Model/Paragraphs.php');
  */
 class Controller {
 
-    // TODO : singleton ?
     function __construct()     {
     }
 

@@ -30,7 +30,7 @@ class Article {
      * @param int $id
      *      The id of the paragraph
      * @return array
-     *      array of articles
+     *      Associative array of the article
      */
     public static function queryArticleById(int $id): array {
         if (empty($id)) {
@@ -68,7 +68,7 @@ class Article {
      * @param int $id
      *      The id of the article to update
      * @param string $title
-     *      The new title of the
+     *      The new title of the article
      * @return array
      */
     public static function queryUpdateArticleById(int $id, string $title): array{
