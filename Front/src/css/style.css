@@ -11,7 +11,7 @@
     margin-left: 10px;
 }
 
-#paragraphs > div > p > .btn {
+#paragraphs div > p > .btn {
     float: right;
     padding: 0;
     padding-left: 6px;
