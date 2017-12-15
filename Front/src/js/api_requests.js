@@ -41,7 +41,8 @@ editParagraphs = (article) => {
             switchValue($(this));
         });
 
-    let emptyP = $('<p class="lead text-justify"></p><br>').append(input);
+    // TODO : Faire quelque chose pour les boutons qui se chevauchent. Espace insécable ? Div ?
+    let emptyP = $('<p class="lead text-justify">' + '[À ajouter]' + '</p>').append(input);
 
     let item = $('<div class="container"><h1 class="display-4">' + article.TITLE + '</h1>' +
         '<hr class="my-2"></div>').append(emptyP);
@@ -131,7 +132,8 @@ addTxtArea = (paragraph, id) => {
 
 
                     switchValue($(this).parent().prev().children());
-                    $(this).replaceWith(par);
+                    $(this).parent().after(par);
+                    $(this).parent().remove();
                 });
             } else {
                 switchValue($(this).parent().prev().children());
