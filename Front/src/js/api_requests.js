@@ -139,12 +139,10 @@ addTxtArea = (paragraph, id) => {
             }
         }
         if (context.which === 0) {
-            console.log($(this).parent().prev().children());
             switchValue($(this).parent().prev().children());
             $(this).parent().remove();
         }
     });
-    console.log(paragraph.children());
     paragraph.next().is('div') ? paragraph.next().remove() : paragraph.after(champ);
 };
 
@@ -157,6 +155,6 @@ switchValue = (button) => {
             button.val('+');
             break;
         default:
-            console.log('Pas un bouton !')
+            console.log('Pas un bouton !');
     }
 };
