@@ -13,8 +13,9 @@
 
 #paragraphs div > p > .btn {
     float: right;
+    font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     padding: 0;
     padding-left: 6px;
     padding-right: 6px;
-    margin-top: 8px;
+    margin-top: 6px;
 }

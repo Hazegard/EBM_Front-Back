@@ -37,7 +37,8 @@ editParagraphs = (article) => {
 
     let input = $('<input type="button" value="+" class="btn btn-outline-secondary btn-sm">')
         .on("click", function () {
-            addTxtArea($(this).parent(), article.ID)
+            addTxtArea($(this).parent(), article.ID);
+            switchValue($(this));
         });
 
     let emptyP = $('<p class="lead text-justify"></p><br>').append(input);
@@ -49,7 +50,8 @@ editParagraphs = (article) => {
         let par = $('<p class="lead text-justify">' + para.CONTENT + '</p>');
 
         input.clone().on("click", function () {
-            addTxtArea($(this).parent(), article.ID)
+            addTxtArea($(this).parent(), article.ID);
+            switchValue($(this));
         }).appendTo(par);
 
         item.append(par);
@@ -100,24 +102,25 @@ deleteArticle = (id) => {
 };
 
 addTxtArea = (paragraph, id) => {
-    let champ = $(' <div class="form-group">' +
-        '<textarea class="form-control" rows="5" id="comment"></textarea>' +
-        '</div> ');
-    champ.on("keypress", "textarea", function (contexte) {
-        if (contexte.which === 13) {
-            let contenu = $(this).val();
-            if (contenu !== "") {
+    let champ = $('<div class="form-group">' +
+        '<textarea class="form-control" rows="5"></textarea>' +
+        '</div>');
+
+    champ.on("keypress", "textarea", function (context) {
+        if (context.which === 13) {
+            let content = $(this).val();
+
+            if (content !== "") {
                 $.ajax({
                     type: 'POST',
                     url: '/api/v1/articles/' + id + '/paragraphs',
                     data: JSON.stringify({
-                        CONTENT: contenu,
+                        CONTENT: content,
                         //TODO : POSITION
                     }),
                     dataType: 'json',
                     contentType: 'application/json'
                 }).done((data) => {
-                    console.log(data);
 
                     let input = $('<input type="button" value="+" class="btn btn-outline-secondary btn-sm">')
                         .on("click", function () {
@@ -126,11 +129,34 @@ addTxtArea = (paragraph, id) => {
 
                     let par = $('<p class="lead text-justify">' + data.CONTENT + '</p>').append(input);
 
+
+                    switchValue($(this).parent().prev().children());
                     $(this).replaceWith(par);
                 });
-            } //TODO : faire le else
+            } else {
+                switchValue($(this).parent().prev().children());
+                $(this).parent().remove();
+            }
+        }
+        if (context.which === 0) {
+            console.log($(this).parent().prev().children());
+            switchValue($(this).parent().prev().children());
+            $(this).parent().remove();
         }
     });
-    // TODO : à refaire, ne marche plus avec after. Il faut ne pas générer plus d'un textarea et gérer le 2e cas
-    paragraph.children().length === 1 ? paragraph.after(champ) : 0;
+    console.log(paragraph.children());
+    paragraph.next().is('div') ? paragraph.next().remove() : paragraph.after(champ);
+};
+
+switchValue = (button) => {
+    switch (button.val()) {
+        case '+':
+            button.val('-');
+            break;
+        case '-':
+            button.val('+');
+            break;
+        default:
+            console.log('Pas un bouton !')
+    }
 };
