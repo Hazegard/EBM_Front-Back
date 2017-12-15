@@ -42,7 +42,7 @@ editParagraphs = (article) => {
         });
 
     // TODO : Faire quelque chose pour les boutons qui se chevauchent. Espace insécable ? Div ?
-    let emptyP = $('<p class="lead text-justify">' + '[À ajouter]' + '</p>').append(input);
+    let emptyP = $('<p class="text-justify"><i>[Ajouter un premier paragraphe]</i></p>').append(input);
 
     let item = $('<div class="container"><h1 class="display-4">' + article.TITLE + '</h1>' +
         '<hr class="my-2"></div>').append(emptyP);
@@ -125,23 +125,23 @@ addTxtArea = (paragraph, id) => {
 
                     let input = $('<input type="button" value="+" class="btn btn-outline-secondary btn-sm">')
                         .on("click", function () {
-                            addTxtArea($(this).parent(), id)
+                            addTxtArea($(this).parent(), id);
+                            switchValue($(this));
                         });
 
                     let par = $('<p class="lead text-justify">' + data.CONTENT + '</p>').append(input);
 
-
-                    switchValue($(this).parent().prev().children());
+                    switchValue($(this).parent().prev().children("input"));
                     $(this).parent().after(par);
                     $(this).parent().remove();
                 });
             } else {
-                switchValue($(this).parent().prev().children());
+                switchValue($(this).parent().prev().children("input"));
                 $(this).parent().remove();
             }
         }
         if (context.which === 0) {
-            switchValue($(this).parent().prev().children());
+            switchValue($(this).parent().prev().children("input"));
             $(this).parent().remove();
         }
     });
