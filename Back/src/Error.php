@@ -13,12 +13,14 @@ class cError {
     private function __construct() {}
 
     /**
+     * @param string
+     *      The error to send to the client
      * @return string
      *      Error 204
      */
-    public static function _204(): string {
+    public static function _204(string $error): string {
         http_response_code(204);
-        return json_encode("");
+        return json_encode(array("Error"=> $error));
     }
 
     /**
@@ -29,7 +31,7 @@ class cError {
      */
     public static function _400(string $error): string {
         http_response_code(400);
-        return json_encode("Error : ".$error);
+        return json_encode(array("Error"=> $error));
     }
 
     /**
@@ -40,6 +42,6 @@ class cError {
      */
     public static function _404(string $error): string {
         http_response_code(404);
-        return json_encode($error);
+        return json_encode(array("Error"=> $error));
     }
 }

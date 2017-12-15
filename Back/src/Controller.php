@@ -29,7 +29,7 @@ class Controller {
         $articles = Article::queryArticles();
         $paragraph = Paragraphs::queryParagraphs();
         if (is_null($articles)) {
-            return cError::_204();
+            return cError::_204("No articles found");
         }
         http_response_code(200);
         $arts = array();
@@ -74,7 +74,7 @@ class Controller {
         $article = Article::queryArticleById($idArticle);
         $paragraphs = Paragraphs::queryParagraphsByArticleId($idArticle);
         if (empty($article)) {
-            return cError::_204();
+            return cError::_404("No article with the ID ".$idArticle." found");
         }
         $article['CONTENT'] = $paragraphs;
         http_response_code(200);
@@ -88,7 +88,7 @@ class Controller {
     function listParagraphs(): string {
         $paragraph = Paragraphs::queryParagraphs();
         if (empty($paragraph)) {
-            return cError::_204();
+            return cError::_204("");
         }
         http_response_code(200);
         return json_encode($paragraph);
@@ -113,7 +113,7 @@ class Controller {
         }
         $paragraph = Paragraphs::queryParagraphById($id);
         if (empty($paragraph)) {
-            return cError::_204();
+            return cError::_404();
         }
         http_response_code(200);
         return json_encode($paragraph);
@@ -171,8 +171,8 @@ class Controller {
             return cError::_400("POSITION  is missing");
         }
         $query = Paragraphs::queryParagraphByArticleIdAndPosition($articleId, $position);
-        if (empty($query)) {
-            return cError::_404();
+        if (is_null($query)) {
+            return cError::_404("Article not found with ID=".$articleId);
         }
         http_response_code(200);
         return json_encode($query);
@@ -300,12 +300,16 @@ class Controller {
         if(empty($id)){
             return cError::_400("ID  is missing");
         }
+
+        if(empty(Article::queryArticleById($id))){
+            return cError::_404("No article with the ID ".$id." found");
+        }
         if(Article::queryDeleteArticleById($id)){
             http_response_code(200);
-            return json_encode("true");
+            return json_encode(array("Response"=> "Successfully deleted article with ID ".$id));
         } else {
             http_response_code(400);
-            return json_encode("false");
+            return json_encode(array("Response"=> "Failed to delete article with ID ".$id));
         }
     }
 
@@ -326,6 +330,9 @@ class Controller {
         }
         if(empty($id)){
             return cError::_400("ID  is missing");
+        }
+        if(empty(Paragraphs::queryParagraphById($id))){
+            return cError::_404("No paragraph with the ID ".$id." found");
         }
         if(Paragraphs::queryDeleteParagraphById($id)){
             http_response_code(200);

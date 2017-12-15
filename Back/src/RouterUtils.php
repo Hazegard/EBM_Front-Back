@@ -48,7 +48,6 @@ class RouterUtils{
      */
     static function isRouteFound(array $result): bool {
         if (empty($result)) {
-            self::response(cError::_404('No match'));
             return false;
         } else {
             return true;
