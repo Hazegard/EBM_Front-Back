@@ -60,7 +60,7 @@ class RouterUtils{
      * @param array $result
      *      [callable, $params]
      * @param array $data
-     *      Array corresponding to the json of the body of the incoming request
+     *      Associative array containing parameters (URL_PARAMS) of the url and json of the body (BODY_DATA)
      */
     static function executeRoute(array $result, array $data) {
         $args = array(self::URL_PARAMS => $result[1], self::BODY_DATA => $data);
