@@ -47,7 +47,7 @@ editParagraphs = (article) => {
         '<hr class="my-2"></div>').append(emptyP);
 
     article.CONTENT.map((para) => {
-        let par = $('<p class="lead text-justify">' + para.CONTENT + '</p>');
+        let par = $('<p class="lead text-justify">' + para.CONTENT + '</p>').css({'cursor': 'pointer'}).click(function () { editPara(para, $(this)) } );
 
         input.clone().on("click", function () {
             addTxtArea($(this).parent(), article.ID);
@@ -163,4 +163,38 @@ switchValue = (button) => {
         default:
             console.log('Pas un bouton !');
     }
+};
+
+editPara = (paragraph, paraHTML) => {
+    console.log(paragraph);
+    let champ = $('<textarea class="form-control" rows="5">' + paragraph.CONTENT + '</textarea>');
+    console.log(paraHTML);
+    paraHTML.replaceWith(champ);
+    champ.on('keypress', function (context) {
+        if (context.which === 13) {
+            let content = $(this).val();
+
+            if (content !== "") {
+                $.ajax({
+                    type: 'PATCH',
+                    url: '/api/v1/paragraphs/' + paragraph.ID,
+                    data: JSON.stringify({
+                        CONTENT: content,
+                    }),
+                    dataType: 'json',
+                    contentType: 'application/json'
+                }).done((data) => {
+                    let newPara = $('<p class="lead text-justify">' + data.CONTENT + '</p>').css({'cursor': 'pointer'})
+                        .click(function () { editPara(data, $(this)) } );
+                    $(this).replaceWith(newPara);
+                });
+            } else {
+                $(this).remove();
+                // TODO : deletePara
+            }
+        }
+        if (context.which === 0) {
+            $(this).replaceWith(paraHTML.click(function () { editPara(paragraph, paraHTML) } ));
+        }
+    })
 };
