@@ -325,6 +325,7 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
         })
 
 
+    // TODO Revoir APIDOC
     /**
      * @api {get} /api/v1/articles/:idA/paragraphs Request all paragraphs of the article
      * @apiName GetParagraphs

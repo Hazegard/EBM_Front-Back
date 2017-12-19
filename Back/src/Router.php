@@ -74,7 +74,7 @@ class Router {
             }
         }
         /**
-         * If no route is found, return null
+         * If no route is found, return empty array
          */
         return array();
     }

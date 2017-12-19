@@ -138,7 +138,7 @@ class Controller {
         }
         $query = Paragraphs::queryParagraphsByArticleId($articleId);
         if (empty($query)) {
-            return cError::_404();
+            return cError::_404("Paragraph not found");
         }
         http_response_code(200);
         return json_encode($query);
@@ -162,7 +162,7 @@ class Controller {
         if(is_numeric($position)){
             $position = intval /* //TODO Change to check only integer and not floats */($position);
         } else {
-            return cError::_400("The POSITION must be a float/ingeter ??"); //TODO Changer pour float?
+            return cError::_400("The POSITION must be a integer ??");
         }
         if (empty($articleId)) {
             return cError::_400("ARTICLE_ID  is missing");
@@ -183,12 +183,12 @@ class Controller {
      *      Id of the paragraph to update
      * @param string $newContent
      *      Content of the paragraph
-     * @param float $newPosition
+     * @param int $newPosition
      * @param int $idArticle
      * @return string
      *      Message to inform if the request was succeeded
      */
-    function fullUpdateParagraphWithId(int $idPara, string $newContent, float $newPosition, int $idArticle): string {
+    function fullUpdateParagraphWithId(int $idPara, string $newContent, int $newPosition, int $idArticle): string {
         if(is_numeric($idPara)){
             $idPara = intval /* //TODO Change to check only integer and not floats */($idPara);
         } else {
@@ -208,13 +208,14 @@ class Controller {
         }
         $query = Paragraphs::queryUpdateFullParagraphWithId($idPara, $newContent, $newPosition, $idArticle);
         if (is_null($query)) {
-            return cError::_204();
+            return cError::_204("error");
         }
         http_response_code(200);
         return json_encode(["message" => "updated successfully"]);
     }
 
     /**
+     * //TODO TO Delete
      * @param $args
      *      Incoming arguments
      * @return string
@@ -223,12 +224,18 @@ class Controller {
     function partialUpdateParagraphWithId($args): string {
         $data = $args[RouterUtils::BODY_DATA];
         $params = $args[RouterUtils::URL_PARAMS];
-        $newPosition = array_key_exists(Paragraphs::POSITION, $data)? $data[Paragraphs::POSITION]:0;
-        $idArticle = array_key_exists(Paragraphs::IDARTICLE, $data)? $data[Paragraphs::IDARTICLE]:-1;
-        $idArticle = ctype_digit($idArticle)?intval($idArticle):0;
-        $newContent = array_key_exists(Paragraphs::CONTENT, $data)? $data[Paragraphs::CONTENT]:'';
+        $newPosition = array_key_exists(Paragraphs::POSITION, $data) ? $data[Paragraphs::POSITION] : -1;
+
+        $idArticle = array_key_exists(Paragraphs::IDARTICLE, $data) ? $data[Paragraphs::IDARTICLE] : -1;
+        $idArticle = ctype_digit($idArticle) ? intval($idArticle) : -1;
+
+        $newContent = array_key_exists(Paragraphs::CONTENT, $data) ? $data[Paragraphs::CONTENT] : '';
+
         $idPara = $params[0];
-        $idPara = ctype_digit($idPara)?intval($idPara):0;
+        $idPara = ctype_digit($idPara) ? intval($idPara) : 0;
+        if($newPosition === -1 && $idArticle === -1 && $newContent===''){
+            return cError::_400("No valid information sent");
+        }
         return json_encode(Paragraphs::queryUpdateParagraphWithId($idPara, $newContent,$newPosition,$idArticle));
     }
 
@@ -263,7 +270,7 @@ class Controller {
         $params = $args[RouterUtils::URL_PARAMS];
         $idArticle = $params[0];
         $position = array_key_exists(Paragraphs::POSITION, $data)?$data[Paragraphs::POSITION]:0;
-        $position = is_numeric($position)? floatval($position):-1;
+        $position = is_numeric($position)? intval($position):-1;
         $newContent = array_key_exists(Paragraphs::CONTENT, $data)? $data[Paragraphs::CONTENT] : '';
         if(is_numeric($idArticle)){
             $idArticle = intval /* //TODO Change to check only integer and not floats */($idArticle);

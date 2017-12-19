@@ -79,14 +79,14 @@ class Paragraphs {
      *      The id of the paragraph to update
      * @param string $newContent
      *      The new content of the paragraph
-     * @param float $newPos
+     * @param int $newPos
      *      The position of the new paragraph
      * @param int $idArticle
      *      The id of the article associated to the paragraph
      * @return array
      *      Updated paragraph
      */
-    public static function queryUpdateParagraphWithId(int $idPara, string $newContent, float $newPos, int $idArticle) {
+    public static function queryUpdateParagraphWithId(int $idPara, string $newContent, int $newPos, int $idArticle) {
         if (empty($idPara)) {
             return null;
         }
@@ -96,12 +96,13 @@ class Paragraphs {
             $sql = $sql." ".Paragraphs::CONTENT."=? , ";
             $params[] = $newContent;
         }
-        if($newPos!==0) {
+        if($newPos!==-1) {
             $sql = $sql . " ".Paragraphs::POSITION."=? , ";
             $params[] = $newPos;
+            self::updatePositionParagraphsOnUpdate($idPara, $newPos);
         }
-        if($idArticle!==0) {
-            $sql = $sql . " ".Paragraphs::POSITION."=? , ";
+        if($idArticle!==-1) {
+            $sql = $sql . " ".Paragraphs::IDARTICLE."=? , ";
             $params[] = $idArticle;
         }
         $sql = substr($sql,0,strlen($sql)-2);
@@ -114,12 +115,12 @@ class Paragraphs {
     /**
      * @param int $idPara
      * @param string $newContent
-     * @param float $newPos
+     * @param int $newPos
      * @param int $idArticle
      * @return int|null
      */
     //TODO Virer la fonction?
-    public static function queryUpdateFullParagraphWithId(int $idPara, string $newContent, float $newPos, int $idArticle){
+    public static function queryUpdateFullParagraphWithId(int $idPara, string $newContent, int $newPos, int $idArticle){
         $sql = "UPDATE PARAGRAPHES SET ".self::CONTENT."=? AND ".self::POSITION."=? AND ".self::IDARTICLE."=? WHERE ID=?";
         $params = [$newContent, $newPos, $idArticle, $idPara];
         return DBAccess::getInstance()->queryUpdate($sql,$params);
@@ -144,17 +145,19 @@ class Paragraphs {
      *      The id of the article
      * @param string $newContent
      *      The content of the new paragraph
-     * @param float|null $position
+     * @param int|null $position
      *      The position where the paragraph must be inserted
      * @return array
      *      Array of the new paragraph if insertion succeed, empty array if failed
      */
-    public static function insertParagraphInArticle(int $idArticle, string $newContent, float $position = null): array {
+    public static function insertParagraphInArticle(int $idArticle, string $newContent, int $position): array {
         if ($position===0) {
             $position = ceil(self::getCurrentMaxPositionOfArticle($idArticle)[self::POSITION]);
             empty($position) ?
                 $position = 1 :
                 $position += 1;
+        } else {
+            self::updatePositionParagraphsOnInsert($position, $idArticle);
         }
 
         if (DBAccess::getInstance()->queryInsert(
@@ -177,4 +180,38 @@ class Paragraphs {
         return DBAccess::getInstance()->queryDelete($sql, [$id]);
     }
 
+
+    /**
+     * This function will update all position of other paragraphs when an update of position occurred
+     * @param $idPara
+     *      The id of the current paragraph
+     * @param $newPosition
+     *      The new position of the article
+     */
+    public static function updatePositionParagraphsOnUpdate($idPara, $newPosition) {
+        $para = self::queryParagraphById($idPara);
+        $idArticle = $para[self::IDARTICLE];
+        $currentPos = $para[self::POSITION];
+        echo "new : ".$newPosition;
+        echo "old : ".$currentPos;
+        echo "art : ".$idArticle;
+        if ($newPosition == 0 || $idPara == 0) {
+            return;
+        }
+        if ($newPosition > $currentPos) {
+            $sql = "UPDATE PARAGRAPHES SET ".self::POSITION." = ".self::POSITION." - 1 ".
+            "WHERE ".self::POSITION." <=? AND ".self::POSITION." >? AND ".self::IDARTICLE." = ?";
+        } else {
+            $sql = "UPDATE PARAGRAPHES SET ".self::POSITION." = ".self::POSITION." + 1 ".
+            "WHERE ".self::POSITION." >=? AND ".self::POSITION." <? AND ".self::IDARTICLE." = ?";
+        }
+        echo $sql;
+        DBAccess::getInstance()->queryUpdate($sql, [$newPosition, $currentPos, $idArticle]);
+    }
+
+    public static function updatePositionParagraphsOnInsert($newPosition, $idArticle) {
+        $sql = "UPDATE PARAGRAPHES SET ".self::POSITION."=".self::POSITION." + 1 ".
+            "WHERE ".self::POSITION. " >=? AND ".self::IDARTICLE." =?";
+        DBAccess::getInstance()->queryUpdate($sql, [$newPosition, $idArticle]);
+    }
 }
