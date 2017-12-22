@@ -43,7 +43,7 @@ editParagraphs = (article) => {
             switchValue($(this));
         });
 
-    let emptyP = $('<p class="text-justify"><i>[Ajouter un premier paragraphe]</i></p>').append(input);
+    let emptyP = $('<p class="text-justify"><i>Ajoutez un premier paragraphe en cliquant sur le bouton "+" à droite ==></i></p>').append(input);
 
     let item = $('<div class="container"><h1 class="display-4">' + article.TITLE + '</h1>' +
         '<hr class="my-2"></div>').append(emptyP);
