@@ -251,7 +251,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n[\n    {\n        \"ID\": 1,\n        \"CONTENT\": \"Lorem ipsum dolor sit amet.\",\n        \"POSITION\": 1,\n        \"ARTICLE_ID\": 1\n    },\n    {\n        \"ID\": 2,\n        \"CONTENT\": \"Ut enim ad minim veniam.\",\n        \"POSITION\": 2,\n        \"ARTICLE_ID\": 1\n    },\n    ...\n]",
+          "content": "HTTP/1.1 200 OK\n{\n        \"ID\": 1,\n        \"CONTENT\": \"Lorem ipsum dolor sit amet.\",\n        \"POSITION\": 1,\n        \"ARTICLE_ID\": 1\n}",
           "type": "json"
         }
       ]
@@ -411,7 +411,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "/api/v1/articles/:idA/paragraphs",
-    "title": "Add a new paragraph of the article",
+    "title": "Add a new paragraph in the article",
     "name": "AddParagraph",
     "group": "Paragraph",
     "parameter": {
@@ -419,31 +419,24 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "ID",
-            "description": "<p>Optional Id of the paragraph patched</p>"
-          },
-          {
-            "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "CONTENT",
-            "description": "<p>Optional Content of the paragraph patched</p>"
+            "description": "<p>Content of the paragraph patched</p>"
           },
           {
             "group": "Parameter",
             "type": "Number",
             "optional": false,
             "field": "POSITION",
-            "description": "<p>Optional position of the paragraph in the article</p>"
+            "description": "<p>Optional position of the paragraph in the article (if empty, the paragraph is added at the end of the article)</p>"
           },
           {
             "group": "Parameter",
             "type": "Number",
             "optional": false,
             "field": "ARTICLE_ID",
-            "description": "<p>Optional Id of the article associated to the paragraph</p>"
+            "description": "<p>Id of the article associated to the paragraph</p>"
           }
         ]
       }
@@ -456,14 +449,14 @@ define({ "api": [
             "type": "Number",
             "optional": false,
             "field": "ID",
-            "description": "<p>Id of the article patched</p>"
+            "description": "<p>Id of the article</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
             "field": "TITLE",
-            "description": "<p>Title of the article patched</p>"
+            "description": "<p>Title of the article</p>"
           },
           {
             "group": "Success 200",
@@ -597,7 +590,7 @@ define({ "api": [
     "type": "patch",
     "url": "/api/v1/paragraphs/:id",
     "title": "Modify a paragraph",
-    "name": "Patchparagraph",
+    "name": "PatchParagraph",
     "group": "Paragraph",
     "parameter": {
       "fields": {
@@ -682,7 +675,7 @@ define({ "api": [
     "type": "get",
     "url": "/api/v1/articles/:idA/paragraphs",
     "title": "Request all paragraphs of the article",
-    "name": "GetParagraphs",
+    "name": "GetParagraphsOfArticle",
     "group": "Paragraphs",
     "success": {
       "fields": {
@@ -692,14 +685,14 @@ define({ "api": [
             "type": "Number",
             "optional": false,
             "field": "ID",
-            "description": "<p>Id of the article patched</p>"
+            "description": "<p>Id of the paragraph</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "TITLE",
-            "description": "<p>Title of the article patched</p>"
+            "field": "CONTENT",
+            "description": "<p>Content of the paragraph</p>"
           },
           {
             "group": "Success 200",

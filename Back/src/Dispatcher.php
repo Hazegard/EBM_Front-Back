@@ -21,7 +21,7 @@ $controller = new Controller();
  * @apiGroup AllArticles
  *
  * @apiSuccess  {Number}    ID      Id of the article
- * @apiSuccess {String}     TITLE   Title of the article
+ * @apiSuccess  {String}    TITLE   Title of the article
  *
  * @apiSuccessExample   Success-Response:
  *      HTTP/1.1 200 OK
@@ -42,13 +42,13 @@ $controller = new Controller();
  * @apiName GetArticlesWithParagraphs
  * @apiGroup AllArticles
  *
- * @apiSuccess  {Number}    ID      Id of the article
- * @apiSuccess  {String}    TITLE   Title of the article
- * @apiSuccess  {Object[]}    CONTENT List of paragraphs
- * @apiSuccess {Number}     CONTENT.ID      Id of the article patched
- * @apiSuccess {String}     CONTENT.TITLE   Title of the article patched
- * @apiSuccess {Number}     CONTENT.POSITION    The position of the paragraph in the article
- * @apiSuccess {Number}     CONTENT.ARTICLE_ID  The Id of the article associated to the paragraph
+ * @apiSuccess  {Number}    ID                  Id of the article
+ * @apiSuccess  {String}    TITLE               Title of the article
+ * @apiSuccess  {Object[]}  CONTENT             List of paragraphs
+ * @apiSuccess  {Number}    CONTENT.ID          Id of the article patched
+ * @apiSuccess  {String}    CONTENT.TITLE       Title of the article patched
+ * @apiSuccess  {Number}    CONTENT.POSITION    The position of the paragraph in the article
+ * @apiSuccess  {Number}    CONTENT.ARTICLE_ID  The Id of the article associated to the paragraph
  *
  * @apiSuccessExample   Success-Response:
  *      HTTP/1.1 200 OK
@@ -103,10 +103,10 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
      * @apiName AddArticle
      * @apiGroup AllArticles
      *
-     * @apiParam {String}       TITLE The Title of article to create
+     * @apiParam    {String}    TITLE   The Title of article to create
      *
-     * @apiSuccess {Number}     ID      Id of the article created
-     * @apiSuccess {String}     TITLE   Title of the article created
+     * @apiSuccess  {Number}    ID      Id of the article created
+     * @apiSuccess  {String}    TITLE   Title of the article created
      *
      * @apiSuccessExample   Success-Response:
      *      HTTP/1.1 201 OK
@@ -114,7 +114,6 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
      *          "ID": 1,
      *          "TITLE" : "Lorem Ipsum"
      *      }
-     *
      */
     ->addRoute('~^/articles/?$~', Router::POST,
         function ($args) use ($controller) {
@@ -126,8 +125,8 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
      * @apiName GetArticle
      * @apiGroup Article
      *
-     * @apiSuccess {Number}     ID      Id of the article
-     * @apiSuccess {String}     TITLE   Title of the article
+     * @apiSuccess  {Number}    ID      Id of the article
+     * @apiSuccess  {String}    TITLE   Title of the article
      *
      * @apiSuccessExample   Success-Response:
      *      HTTP/1.1 201 OK
@@ -135,8 +134,8 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
      *          "ID": 1,
      *          "TITLE" : "Lorem Ipsum"
      *      }
-     * @apiError ArticleNotFound No article with the ID <code>ID</code> found
      *
+     * @apiError ArticleNotFound No article with the ID <code>ID</code> found
      */
     ->addRoute('~^/articles/(\d+)/?$~', Router::GET,
         function ($args) use ($controller) {
@@ -148,13 +147,14 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
      * @apiName DeleteArticle
      * @apiGroup Article
      *
-     * @apiSuccess {Number}     ID      Id of the deleted article
+     * @apiSuccess  {Number}    ID      Id of the deleted article
      *
      * @apiSuccessExample  201 Success-Response:
      *      HTTP/1.1 201 OK
      *      {
      *          "Response: "Successfully deleted article with ID <code>ID</code>",
      *      }
+     *
      * @apiError ArticleNotFound No article with the ID <code>ID</code> found
      *
      * @apiErrorExample {json} Error-Response:
@@ -177,10 +177,10 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
      * @apiGroup Article
      *
      *
-     * @apiParam {String}       TITLE   The Title of article to patch
+     * @apiParam    {String}    TITLE   The Title of article to patch
      *
-     * @apiSuccess {Number}     ID      Id of the article patched
-     * @apiSuccess {String}     TITLE   Title of the article patched
+     * @apiSuccess  {Number}    ID      Id of the article patched
+     * @apiSuccess  {String}    TITLE   Title of the article patched
      *
      * @apiSuccessExample   Success-Response:
      *      HTTP/1.1 201 OK
@@ -200,10 +200,10 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
      * @apiName GetParagraphs
      * @apiGroup AllParagraphs
      *
-     * @apiSuccess  {Number}    ID      Id of the paragraph
-     * @apiSuccess {String}     CONTENT   Content of the article
-     * @apiSuccess {Number}     POSITION    The position of the paragraph in the article
-     * @apiSuccess {Number}     ARTICLE_ID  The Id of the article associated to the paragraph
+     * @apiSuccess  {Number}    ID          Id of the paragraph
+     * @apiSuccess  {String}    CONTENT     Content of the article
+     * @apiSuccess  {Number}    POSITION    The position of the paragraph in the article
+     * @apiSuccess  {Number}    ARTICLE_ID  The Id of the article associated to the paragraph
      *
      *
      * @apiSuccessExample   Success-Response:
@@ -234,29 +234,20 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
      * @apiName GetParagraphs
      * @apiGroup AllParagraphs
      *
-     * @apiSuccess  {Number}    ID      Id of the paragraph
-     * @apiSuccess {String}     CONTENT   Content of the article
-     * @apiSuccess {Number}     POSITION    The position of the paragraph in the article
-     * @apiSuccess {Number}     ARTICLE_ID  The Id of the article associated to the paragraphe
+     * @apiSuccess  {Number}    ID          Id of the paragraph
+     * @apiSuccess  {String}    CONTENT     Content of the article
+     * @apiSuccess  {Number}    POSITION    The position of the paragraph in the article
+     * @apiSuccess  {Number}    ARTICLE_ID  The Id of the article associated to the paragraphe
      *
      *
      * @apiSuccessExample   Success-Response:
      *      HTTP/1.1 200 OK
-     *      [
-     *          {
+     *      {
      *              "ID": 1,
      *              "CONTENT": "Lorem ipsum dolor sit amet.",
      *              "POSITION": 1,
      *              "ARTICLE_ID": 1
-     *          },
-     *          {
-     *              "ID": 2,
-     *              "CONTENT": "Ut enim ad minim veniam.",
-     *              "POSITION": 2,
-     *              "ARTICLE_ID": 1
-     *          },
-     *          ...
-     *      ]
+     *      }
      */
     ->addRoute('~^/paragraphs/(\d+)/?$~', Router::GET,
         function ($args) use ($controller) {
@@ -269,13 +260,14 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
      * @apiName DeleteParagraph
      * @apiGroup Paragraph
      *
-     * @apiSuccess {Number}     ID      Id of the deleted paragraph
+     * @apiSuccess  {Number}    ID          Id of the deleted paragraph
      *
      * @apiSuccessExample  201 Success-Response:
      *      HTTP/1.1 201 OK
      *      {
      *          "Response: "Successfully deleted paragraph with ID <code>ID</code>",
      *      }
+     *
      * @apiError ArticleNotFound No paragraph with the ID <code>ID</code> found
      *
      * @apiErrorExample {json} Error-Response:
@@ -295,19 +287,19 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
 
     /**
      * @api {patch} /api/v1/paragraphs/:id Modify a paragraph
-     * @apiName Patchparagraph
+     * @apiName PatchParagraph
      * @apiGroup Paragraph
      *
-     * @apiParam {Number}     ID      Optional Id of the paragraph patched
-     * @apiParam {String}     CONTENT   Optional Content of the paragraph patched
-     * @apiParam {Number}     POSITION    Optional position of the paragraph in the article
-     * @apiParam {Number}     ARTICLE_ID  Optional Id of the article associated to the paragraph
+     * @apiParam    {Number}     ID             Optional Id of the paragraph patched
+     * @apiParam    {String}     CONTENT        Optional Content of the paragraph patched
+     * @apiParam    {Number}     POSITION       Optional position of the paragraph in the article
+     * @apiParam    {Number}     ARTICLE_ID     Optional Id of the article associated to the paragraph
      *
      *
-     * @apiSuccess {Number}     ID      Id of the article patched
-     * @apiSuccess {String}     TITLE   Title of the article patched
-     * @apiSuccess {Number}     POSITION    The position of the paragraph in the article
-     * @apiSuccess {Number}     ARTICLE_ID  The Id of the article associated to the paragraph
+     * @apiSuccess {Number}     ID              Id of the article patched
+     * @apiSuccess {String}     TITLE           Title of the article patched
+     * @apiSuccess {Number}     POSITION        The position of the paragraph in the article
+     * @apiSuccess {Number}     ARTICLE_ID      The Id of the article associated to the paragraph
      *
      * @apiSuccessExample   Success-Response:
      *      HTTP/1.1 201 OK
@@ -325,17 +317,16 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
         })
 
 
-    // TODO Revoir APIDOC
     /**
      * @api {get} /api/v1/articles/:idA/paragraphs Request all paragraphs of the article
-     * @apiName GetParagraphs
+     * @apiName GetParagraphsOfArticle
      * @apiGroup Paragraphs
      *
      *
-     * @apiSuccess {Number}     ID      Id of the article patched
-     * @apiSuccess {String}     TITLE   Title of the article patched
-     * @apiSuccess {Number}     POSITION    The position of the paragraph in the article
-     * @apiSuccess {Number}     ARTICLE_ID  The Id of the article associated to the paragraph
+     * @apiSuccess  {Number}    ID          Id of the paragraph
+     * @apiSuccess  {String}    CONTENT     Content of the paragraph
+     * @apiSuccess  {Number}    POSITION    The position of the paragraph in the article
+     * @apiSuccess  {Number}    ARTICLE_ID  The Id of the article associated to the paragraph
      *
      * @apiSuccessExample   Success-Response:
      *      HTTP/1.1 201 OK
@@ -357,19 +348,18 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
 
 
     /**
-     * @api {post} /api/v1/articles/:idA/paragraphs Add a new paragraph of the article
+     * @api {post} /api/v1/articles/:idA/paragraphs Add a new paragraph in the article
      * @apiName AddParagraph
      * @apiGroup Paragraph
      *
-     * @apiParam {Number}     ID      Optional Id of the paragraph patched
-     * @apiParam {String}     CONTENT   Optional Content of the paragraph patched
-     * @apiParam {Number}     POSITION    Optional position of the paragraph in the article
-     * @apiParam {Number}     ARTICLE_ID  Optional Id of the article associated to the paragraph
+     * @apiParam    {String}    CONTENT     Content of the paragraph patched
+     * @apiParam    {Number}    POSITION    Optional position of the paragraph in the article (if empty, the paragraph is added at the end of the article)
+     * @apiParam    {Number}    ARTICLE_ID  Id of the article associated to the paragraph
      *
-     * @apiSuccess {Number}     ID      Id of the article patched
-     * @apiSuccess {String}     TITLE   Title of the article patched
-     * @apiSuccess {Number}     POSITION    The position of the paragraph in the article
-     * @apiSuccess {Number}     ARTICLE_ID  The Id of the article associated to the paragraph
+     * @apiSuccess  {Number}    ID          Id of the article
+     * @apiSuccess  {String}    TITLE       Title of the article
+     * @apiSuccess  {Number}    POSITION    The position of the paragraph in the article
+     * @apiSuccess  {Number}    ARTICLE_ID  The Id of the article associated to the paragraph
      *
      * @apiSuccessExample   Success-Response:
      *      HTTP/1.1 201 OK
@@ -394,10 +384,10 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
      * @apiName GetParagraph
      * @apiGroup Paragraph
      *
-     * @apiSuccess {Number}     ID      Id of the article patched
-     * @apiSuccess {String}     TITLE   Title of the article patched
-     * @apiSuccess {Number}     POSITION    The position of the paragraph in the article
-     * @apiSuccess {Number}     ARTICLE_ID  The Id of the article associated to the paragraph
+     * @apiSuccess  {Number}    ID          Id of the article patched
+     * @apiSuccess  {String}    TITLE       Title of the article patched
+     * @apiSuccess  {Number}    POSITION    The position of the paragraph in the article
+     * @apiSuccess  {Number}    ARTICLE_ID  The Id of the article associated to the paragraph
      *
      * @apiSuccessExample   Success-Response:
      *      HTTP/1.1 201 OK

@@ -17,7 +17,7 @@ apiDoc
   - [Modify an article](#modify-an-article)
   
 - [Paragraph](#paragraph)
-  - [Add a new paragraph of the article](#add-a-new-paragraph-of-the-article)
+  - [Add a new paragraph in the article](#add-a-new-paragraph-in-the-article)
   - [Delete a paragraph](#delete-a-paragraph)
   - [Get the pos-ian paragraph of the article](#get-the-pos-ian-paragraph-of-the-article)
   - [Modify a paragraph](#modify-a-paragraph)
@@ -345,7 +345,7 @@ HTTP/1.1 201 OK
 
 # Paragraph
 
-## Add a new paragraph of the article
+## Add a new paragraph in the article
 [Back to top](#top)
 
 
@@ -360,10 +360,9 @@ HTTP/1.1 201 OK
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
-| ID | Number | <p>Optional Id of the paragraph patched</p>|
-| CONTENT | String | <p>Optional Content of the paragraph patched</p>|
-| POSITION | Number | <p>Optional position of the paragraph in the article</p>|
-| ARTICLE_ID | Number | <p>Optional Id of the article associated to the paragraph</p>|
+| CONTENT | String | <p>Content of the paragraph patched</p>|
+| POSITION | Number | <p>Optional position of the paragraph in the article (if empty, the paragraph is added at the end of the article)</p>|
+| ARTICLE_ID | Number | <p>Id of the article associated to the paragraph</p>|
 
 ### Success Response
 
@@ -386,8 +385,8 @@ HTTP/1.1 201 OK
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
-| ID | Number | <p>Id of the article patched</p>|
-| TITLE | String | <p>Title of the article patched</p>|
+| ID | Number | <p>Id of the article</p>|
+| TITLE | String | <p>Title of the article</p>|
 | POSITION | Number | <p>The position of the paragraph in the article</p>|
 | ARTICLE_ID | Number | <p>The Id of the article associated to the paragraph</p>|
 
@@ -557,8 +556,8 @@ HTTP/1.1 201 OK
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
-| ID | Number | <p>Id of the article patched</p>|
-| TITLE | String | <p>Title of the article patched</p>|
+| ID | Number | <p>Id of the paragraph</p>|
+| CONTENT | String | <p>Content of the paragraph</p>|
 | POSITION | Number | <p>The position of the paragraph in the article</p>|
 | ARTICLE_ID | Number | <p>The Id of the article associated to the paragraph</p>|
 
