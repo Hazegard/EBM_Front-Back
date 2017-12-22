@@ -59,7 +59,7 @@ class Article {
      * @return bool
      *      Deletion succeeded?
      */
-    public static function queryDeleteArticleById(int $id){
+    public static function queryDeleteArticleById(int $id): bool {
         $sql = "DELETE FROM ARTICLES WHERE ".Article::ID."=?";
         return DBAccess::getInstance()->queryDelete($sql, [$id]);
     }

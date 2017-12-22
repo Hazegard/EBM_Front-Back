@@ -86,7 +86,7 @@ class Paragraphs {
      * @return array
      *      Updated paragraph
      */
-    public static function queryUpdateParagraphWithId(int $idPara, string $newContent, int $newPos, int $idArticle) {
+    public static function queryUpdateParagraphWithId(int $idPara, string $newContent, int $newPos, int $idArticle):array {
         if (empty($idPara)) {
             return null;
         }
@@ -119,7 +119,7 @@ class Paragraphs {
      * @return array
      *      Array that containing the position, or empty array if no paragraphs
      */
-    public static function getCurrentMaxPositionOfArticle(int $idArticle){
+    public static function getCurrentMaxPositionOfArticle(int $idArticle):array {
         return DBAccess::getInstance()->queryOne(
             "SELECT POSITION FROM PARAGRAPHES WHERE " . Paragraphs::IDARTICLE . " = ? ORDER BY "
             . Paragraphs::POSITION . " DESC LIMIT 1", [$idArticle]);
@@ -161,14 +161,14 @@ class Paragraphs {
      * @return bool
      *      Bool confirming the deletion, or note
      */
-    public static function queryDeleteParagraphById(int $id){
+    public static function queryDeleteParagraphById(int $id):bool {
         $sql = "DELETE FROM PARAGRAPHES WHERE ".self::ID."=?";
         return DBAccess::getInstance()->queryDelete($sql, [$id]);
     }
 
 
     /**
-     * This function will update all position of other paragraphs when an update of position occurred
+     * This function will update position of other paragraphs when an update of position occurred
      * @param $idPara
      *      The id of the current paragraph
      * @param $newPosition
@@ -195,6 +195,11 @@ class Paragraphs {
         DBAccess::getInstance()->queryUpdate($sql, [$newPosition, $currentPos, $idArticle]);
     }
 
+    /**
+     * This function will update position of other paragraphs when a paragraph is inserted with specified position
+     * @param $newPosition
+     * @param $idArticle
+     */
     public static function updatePositionParagraphsOnInsert($newPosition, $idArticle) {
         $sql = "UPDATE PARAGRAPHES SET ".self::POSITION."=".self::POSITION." + 1 ".
             "WHERE ".self::POSITION. " >=? AND ".self::IDARTICLE." =?";
