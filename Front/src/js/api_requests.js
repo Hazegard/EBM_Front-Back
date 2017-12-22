@@ -132,23 +132,6 @@ addTxtArea = (paragraph, id, paraPosition) => {
                     dataType: 'json',
                     contentType: 'application/json'
                 }).done(() => {
-                    /*let input = $('<input type="button" value="+" class="btn btn-outline-secondary btn-sm">')
-                        .on("click", function () {
-                            addTxtArea($(this).parent(), id);
-                            switchValue($(this));
-                        });
-
-                    let par = $('<p class="lead text-justify"><span>' + data.CONTENT + '</span></p>').append(input);
-
-                    par.children().css({'cursor': 'pointer'})
-                        .click(function () {
-                            editPara(data, $(this))
-                        });
-
-                    switchValue($(this).parent().prev().children("input"));
-                    $(this).parent().after(par);
-                    $(this).parent().remove();*/
-
                     getParagraphs(id, true);
                 });
             } else {
@@ -199,21 +182,6 @@ editPara = (paragraph, paraHTML, id) => {
                     dataType: 'json',
                     contentType: 'application/json'
                 }).done(() => {
-                    /*let input = $('<input type="button" value="+" class="btn btn-outline-secondary btn-sm">')
-                        .on("click", function () {
-                            addTxtArea($(this).parent(), id);
-                            switchValue($(this));
-                        });
-
-                    let newPara = $('<p class="lead text-justify"><span>' + data.CONTENT + '</span></p>').append(input);
-
-                    newPara.children().css({'cursor': 'pointer'})
-                        .click(function () {
-                            editPara(data, $(this))
-                        });
-
-                    $(this).parent().replaceWith(newPara);*/
-
                     getParagraphs(id, true);
                 });
             } else {
