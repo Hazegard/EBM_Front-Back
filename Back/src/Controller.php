@@ -64,7 +64,7 @@ class Controller {
         $params = $args[RouterUtils::URL_PARAMS];
         $idArticle = $params[0];
         if(is_numeric($idArticle)){
-            $idArticle = intval /* //TODO Change to check only integer and not floats */($idArticle);
+            $idArticle = intval($idArticle);
         } else {
             return cError::_400("The ID must be an integer");
         }
@@ -104,7 +104,7 @@ class Controller {
         $params = $args[RouterUtils::URL_PARAMS];
         $id = $params[0];
         if(is_numeric($id)){
-            $id = intval /* //TODO Change to check only integer and not floats */($id);
+            $id = intval($id);
         } else {
             return cError::_400("The ID must be an integer");
         }
@@ -113,7 +113,7 @@ class Controller {
         }
         $paragraph = Paragraphs::queryParagraphById($id);
         if (empty($paragraph)) {
-            return cError::_404();
+            return cError::_404("Paragraph not found with ID=".$id);
         }
         http_response_code(200);
         return json_encode($paragraph);
@@ -129,7 +129,7 @@ class Controller {
         $params = $args[RouterUtils::URL_PARAMS];
         $articleId = $params[0];
         if(is_numeric($articleId)){
-            $articleId = intval /* //TODO Change to check only integer and not floats */($articleId);
+            $articleId = intval($articleId);
         } else {
             return cError::_400("The ID must be an integer");
         }
@@ -155,12 +155,12 @@ class Controller {
         $articleId = $params[0];
         $position = $params[1];
         if(is_numeric($articleId)){
-            $articleId = intval /* //TODO Change to check only integer and not floats */($articleId);
+            $articleId = intval($articleId);
         } else {
             return cError::_400("The ID must be an integer");
         }
         if(is_numeric($position)){
-            $position = intval /* //TODO Change to check only integer and not floats */($position);
+            $position = intval($position);
         } else {
             return cError::_400("The POSITION must be a integer ??");
         }
@@ -179,43 +179,6 @@ class Controller {
     }
 
     /**
-     * @param int $idPara
-     *      Id of the paragraph to update
-     * @param string $newContent
-     *      Content of the paragraph
-     * @param int $newPosition
-     * @param int $idArticle
-     * @return string
-     *      Message to inform if the request was succeeded
-     */
-    function fullUpdateParagraphWithId(int $idPara, string $newContent, int $newPosition, int $idArticle): string {
-        if(is_numeric($idPara)){
-            $idPara = intval /* //TODO Change to check only integer and not floats */($idPara);
-        } else {
-            return cError::_400("The ID must be an integer");
-        }
-        if (empty($idPara)) {
-            return cError::_400("ID  is missing");
-        }
-        if(empty($newContent)) {
-            return cError::_400("CONTENT is missing");
-        }
-        if(empty($idArticle)){
-            return cError::_400("ARTICLE_ID is missing");
-        }
-        if(empty($newPosition)){
-            return cError::_400("POSITION is missing");
-        }
-        $query = Paragraphs::queryUpdateFullParagraphWithId($idPara, $newContent, $newPosition, $idArticle);
-        if (is_null($query)) {
-            return cError::_204("error");
-        }
-        http_response_code(200);
-        return json_encode(["message" => "updated successfully"]);
-    }
-
-    /**
-     * //TODO TO Delete
      * @param $args
      *      Incoming arguments
      * @return string
@@ -273,7 +236,7 @@ class Controller {
         $position = is_numeric($position)? intval($position):-1;
         $newContent = array_key_exists(Paragraphs::CONTENT, $data)? $data[Paragraphs::CONTENT] : '';
         if(is_numeric($idArticle)){
-            $idArticle = intval /* //TODO Change to check only integer and not floats */($idArticle);
+            $idArticle = intval($idArticle);
         } else {
             return cError::_400("The ID must be an integer");
         }
@@ -300,7 +263,7 @@ class Controller {
         $params = $args[RouterUtils::URL_PARAMS];
         $id = $params[0];
         if(is_numeric($id)){
-            $id = intval /* //TODO Change to check only integer and not floats */($id);
+            $id = intval($id);
         } else {
             return cError::_400("The ID must be an integer");
         }
@@ -331,7 +294,7 @@ class Controller {
         $params = $args[RouterUtils::URL_PARAMS];
         $id = $params[0];
         if(is_numeric($id)){
-            $id = intval /* //TODO Change to check only integer and not floats */($id);
+            $id = intval($id);
         } else {
             return cError::_400("The ID must be an integer");
         }

@@ -113,20 +113,6 @@ class Paragraphs {
     }
 
     /**
-     * @param int $idPara
-     * @param string $newContent
-     * @param int $newPos
-     * @param int $idArticle
-     * @return int|null
-     */
-    //TODO Virer la fonction?
-    public static function queryUpdateFullParagraphWithId(int $idPara, string $newContent, int $newPos, int $idArticle){
-        $sql = "UPDATE PARAGRAPHES SET ".self::CONTENT."=? AND ".self::POSITION."=? AND ".self::IDARTICLE."=? WHERE ID=?";
-        $params = [$newContent, $newPos, $idArticle, $idPara];
-        return DBAccess::getInstance()->queryUpdate($sql,$params);
-    }
-
-    /**
      * Get the position of the last paragraph in the article
      * @param int $idArticle
      *      The id of the article
