@@ -37,13 +37,15 @@ editParagraphs = (article) => {
             getParagraphs(article.ID);
         });
 
-    let input = $('<input type="button" value="+" class="btn btn-outline-secondary btn-sm">')
+    let addButton = $('<input type="button" value="+" class="btn btn-outline-secondary btn-sm">')
         .on("click", function () {
             addTxtArea($(this).parent(), article.ID, 1);
             switchValue($(this));
         });
 
-    let emptyP = $('<p class="text-justify"><i>Ajoutez un premier paragraphe en cliquant sur le bouton "+" à droite ==></i></p>').append(input);
+    let deleteParaButton = $('<input type="button" value="X" class="btn btn-outline-danger btn-sm">');
+
+    let emptyP = $('<p class="text-justify"><i>Ajoutez un premier paragraphe en cliquant sur le bouton "+" à droite ==></i></p>').append(addButton);
 
     let item = $('<div class="container"><h1 class="display-4">' + article.TITLE + '</h1>' +
         '<hr class="my-2"></div>').append(emptyP);
@@ -55,9 +57,13 @@ editParagraphs = (article) => {
             editPara(para, $(this), article.ID)
         });
 
-        input.clone().on("click", function () {
+        addButton.clone().on("click", function () {
             addTxtArea($(this).parent(), article.ID, Number(para.POSITION) + 1);
             switchValue($(this));
+        }).appendTo(par);
+
+        deleteParaButton.clone().on("click", function () {
+            deletePara(para.ID, article.ID);
         }).appendTo(par);
 
         item.append(par);
@@ -225,6 +231,13 @@ editPara = (paragraph, paraHTML, id) => {
 
 // TODO : editTitle
 
-// TODO : deletePara
+deletePara = (paraId, articleId) => {
+    $.ajax({
+        type: 'DELETE',
+        url: '/api/v1/paragraphs/' + paraId,
+    }).done(() => {
+        getParagraphs(articleId, true);
+    })
+};
 
 // TODO : rearrangePara
