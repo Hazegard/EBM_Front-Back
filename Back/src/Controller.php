@@ -17,7 +17,7 @@ require('Model/Paragraphs.php');
  */
 class Controller {
 
-    function __construct()     {
+    function __construct() {
     }
 
     /**

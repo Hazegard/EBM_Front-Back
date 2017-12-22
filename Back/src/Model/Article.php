@@ -46,7 +46,7 @@ class Article {
      * @return array
      */
     public static function insertArticle(string $title): array {
-        if (DBAccess::getInstance()->queryInsert("INSERT INTO ARTICLES (" . Article::TITLE . ") VALUE (?)", [$title])) {
+        if (DBAccess::getInstance()->queryInsert("INSERT INTO ARTICLES (".Article::TITLE.") VALUE (?)", [$title])) {
             return Article::queryArticleById(DBAccess::getInstance()->getLastInserted());
         }
         return array();

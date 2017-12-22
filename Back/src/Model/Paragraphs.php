@@ -53,7 +53,7 @@ class Paragraphs {
         if (empty($articleId)) {
             return array();
         }
-        return DBAccess::getInstance()->queryAll("SELECT * FROM PARAGRAPHES WHERE ".Paragraphs::IDARTICLE."=?", [$articleId]);
+        return DBAccess::getInstance()->queryAll("SELECT * FROM PARAGRAPHES WHERE ".Paragraphs::IDARTICLE."=? ORDER BY ".Paragraphs::POSITION, [$articleId]);
     }
 
     /**
