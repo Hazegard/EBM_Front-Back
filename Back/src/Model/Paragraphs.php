@@ -96,12 +96,12 @@ class Paragraphs {
             $sql = $sql." ".Paragraphs::CONTENT."=? , ";
             $params[] = $newContent;
         }
-        if($newPos!==-1) {
+        if($newPos!==0) {
             $sql = $sql . " ".Paragraphs::POSITION."=? , ";
             $params[] = $newPos;
             self::updatePositionParagraphsOnUpdate($idPara, $newPos);
         }
-        if($idArticle!==-1) {
+        if($idArticle!==0) {
             $sql = $sql . " ".Paragraphs::IDARTICLE."=? , ";
             $params[] = $idArticle;
         }

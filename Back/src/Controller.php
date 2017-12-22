@@ -187,12 +187,21 @@ class Controller {
     function partialUpdateParagraphWithId($args): string {
         $data = $args[RouterUtils::BODY_DATA];
         $params = $args[RouterUtils::URL_PARAMS];
-        $newPosition = array_key_exists(Paragraphs::POSITION, $data) ? $data[Paragraphs::POSITION] : -1;
+        $newPosition = array_key_exists(Paragraphs::POSITION, $data) ? $data[Paragraphs::POSITION] : 0;
+        if(ctype_digit($newPosition) || $newPosition == 0){
+            $newPosition = intval($newPosition);
+        } else {
+            return cError::_400("POSITION must be an integer");
+        }
 
-        $idArticle = array_key_exists(Paragraphs::IDARTICLE, $data) ? $data[Paragraphs::IDARTICLE] : -1;
-        $idArticle = ctype_digit($idArticle) ? intval($idArticle) : -1;
+        $idArticle = array_key_exists(Paragraphs::IDARTICLE, $data) ? $data[Paragraphs::IDARTICLE] : 0;
+        if(ctype_digit($idArticle) || $idArticle == 0){
+            $idArticle = intval($idArticle);
+        } else {
+            return cError::_400("ID_ARTICLE must be an integer");
+        }
 
-        $newContent = array_key_exists(Paragraphs::CONTENT, $data) ? $data[Paragraphs::CONTENT] : '';
+        $newContent = array_key_exists(Paragraphs::CONTENT, $data) ? htmlspecialchars($data[Paragraphs::CONTENT]) : '';
 
         $idPara = $params[0];
         $idPara = ctype_digit($idPara) ? intval($idPara) : 0;
@@ -210,7 +219,7 @@ class Controller {
      */
     function insertNewArticle($args): string {
         $data = $args[RouterUtils::BODY_DATA];
-        $title = array_key_exists(Article::TITLE, $data)? $data[Article::TITLE]:'';
+        $title = array_key_exists(Article::TITLE, $data)? htmlspecialchars($data[Article::TITLE]):'';
         if($title===''){
             return cError::_400("TITLE  is missing");
         }
@@ -233,21 +242,20 @@ class Controller {
         $params = $args[RouterUtils::URL_PARAMS];
         $idArticle = $params[0];
         $position = array_key_exists(Paragraphs::POSITION, $data)?$data[Paragraphs::POSITION]:0;
-        $position = is_numeric($position)? intval($position):-1;
-        $newContent = array_key_exists(Paragraphs::CONTENT, $data)? $data[Paragraphs::CONTENT] : '';
+        if(ctype_digit($position)){
+            intval($position);
+        } else {
+            return cError::_400("POSITION must be a number");
+        }
+        if(array_key_exists(Paragraphs::CONTENT, $data)) {
+            $newContent = htmlspecialchars($data[Paragraphs::CONTENT]);
+        } else {
+            return cError::_400("CONTENT is missing");
+        }
         if(is_numeric($idArticle)){
             $idArticle = intval($idArticle);
         } else {
             return cError::_400("The ID must be an integer");
-        }
-        if($position == -1){
-            return cError::_400("POSITION must be a number");
-        }
-        if($idArticle===0){
-            return cError::_400("ARTICLE_ID  is missing");
-        }
-        if($newContent===''){
-            return cError::_400("CONTENT is missing");
         }
         http_response_code(201);
         return json_encode(Paragraphs::insertParagraphInArticle($idArticle, $newContent, $position));
@@ -324,7 +332,7 @@ class Controller {
         $data = $args[RouterUtils::BODY_DATA];
 
         $id = $params[0];
-        $title = array_key_exists(Article::TITLE, $data) ? $data[Article::TITLE] : '';
+        $title = array_key_exists(Article::TITLE, $data) ? htmlspecialchars($data[Article::TITLE]) : '';
         if($title === '' ){
             return cError::_400("TITLE is missing");
         }
