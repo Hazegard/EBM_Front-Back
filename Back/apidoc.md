@@ -17,7 +17,7 @@ apiDoc
   - [Modify an article](#modify-an-article)
   
 - [Paragraph](#paragraph)
-  - [Add a new paragraph in the article](#add-a-new-paragraph-in-the-article)
+  - [Add a new paragraph of the article](#add-a-new-paragraph-of-the-article)
   - [Delete a paragraph](#delete-a-paragraph)
   - [Get the pos-ian paragraph of the article](#get-the-pos-ian-paragraph-of-the-article)
   - [Modify a paragraph](#modify-a-paragraph)
@@ -50,7 +50,7 @@ apiDoc
 
 Success-Response:
 
-```
+```json
 HTTP/1.1 201 OK
 {
     "ID": 1,
@@ -82,7 +82,7 @@ HTTP/1.1 201 OK
 
 Success-Response:
 
-```
+```json
 HTTP/1.1 200 OK
 [
     {
@@ -121,7 +121,7 @@ HTTP/1.1 200 OK
 
 Success-Response:
 
-```
+```json
 HTTP/1.1 200 OK
 [
     {
@@ -189,7 +189,7 @@ HTTP/1.1 200 OK
 
 Success-Response:
 
-```
+```json
 HTTP/1.1 200 OK
 [
     {
@@ -236,7 +236,7 @@ HTTP/1.1 200 OK
 
 201 Success-Response:
 
-```
+```json
 HTTP/1.1 201 OK
 {
     "Response: "Successfully deleted article with ID <code>ID</code>",
@@ -261,7 +261,7 @@ HTTP/1.1 201 OK
 
 Error-Response:
 
-```
+```json
 HTTP/1.1 404 Not Found
     {
         "Error": "No article with the ID <code>ID</code> found"
@@ -281,7 +281,7 @@ HTTP/1.1 404 Not Found
 
 Success-Response:
 
-```
+```json
 HTTP/1.1 201 OK
 {
     "ID": 1,
@@ -325,7 +325,7 @@ HTTP/1.1 201 OK
 
 Success-Response:
 
-```
+```json
 HTTP/1.1 201 OK
 {
     "ID": 1,
@@ -345,7 +345,7 @@ HTTP/1.1 201 OK
 
 # Paragraph
 
-## Add a new paragraph in the article
+## Add a new paragraph of the article
 [Back to top](#top)
 
 
@@ -360,15 +360,16 @@ HTTP/1.1 201 OK
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
-| CONTENT | String | <p>Content of the paragraph patched</p>|
-| POSITION | Number | <p>Optional position of the paragraph in the article (if empty, the paragraph is added at the end of the article)</p>|
-| ARTICLE_ID | Number | <p>Id of the article associated to the paragraph</p>|
+| ID | Number | <p>Optional Id of the paragraph patched</p>|
+| CONTENT | String | <p>Optional Content of the paragraph patched</p>|
+| POSITION | Number | <p>Optional position of the paragraph in the article</p>|
+| ARTICLE_ID | Number | <p>Optional Id of the article associated to the paragraph</p>|
 
 ### Success Response
 
 Success-Response:
 
-```
+```json
 HTTP/1.1 201 OK
     [
         {
@@ -385,8 +386,8 @@ HTTP/1.1 201 OK
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
-| ID | Number | <p>Id of the article</p>|
-| TITLE | String | <p>Title of the article</p>|
+| ID | Number | <p>Id of the article patched</p>|
+| TITLE | String | <p>Title of the article patched</p>|
 | POSITION | Number | <p>The position of the paragraph in the article</p>|
 | ARTICLE_ID | Number | <p>The Id of the article associated to the paragraph</p>|
 
@@ -407,7 +408,7 @@ HTTP/1.1 201 OK
 
 201 Success-Response:
 
-```
+```json
 HTTP/1.1 201 OK
 {
     "Response: "Successfully deleted paragraph with ID <code>ID</code>",
@@ -432,7 +433,7 @@ HTTP/1.1 201 OK
 
 Error-Response:
 
-```
+```json
 HTTP/1.1 404 Not Found
     {
         "Error": "No paragraph with the ID <code>ID</code> found"
@@ -452,7 +453,7 @@ HTTP/1.1 404 Not Found
 
 Success-Response:
 
-```
+```json
 HTTP/1.1 201 OK
     [
         {
@@ -501,7 +502,7 @@ HTTP/1.1 201 OK
 
 Success-Response:
 
-```
+```json
 HTTP/1.1 201 OK
     {
         "ID": 2,
@@ -539,7 +540,7 @@ HTTP/1.1 201 OK
 
 Success-Response:
 
-```
+```json
 HTTP/1.1 201 OK
     [
         {
@@ -556,8 +557,8 @@ HTTP/1.1 201 OK
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
-| ID | Number | <p>Id of the paragraph</p>|
-| CONTENT | String | <p>Content of the paragraph</p>|
+| ID | Number | <p>Id of the article patched</p>|
+| TITLE | String | <p>Title of the article patched</p>|
 | POSITION | Number | <p>The position of the paragraph in the article</p>|
 | ARTICLE_ID | Number | <p>The Id of the article associated to the paragraph</p>|
 
