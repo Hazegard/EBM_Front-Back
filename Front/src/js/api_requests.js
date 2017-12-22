@@ -217,8 +217,7 @@ editPara = (paragraph, paraHTML, id) => {
                     getParagraphs(id, true);
                 });
             } else {
-                $(this).remove();
-                // TODO : deletePara
+                deletePara(paragraph.ID, id);
             }
         }
         if (context.which === 0) {
