@@ -47,7 +47,13 @@ editParagraphs = (article) => {
         '<hr class="my-2"></div>').append(emptyP);
 
     article.CONTENT.map((para) => {
-        let par = $('<p class="lead text-justify">' + para.CONTENT + '</p>').css({'cursor': 'pointer'}).click(function () { editPara(para, $(this)) } );
+        let par = $('<p class="lead text-justify"><span>' + para.CONTENT + '</span></p>'); //.css({'cursor': 'pointer'}).click(function () { editPara(para, $(this)) } );
+
+        console.log(par);
+        console.log(par.children("span"));
+        par.children().css({'cursor': 'pointer'}).click(function () {
+            editPara(para, $(this), article.ID)
+        });
 
         input.clone().on("click", function () {
             addTxtArea($(this).parent(), article.ID);
@@ -116,7 +122,7 @@ addTxtArea = (paragraph, id) => {
                     url: '/api/v1/articles/' + id + '/paragraphs',
                     data: JSON.stringify({
                         CONTENT: content,
-                        //TODO : POSITION
+                        //TODO : POSITION:,
                     }),
                     dataType: 'json',
                     contentType: 'application/json'
@@ -128,7 +134,12 @@ addTxtArea = (paragraph, id) => {
                             switchValue($(this));
                         });
 
-                    let par = $('<p class="lead text-justify">' + data.CONTENT + '</p>').append(input);
+                    let par = $('<p class="lead text-justify"><span>' + data.CONTENT + '</span></p>').append(input);
+
+                    par.children().css({'cursor': 'pointer'})
+                        .click(function () {
+                            editPara(data, $(this))
+                        });
 
                     switchValue($(this).parent().prev().children("input"));
                     $(this).parent().after(par);
@@ -165,10 +176,9 @@ switchValue = (button) => {
     }
 };
 
-editPara = (paragraph, paraHTML) => {
-    console.log(paragraph);
+// TODO : focus sur le txt area ?
+editPara = (paragraph, paraHTML, id) => {
     let champ = $('<textarea class="form-control" rows="5">' + paragraph.CONTENT + '</textarea>');
-    console.log(paraHTML);
     paraHTML.replaceWith(champ);
     champ.on('keypress', function (context) {
         if (context.which === 13) {
@@ -184,9 +194,20 @@ editPara = (paragraph, paraHTML) => {
                     dataType: 'json',
                     contentType: 'application/json'
                 }).done((data) => {
-                    let newPara = $('<p class="lead text-justify">' + data.CONTENT + '</p>').css({'cursor': 'pointer'})
-                        .click(function () { editPara(data, $(this)) } );
-                    $(this).replaceWith(newPara);
+                    let input = $('<input type="button" value="+" class="btn btn-outline-secondary btn-sm">')
+                        .on("click", function () {
+                            addTxtArea($(this).parent(), id);
+                            switchValue($(this));
+                        });
+
+                    let newPara = $('<p class="lead text-justify"><span>' + data.CONTENT + '</span></p>').append(input);
+
+                    newPara.children().css({'cursor': 'pointer'})
+                        .click(function () {
+                            editPara(data, $(this))
+                        });
+
+                    $(this).parent().replaceWith(newPara);
                 });
             } else {
                 $(this).remove();
@@ -194,7 +215,15 @@ editPara = (paragraph, paraHTML) => {
             }
         }
         if (context.which === 0) {
-            $(this).replaceWith(paraHTML.click(function () { editPara(paragraph, paraHTML) } ));
+            $(this).replaceWith(paraHTML.click(function () {
+                editPara(paragraph, paraHTML)
+            }));
         }
     })
 };
+
+// TODO : editTitle
+
+// TODO : deletePara
+
+// TODO : rearrangePara
