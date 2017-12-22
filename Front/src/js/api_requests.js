@@ -125,10 +125,8 @@ addTxtArea = (paragraph, id, paraPosition) => {
                     }),
                     dataType: 'json',
                     contentType: 'application/json'
-                }).done((data) => {
-                    console.log(data);
-
-                    let input = $('<input type="button" value="+" class="btn btn-outline-secondary btn-sm">')
+                }).done(() => {
+                    /*let input = $('<input type="button" value="+" class="btn btn-outline-secondary btn-sm">')
                         .on("click", function () {
                             addTxtArea($(this).parent(), id);
                             switchValue($(this));
@@ -143,7 +141,9 @@ addTxtArea = (paragraph, id, paraPosition) => {
 
                     switchValue($(this).parent().prev().children("input"));
                     $(this).parent().after(par);
-                    $(this).parent().remove();
+                    $(this).parent().remove();*/
+
+                    getParagraphs(id, true);
                 });
             } else {
                 switchValue($(this).parent().prev().children("input"));
@@ -192,8 +192,8 @@ editPara = (paragraph, paraHTML, id) => {
                     }),
                     dataType: 'json',
                     contentType: 'application/json'
-                }).done((data) => {
-                    let input = $('<input type="button" value="+" class="btn btn-outline-secondary btn-sm">')
+                }).done(() => {
+                    /*let input = $('<input type="button" value="+" class="btn btn-outline-secondary btn-sm">')
                         .on("click", function () {
                             addTxtArea($(this).parent(), id);
                             switchValue($(this));
@@ -206,7 +206,9 @@ editPara = (paragraph, paraHTML, id) => {
                             editPara(data, $(this))
                         });
 
-                    $(this).parent().replaceWith(newPara);
+                    $(this).parent().replaceWith(newPara);*/
+
+                    getParagraphs(id, true);
                 });
             } else {
                 $(this).remove();
