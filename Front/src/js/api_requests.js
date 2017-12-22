@@ -1,3 +1,5 @@
+// TODO : Commentaires !
+
 const defaultItem = $('#paragraphs').children();
 
 getArticles = () => {
@@ -37,7 +39,7 @@ editParagraphs = (article) => {
 
     let input = $('<input type="button" value="+" class="btn btn-outline-secondary btn-sm">')
         .on("click", function () {
-            addTxtArea($(this).parent(), article.ID);
+            addTxtArea($(this).parent(), article.ID, 1);
             switchValue($(this));
         });
 
@@ -47,16 +49,14 @@ editParagraphs = (article) => {
         '<hr class="my-2"></div>').append(emptyP);
 
     article.CONTENT.map((para) => {
-        let par = $('<p class="lead text-justify"><span>' + para.CONTENT + '</span></p>'); //.css({'cursor': 'pointer'}).click(function () { editPara(para, $(this)) } );
+        let par = $('<p class="lead text-justify"><span>' + para.CONTENT + '</span></p>');
 
-        console.log(par);
-        console.log(par.children("span"));
         par.children().css({'cursor': 'pointer'}).click(function () {
             editPara(para, $(this), article.ID)
         });
 
         input.clone().on("click", function () {
-            addTxtArea($(this).parent(), article.ID);
+            addTxtArea($(this).parent(), article.ID, Number(para.POSITION) + 1);
             switchValue($(this));
         }).appendTo(par);
 
@@ -95,7 +95,6 @@ postArticle = () => {
     });
 };
 
-// TODO : ajouter un truc de confirmation avant de supprimer
 deleteArticle = (id) => {
     $.ajax({
         type: 'DELETE',
@@ -107,7 +106,7 @@ deleteArticle = (id) => {
     });
 };
 
-addTxtArea = (paragraph, id) => {
+addTxtArea = (paragraph, id, paraPosition) => {
     let champ = $('<div class="form-group">' +
         '<textarea class="form-control" rows="5"></textarea>' +
         '</div>');
@@ -122,11 +121,12 @@ addTxtArea = (paragraph, id) => {
                     url: '/api/v1/articles/' + id + '/paragraphs',
                     data: JSON.stringify({
                         CONTENT: content,
-                        //TODO : POSITION:,
+                        POSITION: paraPosition,
                     }),
                     dataType: 'json',
                     contentType: 'application/json'
                 }).done((data) => {
+                    console.log(data);
 
                     let input = $('<input type="button" value="+" class="btn btn-outline-secondary btn-sm">')
                         .on("click", function () {
@@ -176,7 +176,6 @@ switchValue = (button) => {
     }
 };
 
-// TODO : focus sur le txt area ?
 editPara = (paragraph, paraHTML, id) => {
     let champ = $('<textarea class="form-control" rows="5">' + paragraph.CONTENT + '</textarea>');
     paraHTML.replaceWith(champ);
