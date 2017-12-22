@@ -50,6 +50,10 @@ editParagraphs = (article) => {
     let item = $('<div class="container"><h1 class="display-4">' + article.TITLE + '</h1>' +
         '<hr class="my-2"></div>').append(emptyP);
 
+    item.children("h1").css({'cursor': 'pointer'}).click(function () {
+        editTitle(article.ID, $(this));
+    });
+
     article.CONTENT.map((para) => {
         let par = $('<p class="lead text-justify"><span>' + para.CONTENT + '</span></p>');
 
@@ -119,7 +123,7 @@ addTxtArea = (paragraph, id, paraPosition) => {
 
     champ.on("keypress", "textarea", function (context) {
         if (context.which === 13) {
-            let content = $(this).val();
+            const content = $(this).val();
 
             if (content !== "") {
                 $.ajax({
@@ -170,7 +174,7 @@ editPara = (paragraph, paraHTML, id) => {
     paraHTML.replaceWith(champ);
     champ.on('keypress', function (context) {
         if (context.which === 13) {
-            let content = $(this).val();
+            const content = $(this).val();
 
             if (content !== "") {
                 $.ajax({
@@ -196,7 +200,29 @@ editPara = (paragraph, paraHTML, id) => {
     })
 };
 
-// TODO : editTitle
+editTitle = (articleId, titleHTML) => {
+    let champ = $('<textarea class="form-control" rows="1">' + titleHTML.contents()['0'].data + '</textarea>');
+    titleHTML.replaceWith(champ);
+    champ.on('keypress', function (context) {
+        if (context.which === 13) {
+            const content = $(this).val();
+            $.ajax({
+                type: 'PATCH',
+                url: '/api/v1/articles/' + articleId,
+                data: JSON.stringify({
+                    TITLE: content,
+                }),
+                dataType: 'json',
+                contentType: 'application/json'
+            }).done(() => {
+                getParagraphs(articleId, true);
+            });
+        }
+        if (context.which === 0) {
+            getParagraphs(articleId, true)
+        }
+    })
+};
 
 deletePara = (paraId, articleId) => {
     $.ajax({
