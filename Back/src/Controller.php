@@ -242,7 +242,7 @@ class Controller {
         $params = $args[RouterUtils::URL_PARAMS];
         $idArticle = $params[0];
         $position = array_key_exists(Paragraphs::POSITION, $data)?$data[Paragraphs::POSITION]:0;
-        if(ctype_digit($position)){
+        if(ctype_digit($position) || is_int($position)){
             intval($position);
         } else {
             return cError::_400("POSITION must be a number");
