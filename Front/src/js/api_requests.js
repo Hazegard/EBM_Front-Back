@@ -182,6 +182,8 @@ addTxtArea = (paragraph, id, paraPosition) => {
                     contentType: 'application/json'
                 }).done(() => {
                     getParagraphs(id, true);
+                }).fail((err) => {
+                    console.error(err);
                 });
             } else {
                 switchValue($(this).parent().prev().children("input"));
