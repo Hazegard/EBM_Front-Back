@@ -188,14 +188,14 @@ class Controller {
         $data = $args[RouterUtils::BODY_DATA];
         $params = $args[RouterUtils::URL_PARAMS];
         $newPosition = array_key_exists(Paragraphs::POSITION, $data) ? $data[Paragraphs::POSITION] : 0;
-        if(ctype_digit($newPosition) || $newPosition == 0){
+        if(ctype_digit($newPosition) || $newPosition == 0 || is_int($newPosition)){
             $newPosition = intval($newPosition);
         } else {
             return cError::_400("POSITION must be an integer");
         }
 
         $idArticle = array_key_exists(Paragraphs::IDARTICLE, $data) ? $data[Paragraphs::IDARTICLE] : 0;
-        if(ctype_digit($idArticle) || $idArticle == 0){
+        if(ctype_digit($idArticle) || $idArticle == 0 || is_int($idArticle)){
             $idArticle = intval($idArticle);
         } else {
             return cError::_400("ID_ARTICLE must be an integer");
@@ -252,10 +252,10 @@ class Controller {
         } else {
             return cError::_400("CONTENT is missing");
         }
-        if(is_numeric($idArticle)){
+        if(ctype_digit($idArticle) || is_int($idArticle)){
             $idArticle = intval($idArticle);
         } else {
-            return cError::_400("The ID must be an integer");
+            return cError::_400("The ARTICLE_ID must be an integer");
         }
         http_response_code(201);
         return json_encode(Paragraphs::insertParagraphInArticle($idArticle, $newContent, $position));
