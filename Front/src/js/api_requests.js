@@ -1,7 +1,14 @@
-// TODO : Commentaires !
-
+/**
+ * Affichage par défaut quand aucun article n'est sélectionné. Défini dans index.html
+ * @type {*|jQuery}
+ */
 const defaultItem = $('#paragraphs').children();
 
+/**
+ * Récupère la liste des articles via une requête GET sur l'API. (cf apidoc)
+ * Une fois le JSON correspondant récupéré, injecte le titre des articles dans le menu déroulant, avec la possibilité
+ * de cliquer sur chaque titre pour récupérer ses paragraphes et les afficher (fonction getParagraphs)
+ */
 getArticles = () => {
     $.getJSON('/api/v1/articles').done(function (data) {
         $(".dropdown-item").remove();
@@ -16,16 +23,29 @@ getArticles = () => {
     })
 };
 
+/**
+ * Retire l'affichage des paragraphes et affiche le defaultItem à la place
+ */
 emptyParagraphs = () => {
     $('#paragraphs').empty().append(defaultItem);
 };
 
+/**
+ * Récupère l'article entier associé à l'id donné en paramètre, et utilise la fonction d'affichage
+ * en mode vue ou en mode édition selon la valeur de edit en leur passant
+ * @param {Number} id
+ * @param {boolean} edit
+ */
 getParagraphs = (id, edit = false) => {
     $.getJSON('/api/v1/articles/' + id).done(function (data) {
         edit ? editParagraphs(data) : viewParagraphs(data);
     })
 };
 
+/**
+ * Fonction d'affichage des paragraphes en mode édition
+ * @param {Object} article
+ */
 editParagraphs = (article) => {
     let deleteButton = $('<input type="button" value="Supprimer l\'article" id="deleteArticleBtn" class="btn btn-outline-danger"/>')
         .on("click", () => {
@@ -76,6 +96,10 @@ editParagraphs = (article) => {
     $('#paragraphs').empty().append(viewButton).append(deleteButton).append(item);
 };
 
+/**
+ * Fonction d'affichage des paragraphes en mode vue
+ * @param {Object} article
+ */
 viewParagraphs = (article) => {
     let editButton = $('<input type="button" value="Mode édition" class="btn btn-outline-primary"/>')
         .on("click", () => {
@@ -89,7 +113,10 @@ viewParagraphs = (article) => {
     $('#paragraphs').empty().append(editButton).append(item);
 };
 
-
+/**
+ * Ajoute un article contenant seulement un titre (informé par l'utilisateur dans le champ prévu à cet effet) dans
+ * la base de données via une requête POST. À la fin de la requête, affiche cet article en mode édition
+ */
 postArticle = () => {
     const title = $('#addArticleTxt').val();
 
@@ -105,6 +132,10 @@ postArticle = () => {
     });
 };
 
+/**
+ * Supprimer un article défini par son id via une requête DELETE. Une fois cela fait, affiche le message par défaut.
+ * @param {Number} id
+ */
 deleteArticle = (id) => {
     $.ajax({
         type: 'DELETE',
@@ -112,10 +143,24 @@ deleteArticle = (id) => {
     }).done(() => {
         emptyParagraphs();
     }).fail((err) => {
-        console.log(err);
+        console.error(err);
     });
 };
 
+/**
+ * Ajoute un textarea en dessous du paragraph.
+ *
+ * S'il existe déjà un textarea en dessous du paragraph, supprime ce textarea plutôt que d'en ajouter un.
+ *
+ * Appuyer sur la touche ENTRÉE dans le textarea non vide ajoutera (requête POST) un nouveau paragraphe en dessous du
+ * paragraph cité précedemment, dont le contenu sera ce qui a été entré dans le textarea. On recharge l'affichage en
+ * édition de l'article une fois cela fait.
+ *
+ * Appuyer sur la touche ÉCHAP supprimera le textarea.
+ * @param {jQuery} paragraph
+ * @param {Number} id
+ * @param {Number} paraPosition
+ */
 addTxtArea = (paragraph, id, paraPosition) => {
     let champ = $('<div class="form-group">' +
         '<textarea class="form-control" rows="5"></textarea>' +
@@ -156,6 +201,10 @@ addTxtArea = (paragraph, id, paraPosition) => {
     }
 };
 
+/**
+ * Change la valeur du bouton d'ajout de paragraphe vers "+" (s'il vaut "-") ou "-" (s'il vaut "+")
+ * @param {jQuery} button
+ */
 switchValue = (button) => {
     switch (button.val()) {
         case '+':
@@ -169,6 +218,12 @@ switchValue = (button) => {
     }
 };
 
+/**
+ * Fonctionne de manière similaire à la fonction précédente, mais pour éditer le contenu d'un paragraphe (requête PATCH)
+ * @param {Object} paragraph
+ * @param {jQuery} paraHTML
+ * @param {Number} id
+ */
 editPara = (paragraph, paraHTML, id) => {
     let champ = $('<textarea class="form-control" rows="5">' + paragraph.CONTENT + '</textarea>');
     paraHTML.replaceWith(champ);
@@ -200,6 +255,11 @@ editPara = (paragraph, paraHTML, id) => {
     })
 };
 
+/**
+ * Similaire à la fonction précédente mais s'applique au titre d'un article.
+ * @param {Number} articleId
+ * @param {jQuery} titleHTML
+ */
 editTitle = (articleId, titleHTML) => {
     let champ = $('<textarea class="form-control" rows="1">' + titleHTML.contents()['0'].data + '</textarea>');
     titleHTML.replaceWith(champ);
@@ -224,6 +284,11 @@ editTitle = (articleId, titleHTML) => {
     })
 };
 
+/**
+ * Supprime un paragraphe défini par son id (requête DELETE)
+ * @param {Number} paraId
+ * @param {Number} articleId
+ */
 deletePara = (paraId, articleId) => {
     $.ajax({
         type: 'DELETE',
