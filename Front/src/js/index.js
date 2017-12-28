@@ -286,7 +286,7 @@ editPara = (paragraph, paraHTML, id) => {
         }
         if (context.which === 0) {
             $(this).replaceWith(paraHTML.click(function () {
-                editPara(paragraph, paraHTML)
+                editPara(paragraph, paraHTML, id);
             }));
         }
     }).focus().val(paragraph.CONTENT);
