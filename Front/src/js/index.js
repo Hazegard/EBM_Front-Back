@@ -75,12 +75,12 @@ editParagraphs = (article) => {
     });
 
     article.CONTENT.map((para) => {
-        let par = $('<p class="lead text-justify"><span>' + para.CONTENT + '</span></p>').data('para',para)
+        let par = $('<p class="lead text-justify"><span>' + para.CONTENT + '</span></p>').data('para', para)
             .on('mouseenter', $(this), function () {
-            $(this).find("#del").show();
-        }).on('mouseleave', $(this), function () {
-            $(this).find("#del").hide();
-        });
+                $(this).find("#del").show();
+            }).on('mouseleave', $(this), function () {
+                $(this).find("#del").hide();
+            });
 
         par.children().css({'cursor': 'pointer'}).click(function () {
             editPara(para, $(this), article.ID)
@@ -93,12 +93,13 @@ editParagraphs = (article) => {
 
         deleteParaButton.clone().on("click", function () {
             deletePara(para.ID, article.ID);
-        }).appendTo(par).hide().attr('id','del');
+        }).appendTo(par).hide().attr('id', 'del');
 
         item.append(par);
     });
 
     $('#paragraphs').empty().append(viewButton).append(deleteButton).append(item);
+
     /**
      * Rend la liste sortable:
      * Lors d'un drag&drop, si la position a été modifiée, une requête patch est envoyé au serveur pour modifier
@@ -115,18 +116,18 @@ editParagraphs = (article) => {
                 type: 'PATCH',
                 url: '/api/v1/paragraphs/' + ui.item.data().para.ID,
                 data: JSON.stringify({
-                    POSITION: ui.item.index()-2,
+                    POSITION: ui.item.index() - 2,
                 }),
                 dataType: 'json',
                 contentType: 'application/json'
-            }).done(function(){
+            }).done(function () {
                 getParagraphs(article.ID, true);
             }).fail(function (data) {
                 console.log(data)
             });
         },
         items: '>p:not(#immobile)',
-        helper : 'clone',
+        helper: 'clone',
     });
 };
 
