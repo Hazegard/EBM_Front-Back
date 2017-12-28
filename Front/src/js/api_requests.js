@@ -65,9 +65,9 @@ editParagraphs = (article) => {
 
     let deleteParaButton = $('<input type="button" value="X" class="btn btn-outline-danger btn-sm">');
 
-    let emptyP = $('<p class="text-justify"><i>Ajoutez un premier paragraphe en cliquant sur le bouton "+" à droite ==></i></p>').append(addButton);
+    let emptyP = $('<p class="text-justify" id="immobile"><i>Ajoutez un premier paragraphe en cliquant sur le bouton "+" à droite ==></i></p>').append(addButton);
 
-    let item = $('<div class="container"><h1 class="display-4">' + article.TITLE + '</h1>' +
+    let item = $('<div class="container" id="sort"><h1 class="display-4">' + article.TITLE + '</h1>' +
         '<hr class="my-2"></div>').append(emptyP);
 
     item.children("h1").css({'cursor': 'pointer'}).click(function () {
@@ -75,7 +75,7 @@ editParagraphs = (article) => {
     });
 
     article.CONTENT.map((para) => {
-        let par = $('<p class="lead text-justify"><span>' + para.CONTENT + '</span></p>');
+        let par = $('<p class="lead text-justify"><span>' + para.CONTENT + '</span></p>').data('para',para);
 
         par.children().css({'cursor': 'pointer'}).click(function () {
             editPara(para, $(this), article.ID)
@@ -94,6 +94,35 @@ editParagraphs = (article) => {
     });
 
     $('#paragraphs').empty().append(viewButton).append(deleteButton).append(item);
+    /**
+     * Rend la liste sortable:
+     * Lors d'un drag&drop, si la position a été modifiée, une requête patch est envoyé au serveur pour modifier
+     * la position du paragraph.
+     * Etant donné que la gestion de la mise à jour des positions des autres paragraphes est gérée niveau serveur,
+     * il est ensuite nécessaire de récupérer les nouveaux paragraphs depuis le serveur
+     *
+     * items: '>p:not(#immobile)' permet de rendre immuable le premier paragraphe (celui d'exemple)
+     * helper : 'clone' permet d'empêcher le click event de se déclencher à la fin du drag&drop
+     */
+    $('.container').sortable({
+        update: function (event, ui) {
+            $.ajax({
+                type: 'PATCH',
+                url: '/api/v1/paragraphs/' + ui.item.data().para.ID,
+                data: JSON.stringify({
+                    POSITION: ui.item.index()-2,
+                }),
+                dataType: 'json',
+                contentType: 'application/json'
+            }).done(function(){
+                getParagraphs(article.ID, true);
+            }).fail(function (data) {
+                console.log(data)
+            });
+        },
+        items: '>p:not(#immobile)',
+        helper : 'clone',
+    });
 };
 
 /**
@@ -254,7 +283,7 @@ editPara = (paragraph, paraHTML, id) => {
                 editPara(paragraph, paraHTML)
             }));
         }
-    })
+    });
 };
 
 /**
