@@ -256,7 +256,7 @@ switchValue = (button) => {
  * @param {Number} id
  */
 editPara = (paragraph, paraHTML, id) => {
-    let champ = $('<textarea class="form-control" rows="5">' + paragraph.CONTENT + '</textarea>');
+    let champ = $('<textarea class="form-control" rows="5"></textarea>');
     paraHTML.replaceWith(champ);
     champ.on('keypress', function (context) {
         if (context.which === 13) {
@@ -279,12 +279,11 @@ editPara = (paragraph, paraHTML, id) => {
             }
         }
         if (context.which === 0) {
-            getParagraphs(id,true);
-            // $(this).replaceWith(paraHTML.click(function () {
-            //     editPara(paragraph, paraHTML)
-            // }));
+            $(this).replaceWith(paraHTML.click(function () {
+                editPara(paragraph, paraHTML)
+            }));
         }
-    });
+    }).focus().val(paragraph.CONTENT);
 };
 
 /**
