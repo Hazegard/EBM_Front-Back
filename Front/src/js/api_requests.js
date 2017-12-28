@@ -75,7 +75,12 @@ editParagraphs = (article) => {
     });
 
     article.CONTENT.map((para) => {
-        let par = $('<p class="lead text-justify"><span>' + para.CONTENT + '</span></p>').data('para',para);
+        let par = $('<p class="lead text-justify"><span>' + para.CONTENT + '</span></p>').data('para',para)
+            .on('mouseenter', $(this), function () {
+            $(this).find("#del").show();
+        }).on('mouseleave', $(this), function () {
+            $(this).find("#del").hide();
+        });
 
         par.children().css({'cursor': 'pointer'}).click(function () {
             editPara(para, $(this), article.ID)
@@ -88,7 +93,7 @@ editParagraphs = (article) => {
 
         deleteParaButton.clone().on("click", function () {
             deletePara(para.ID, article.ID);
-        }).appendTo(par);
+        }).appendTo(par).hide().attr('id','del');
 
         item.append(par);
     });
