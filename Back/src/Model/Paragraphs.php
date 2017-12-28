@@ -178,9 +178,6 @@ class Paragraphs {
         $para = self::queryParagraphById($idPara);
         $idArticle = $para[self::IDARTICLE];
         $currentPos = $para[self::POSITION];
-        echo "new : ".$newPosition;
-        echo "old : ".$currentPos;
-        echo "art : ".$idArticle;
         if ($newPosition == 0 || $idPara == 0) {
             return;
         }
@@ -191,7 +188,6 @@ class Paragraphs {
             $sql = "UPDATE PARAGRAPHES SET ".self::POSITION." = ".self::POSITION." + 1 ".
             "WHERE ".self::POSITION." >=? AND ".self::POSITION." <? AND ".self::IDARTICLE." = ?";
         }
-        echo $sql;
         DBAccess::getInstance()->queryUpdate($sql, [$newPosition, $currentPos, $idArticle]);
     }
 
