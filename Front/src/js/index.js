@@ -333,5 +333,3 @@ deletePara = (paraId, articleId) => {
         getParagraphs(articleId, true);
     })
 };
-
-// TODO : rearrangePara
