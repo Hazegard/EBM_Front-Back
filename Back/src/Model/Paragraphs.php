@@ -138,10 +138,8 @@ class Paragraphs {
      */
     public static function insertParagraphInArticle(int $idArticle, string $newContent, int $position): array {
         if ($position===0) {
-            $position = ceil(self::getCurrentMaxPositionOfArticle($idArticle)[self::POSITION]);
-            empty($position) ?
-                $position = 1 :
-                $position += 1;
+            $position = self::getCurrentMaxPositionOfArticle($idArticle)[self::POSITION];
+            empty($position) ? $position = 1 : $position += 1;
         } else {
             self::updatePositionParagraphsOnInsert($position, $idArticle);
         }
@@ -162,6 +160,7 @@ class Paragraphs {
      *      Bool confirming the deletion, or note
      */
     public static function queryDeleteParagraphById(int $id):bool {
+        self::updatePositionParagraphOnDelete($id);
         $sql = "DELETE FROM PARAGRAPHES WHERE ".self::ID."=?";
         return DBAccess::getInstance()->queryDelete($sql, [$id]);
     }
@@ -194,11 +193,25 @@ class Paragraphs {
     /**
      * This function will update position of other paragraphs when a paragraph is inserted with specified position
      * @param $newPosition
+     *      The new position of the paragraph
      * @param $idArticle
+     *      The id of the article
      */
     public static function updatePositionParagraphsOnInsert($newPosition, $idArticle) {
         $sql = "UPDATE PARAGRAPHES SET ".self::POSITION."=".self::POSITION." + 1 ".
             "WHERE ".self::POSITION. " >=? AND ".self::IDARTICLE." =?";
         DBAccess::getInstance()->queryUpdate($sql, [$newPosition, $idArticle]);
+    }
+
+    /**
+     * This function will update position of other paragraphs when a paragraph is deleted
+     * @param $id
+     *      The id of the paragraph which will be deleted
+     */
+    public static function updatePositionParagraphOnDelete($id){
+        $para = self::queryParagraphById($id);
+        $sql = "UPDATE PARAGRAPHES SET ".self::POSITION."=".self::POSITION." - 1 ".
+            "WHERE ".self::POSITION." >=? AND ".self::IDARTICLE."=?";
+        DBAccess::getInstance()->queryUpdate($sql, [$para[self::POSITION], $para[self::IDARTICLE]]);
     }
 }
