@@ -77,9 +77,9 @@ editParagraphs = (article) => {
     article.CONTENT.map((para) => {
         let par = $('<p class="lead text-justify"><span>' + para.CONTENT + '</span></p>').data('para', para)
             .on('mouseenter', $(this), function () {
-                $(this).find("#del").show();
+                $(this).find("#del").css('visibility','visible');
             }).on('mouseleave', $(this), function () {
-                $(this).find("#del").hide();
+                $(this).find("#del").css('visibility','hidden');
             });
 
         par.children().css({'cursor': 'pointer'}).click(function () {
@@ -93,7 +93,7 @@ editParagraphs = (article) => {
 
         deleteParaButton.clone().on("click", function () {
             deletePara(para.ID, article.ID);
-        }).appendTo(par).hide().attr('id', 'del');
+        }).appendTo(par).css('visibility','hidden').attr('id', 'del');
 
         item.append(par);
     });
