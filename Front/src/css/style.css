@@ -1,0 +1,21 @@
+#addArticleBtn {
+    margin-left: 5px;
+}
+
+.navbar > div > ul > * {
+    margin-left: 15px;
+}
+
+.btn {
+    float: right;
+    margin-left: 10px;
+}
+
+#paragraphs div > p > .btn {
+    float: right;
+    font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    padding: 0;
+    padding-left: 6px;
+    padding-right: 6px;
+    margin-top: 6px;
+}

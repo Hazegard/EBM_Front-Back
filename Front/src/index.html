@@ -1,10 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Articles</title>
+    <title>Journal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" onclick="emptyParagraphs()" href="#">Journal</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false" onclick="getArticles()">
+                    Articles
+                </a>
+                <div class="dropdown-menu" id="listeArticles" aria-labelledby="navbarDropdown">
+                </div>
+            </li>
+            <form class="form-inline" action="javascript:postArticle()">
+                <input type="text" id="addArticleTxt" class="span2" placeholder="Titre d'un nouvel article...">
+                <input type="submit" value="Ajouter" id="addArticleBtn" class="btn btn-outline-secondary btn-sm"/>
+            </form>
+        </ul>
+    </div>
+</nav>
+
+<div class="jumbotron" id="paragraphs">
+    <p>Sélectionnez un article ou ajoutez-en un...</p>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
+<script src="js/index.js"></script>
 </body>
 </html>

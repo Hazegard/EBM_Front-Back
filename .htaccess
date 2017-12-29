@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !^/Front/src/
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteCond %{REQUEST_URI} !^/Back/src/
+RewriteRule ^(.*) /Front/src/$1 [L]
+RewriteBase /
+
+RewriteRule ^api/v1/ /Back/src/Dispatcher.php
+
+RewriteRule ^node_modules Front/src/node_modules
