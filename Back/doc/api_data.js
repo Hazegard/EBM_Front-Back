@@ -160,57 +160,6 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/api/v1/paragraphs",
-    "title": "request all paragraphs",
-    "name": "GetParagraphs",
-    "group": "AllParagraphs",
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "ID",
-            "description": "<p>Id of the paragraph</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "CONTENT",
-            "description": "<p>Content of the article</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "POSITION",
-            "description": "<p>The position of the paragraph in the article</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "ARTICLE_ID",
-            "description": "<p>The Id of the article associated to the paragraph</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n[\n    {\n        \"ID\": 1,\n        \"CONTENT\": \"Lorem ipsum dolor sit amet.\",\n        \"POSITION\": 1,\n        \"ARTICLE_ID\": 1\n    },\n    {\n        \"ID\": 2,\n        \"CONTENT\": \"Ut enim ad minim veniam.\",\n        \"POSITION\": 2,\n        \"ARTICLE_ID\": 1\n    },\n    ...\n]",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "./src/Dispatcher.php",
-    "groupTitle": "AllParagraphs"
-  },
-  {
-    "type": "get",
     "url": "/api/v1/paragraphs/:id",
     "title": "Request a paragraph",
     "name": "GetParagraphs",
@@ -252,6 +201,57 @@ define({ "api": [
         {
           "title": "Success-Response:",
           "content": "HTTP/1.1 200 OK\n{\n        \"ID\": 1,\n        \"CONTENT\": \"Lorem ipsum dolor sit amet.\",\n        \"POSITION\": 1,\n        \"ARTICLE_ID\": 1\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "./src/Dispatcher.php",
+    "groupTitle": "AllParagraphs"
+  },
+  {
+    "type": "get",
+    "url": "/api/v1/paragraphs",
+    "title": "request all paragraphs",
+    "name": "GetParagraphs",
+    "group": "AllParagraphs",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "ID",
+            "description": "<p>Id of the paragraph</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "CONTENT",
+            "description": "<p>Content of the article</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "POSITION",
+            "description": "<p>The position of the paragraph in the article</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "ARTICLE_ID",
+            "description": "<p>The Id of the article associated to the paragraph</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n[\n    {\n        \"ID\": 1,\n        \"CONTENT\": \"Lorem ipsum dolor sit amet.\",\n        \"POSITION\": 1,\n        \"ARTICLE_ID\": 1\n    },\n    {\n        \"ID\": 2,\n        \"CONTENT\": \"Ut enim ad minim veniam.\",\n        \"POSITION\": 2,\n        \"ARTICLE_ID\": 1\n    },\n    ...\n]",
           "type": "json"
         }
       ]
@@ -748,6 +748,34 @@ define({ "api": [
     "filename": "./doc/main.js",
     "group": "_home_maxime_workspace_COURS_Front_Back_Back_doc_main_js",
     "groupTitle": "_home_maxime_workspace_COURS_Front_Back_Back_doc_main_js",
+    "name": ""
+  },
+  {
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "varname1",
+            "description": "<p>No type.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "varname2",
+            "description": "<p>With type.</p>"
+          }
+        ]
+      }
+    },
+    "type": "",
+    "url": "",
+    "version": "0.0.0",
+    "filename": "./src/doc/main.js",
+    "group": "_home_maxime_workspace_COURS_Front_Back_Back_src_doc_main_js",
+    "groupTitle": "_home_maxime_workspace_COURS_Front_Back_Back_src_doc_main_js",
     "name": ""
   }
 ] });
