@@ -31,6 +31,13 @@
 
 ### Langages et librairies utilisées
 
+Au niveau du Back-End, les choix se sont portés sur:
+
+- Apache comme serveur web
+- Php 7 afin d'apporter un typage, ermettant une meilleure robustesse du code
+- apidoc pour générer une documentation de l'api
+- MariaDB/MySQL comme SGBD
+
 ### Structure générale
 
 Nous avons décidé de nous diriger vers l'utilisation d'une API RestFull afin d'une part, de découpler le développement du Back-End et celui du Front-End.
