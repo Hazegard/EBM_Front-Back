@@ -5,7 +5,7 @@
     - [Choix effectués](#choix-effectués)
       - [Langages et librairies utilisées](#langages-et-librairies-utilisées)
       - [Structure générale](#structure-générale)
-    - [Présentation du BackEnd](#présentation-du-backend)
+    - [Présentation du BackEnd](#présentation-du-back-end)
       - [Le Framework](#le-framework)
         - [Route.php](#route.php)
         - [Router.php](#router.php)
@@ -112,7 +112,7 @@ Le module rewrite est nécessaire :
 a2enmod rewrite
 ```
 
-#### Confiuration du serveur php
+#### Configuration du serveur php
 
 Renommer Back/src/config.example.php en config.php
 
