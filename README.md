@@ -12,31 +12,31 @@
 
 ### Structure générale
 
-Nous avons décidé de nous diriger vers l'utilisation d'une API RestFull afin d'une part, de découpler le développement du Back-End et celui du Front-End.
+Nous avons décidé de nous diriger vers l'utilisation d'une API RestFull afin de découpler le développement du Back-End et celui du Front-End.
 
 Ainsi, cela nous a permis de travailler dans deux dossiers complétements séparés, nous permettant d'éviter les régression de l'un lorsque l'on modifie la structure de l'autre.
 
-Nous avons ainsi choisi de de réaliser notre Back-End en pHp, en utilisant le typage des arguments de fonctions, ainsi que le typage de retour de fonction, afin d'augmenter la robustesse de notre coed produit.
+Nous avons ainsi choisi de réaliser notre Back-End en PHP 7, en utilisant le typage des arguments de fonctions, ainsi que le typage de retour de fonction, afin d'augmenter la robustesse du code produit.
 
-Concernant le Front-End, nous utilisont la librairie jQuery pour réaliser les interactions avec l'utilisateur, ainsi que la librairie Bootstrap, permettant un meilleur rendu.
+Concernant le Front-End, nous utilisont la librairie jQuery pour réaliser les interactions avec l'utilisateur, ainsi que la librairie Bootstrap pour la présentation.
 
-Le serveur sur lequel notre projet s'execute est apache, avec une configuration que nous détaillerons ultérieurement.
+Le serveur sur lequel notre projet s'exécute est apache, avec une configuration que nous détaillerons ultérieurement.
 
 ## Présentation du Back-End
 
 ### Le Framework
 
-Nous avons décidé d'écrire notre propre Framework afin de réaliser notre API. En effet, cela nous permettait d'avoir une bone compréhension de son fonctionement, tout en étant léger car adapté à nos besoins.
+Nous avons décidé d'écrire notre propre Framework afin de réaliser notre API. En effet, cela nous permettait d'avoir une bonne compréhension de son fonctionement, tout en étant léger car adapté à nos besoins.
 
-Ainsi le routage s'effectue à l'aide de regex, qui nous permet de facilement faire évoluer nos routes, mais également de facilement récupérer les paramétres éventuels nécessaire au bon fonctionnement de l'API, par exemple, dans le cas de la route:
+Ainsi le routage s'effectue à l'aide de regex, qui nous permet de facilement faire évoluer nos routes, mais également de facilement récupérer les paramétres nécessaires au bon fonctionnement de l'API, par exemple, dans le cas de la route:
 
 ```url
 /api/v1/articles/5/paragraphs/1
 ```
 
-Nous voulons récupérer le ```5``` associé à un ID d'article, ainsi que le `5`, associé à un paragraph dans l'article `1`.
+Nous voulons récupérer le `5` associé à un ID d'article, ainsi que le `1`, associé à un paragraphe.
 
-Cela est, grâce à l'utilisation re regex, facilement réalisable, par exemple en utilisant cette regex:
+Cela est, grâce à l'utilisation de regex, facilement réalisable, par exemple en utilisant cette regex:
 
 ```regex
 ~^/articles/(\d+)/paragraphs/(\d+)/?$~
@@ -72,32 +72,33 @@ Cette classe permet de réaliser divers traitements sur la requete:
 
 #### Utilisation
 
-La manière dont sont transmis les paramètres s'effectue de la manière suivante:
+Les paramètres sont transmis de la manière suivante :
 
-La classe Router récupére les paramètres issues des parenthèses capturantes de l'expression régulière.
+1. La classe Router récupére les paramètres issus des parenthèses capturantes de l'expression régulière.
 
-Ils sont transmis dans un tableau et dans l'ordre d'apparition au sein de l'expression régulière.
+2. Ils sont transmis dans un tableau et dans l'ordre d'apparition au sein de l'expression régulière.
 
-La fonction match() renvoie ainsi un tbleau contenant comme premier argument le callback de la route, et comme deuxième argument, un tableau des identifiants récupérés par la regex.
+3. La fonction match() renvoie ainsi un tableau contenant comme premier argument le callback de la route, et comme deuxième argument, un tableau des identifiants récupérés par la regex.
 
-AU seins de executeRoute() de RouterUtils,
-Le tableau [callback, params] et les données du Body sont transformé pour donner un tableau associatif contenant les paramètres et les données du Body. 
+4. Au sein de executeRoute() de RouterUtils, le tableau `[callback, params]` et les données du Body sont transformés pour donner un tableau associatif contenant les paramètres et les données du Body. 
 
-En résumé, le callback reçoit un unique paramètre qui est un tableau associatif et qui contient;
-
-* Dans 'URL_PARAMS', un tableau contenant les paramètres récupérés dans l'url de la requete
-* Dans 'BODY_DATA', un tableau associatif correspondant au json envoyé dans la requête
+> En résumé, le callback reçoit un unique paramètre qui est un tableau associatif et qui contient;
+> 
+> * Dans `URL_PARAMS`, un tableau contenant les paramètres récupérés dans l'url de la requete
+> * Dans `BODY_DATA`, un tableau associatif correspondant au json envoyé dans la requête
 
 Le callback se charge ainsi simplement d'extraire les valeurs des paramètres et des données du Body, et au besoin, d'affecter des valeurs par défaut dans le cas d'arguments facultatifs.
 
 Elle appelle ensuite la bonne fonction du contrôleur, qui, lui v
 
-1.Le Callback extrait les valeurs des paramètres des données du Body, et assigne des valeurs par défaut si besoin.
+1. Le Callback extrait les valeurs des paramètres des données du Body, et assigne des valeurs par défaut si besoin.
 2. Le controlleur, appelé par le callback, vérifie la validité des arguments extraits par le callback.
 3. Le modèle, appelé par le controlleur, construit la requête SQL adapté, avec la éventuels paramètres.
 4. DBAccess, appelé par le modèle, se charge d'executer la requête.
 5. Le controlleur reçoit la réponse de DBAccess, vérifie sa validité, et transforme le résultat en json.
 6. Le callback apelle la fonction response() de RouterUtils avec comme paramètre le résultat du contrôlleur pour l'émmettre au client.
+
+## Présentation du Front-End
 
 ## Perspectives d'amélioration
 
