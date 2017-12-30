@@ -19,7 +19,7 @@
     	- [Affichage par défaut](#affichage-par-défaut)
         - [Affichage d'un article en mode vue](#affichage-dun-article-en-mode-vue)
         - [Affichage d'un article en mode édition](#affichage-dun-article-en-mode-édition)
-    - [Perspectives d'amélioration](#perspectives-d-amélioration)
+    - [Perspectives d'amélioration](#perspectives-damélioration)
     - [Bilan du module](#bilan-du-module)
     - [APIDOC](#apidoc)
 
