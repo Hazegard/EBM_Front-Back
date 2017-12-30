@@ -6,7 +6,6 @@ RewriteCond %{REQUEST_URI} !^/Back/src/
 RewriteCond %{REQUEST_URI} !^/Back/doc/
 RewriteCond %{REQUEST_URI} !^/api/doc/
 RewriteRule ^(.*) /Front/src/$1 [L]
-
 RewriteRule ^api/doc/(.*) /Back/doc/$1 [L]
 RewriteBase /
 

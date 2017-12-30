@@ -19,7 +19,7 @@
     	- [Affichage par défaut](#affichage-par-défaut)
         - [Affichage d'un article en mode vue](#affichage-dun-article-en-mode-vue)
         - [Affichage d'un article en mode édition](#affichage-dun-article-en-mode-édition)
-    - [Perspectives d'amélioration](#perspectives-d-amélioration)
+    - [Perspectives d'amélioration](#perspectives-damélioration)
     - [Bilan du module](#bilan-du-module)
     - [APIDOC](#apidoc)
 
@@ -199,8 +199,15 @@ C'est dans ce mode, moins adapté à la lecture, qu'on peut modifier les donnée
 - On peut glisser-déposer les paragraphes pour les réarranger.
 
 ## Perspectives d'amélioration
+- Mettre en place le HTTPS
+- Mettre en place de l'écriture collaborative : voir les gens en train de modifier ou de lire un article
+- Intégrer des sous-titres (en tant que paragraphe spécial) à l'article
+- Sécuriser l'API
 
 ## Bilan du module
+Nous avons dans l'ensemble apprécié le module, nous donnant un aperçu des technologies front/back et du type de structure auquel on peut être amené à être confronté.  
+Le gros plus a été le fait de faire participer les élèves autant que possible, en leur laissant le temps de réfléchir aux petits exercices ou _via_ le biais de ce devoir final. On apprend en codant !  
+On pourra cependant peut-être regretter la présentation de certaines technologies ayant mal vieilli ou de certaines pratiques n'étant plus vraiment d'actualité.
 
 ## APIDOC
 
