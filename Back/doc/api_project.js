@@ -1,15 +1,15 @@
 define({
   "name": "Front_Back",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "apiDoc",
+  "defaultVersion": "1.0.0",
   "title": "Documentation for the API",
-  "url": "front_back.hazegard.fr",
+  "url": "luzin.hazegard.fr",
   "sampleUrl": false,
-  "defaultVersion": "0.0.0",
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "2017-12-29T21:40:21.388Z",
+    "time": "2017-12-30T14:17:41.903Z",
     "url": "http://apidocjs.com",
     "version": "0.17.6"
   }
