@@ -1,7 +1,5 @@
 RewriteEngine On
 
-
-
 RewriteCond %{REQUEST_URI} !^/Front/src/
 RewriteCond %{REQUEST_URI} !^/api/
 RewriteCond %{REQUEST_URI} !^/Back/src/
@@ -9,10 +7,8 @@ RewriteCond %{REQUEST_URI} !^/Back/doc/
 RewriteCond %{REQUEST_URI} !^/api/doc/
 RewriteRule ^(.*) /Front/src/$1 [L]
 
-
-RewriteRule ^api/doc/(.*) /Back/doc/$1 [L]
 RewriteBase /
-
+RewriteRule ^api/doc /Back/doc
 
 RewriteRule ^api/v1/ /Back/src/Dispatcher.php
 RewriteRule ^node_modules Front/src/node_modules
