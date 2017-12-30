@@ -15,6 +15,10 @@
         - [Configuration d'apache](configuration-d-apache)
         - [Configuration du serveur php](#configuration-du-serveur-php)
       - [Fonctionnement](#fonctionnement)
+    - [Présentation du FrontEnd](#présentation-du-front-end)
+    	- [Affichage par défaut](#affichage-par-défaut)
+	- [Affichage d'un article en mode vue](#affichage-d-un-article-en-mode-vue)
+	- [Affichage d'un article en mode édition](#affichage-d-un-article-en-mode-édition)
     - [Perspectives d'amélioration](#perspectives-d-amélioration)
     - [Bilan du module](#bilan-du-module)
     - [APIDOC](#apidoc)
@@ -31,12 +35,15 @@
 
 ### Langages et librairies utilisées
 
-Au niveau du Back-End, les choix se sont portés sur:
-
+Au niveau du __Back-End__, les choix se sont portés sur:
 - Apache comme serveur web
 - Php 7 afin d'apporter un typage, ermettant une meilleure robustesse du code
 - apidoc pour générer une documentation de l'api
 - MariaDB/MySQL comme SGBD
+
+Au niveau du __Front-End__ :
+- Bootstrap comme librairie pour la présentation
+- jQuery pour l'interaction
 
 ### Structure générale
 
@@ -139,7 +146,7 @@ La manière dont sont transmis les paramètres s'effectue de la manière suivant
 
 3. La fonction `match()` renvoie ainsi un tableau contenant comme premier argument le callback de la route, et comme deuxième argument, un tableau des identifiants récupérés par la regex.
 
-4. Au seins de executeRoute() de RouterUtils, le tableau `[callback, params]` et les données du Body sont transformé pour donner un tableau associatif contenant les paramètres et les données du Body.
+4. Au sein de `executeRoute()` de RouterUtils, le tableau `[callback, params]` et les données du Body sont transformé pour donner un tableau associatif contenant les paramètres et les données du Body.
 
 > En résumé, le callback reçoit un unique paramètre qui est un tableau associatif et qui contient;
 >
@@ -154,6 +161,26 @@ Le callback se charge ainsi simplement d'extraire les valeurs des paramètres et
 4. DBAccess, appelé par le modèle, se charge d'executer la requête.
 5. Le controlleur reçoit la réponse de DBAccess, vérifie sa validité, et transforme le résultat en json.
 6. Le callback apelle la fonction response() de RouterUtils avec comme paramètre le résultat du contrôlleur pour l'émmettre au client.
+
+## Présentation du Front-End
+Vue la nature du travail demandé, nous avons choisi pour le Front-End de faire une Single Page Application. Le Front-End ne comprend donc qu'une seule page qui affiche dynamiquement les informations demandées.
+
+### Affichage par défaut
+À l'arrivée sur la page, l'utilisateur ne voit qu'un message de présentation et la barre de navigation (qui sera toujours présente), depuis laquelle il peut :
+- Réafficher ce "message de garde" en cliquant sur le titre de la page
+- Voir la liste des articles présents dans la base de données depuis le menu déroulant
+- Ajouter un article dans le formulaire prévu à cet effet
+
+### Affichage d'un article en mode vue
+C'est l'affichage par défaut lorsqu'on sélectionne un article depuis le menu déroulant. Il affiche simplement le titre et les paragraphes concernant l'article. Il y a également un bouton pour passer en "mode édition".
+
+### Affichage d'un article en mode édition
+C'est dans ce mode, moins adapté à la lecture, qu'on peut modifier les données concernant l'article en question. C'est aussi l'affichage par défaut de l'article après l'avoir créé.  
+- Il y a deux boutons, l'un pour revenir en mode vue, l'autre pour supprimer totalement l'article.
+- On peut cliquer sur le titre ou sur un paragraphe pour en modifier le contenu. Il faut valider les changements en appuyant sur <kbd>ENTRÉE</kbd>, ou les annuler en appuyant sur <kbd>ÉCHAP</kbd>.
+- On peut cliquer sur le bouton `+` à la fin d'un paragraphe pour ajouter un nouveau paragraphe juste après. Le fonctionnement est similaire à l'édition.
+- On peut cliquer sur le bouton `X` qui apparaît au survol d'un paragraphe pour le supprimer.
+- On peut glisser-déposer les paragraphes pour les réarranger.
 
 ## Perspectives d'amélioration
 
