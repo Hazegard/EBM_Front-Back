@@ -152,7 +152,7 @@ $router->addRoute('~^/articles(\?paragraphs=(\w+))?$~', Router::GET,
      * @apiSuccessExample  201 Success-Response:
      *      HTTP/1.1 201 OK
      *      {
-     *          "Response: "Successfully deleted article with ID <code>ID</code>",
+     *          "Response": "Successfully deleted article with ID <code>ID</code>",
      *      }
      *
      * @apiError ArticleNotFound No article with the ID <code>ID</code> found

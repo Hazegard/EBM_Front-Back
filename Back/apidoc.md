@@ -1,5 +1,5 @@
 <a name="top"></a>
-# Front_Back v0.1.0
+# Front_Back v1.0.0
 
 apiDoc
 
@@ -7,38 +7,30 @@ apiDoc
   - [Insert a new Article](#insert-a-new-article)
   - [Request all articles](#request-all-articles)
   - [Request all articles with their paragraphs](#request-all-articles-with-their-paragraphs)
-  
+
 - [AllParagraphs](#allparagraphs)
-  - [request all paragraphs](#request-all-paragraphs)
-  
+  - [Request a paragraph](#request-a-paragraph)
 - [Article](#article)
   - [Delete an article](#delete-an-article)
   - [request Article information](#request-article-information)
   - [Modify an article](#modify-an-article)
-  
+
 - [Paragraph](#paragraph)
-  - [Add a new paragraph of the article](#add-a-new-paragraph-of-the-article)
+  - [Add a new paragraph in the article](#add-a-new-paragraph-in-the-article)
   - [Delete a paragraph](#delete-a-paragraph)
   - [Get the pos-ian paragraph of the article](#get-the-pos-ian-paragraph-of-the-article)
   - [Modify a paragraph](#modify-a-paragraph)
-  
+
 - [Paragraphs](#paragraphs)
   - [Request all paragraphs of the article](#request-all-paragraphs-of-the-article)
-  
-
 
 # AllArticles
 
 ## Insert a new Article
+
 [Back to top](#top)
 
-
-
   POST /api/v1/articles
-
-
-
-
 
 ### Parameter Parameters
 
@@ -50,7 +42,7 @@ apiDoc
 
 Success-Response:
 
-```json
+```js
 HTTP/1.1 201 OK
 {
     "ID": 1,
@@ -65,24 +57,17 @@ HTTP/1.1 201 OK
 | ID | Number | <p>Id of the article created</p>|
 | TITLE | String | <p>Title of the article created</p>|
 
-
-
-
 ## Request all articles
+
 [Back to top](#top)
 
-
-
   GET /api/v1/articles
-
-
-
 
 ### Success Response
 
 Success-Response:
 
-```json
+```js
 HTTP/1.1 200 OK
 [
     {
@@ -104,24 +89,17 @@ HTTP/1.1 200 OK
 | ID | Number | <p>Id of the article</p>|
 | TITLE | String | <p>Title of the article</p>|
 
-
-
-
 ## Request all articles with their paragraphs
+
 [Back to top](#top)
 
-
-
   GET /api/v1/articles?paragraphs=true
-
-
-
 
 ### Success Response
 
 Success-Response:
 
-```json
+```js
 HTTP/1.1 200 OK
 [
     {
@@ -170,42 +148,26 @@ HTTP/1.1 200 OK
 | CONTENT.POSITION | Number | <p>The position of the paragraph in the article</p>|
 | CONTENT.ARTICLE_ID | Number | <p>The Id of the article associated to the paragraph</p>|
 
-
-
-
 # AllParagraphs
 
-## request all paragraphs
+## Request a paragraph
+
 [Back to top](#top)
 
-
-
-  GET /api/v1/paragraphs
-
-
-
+  GET /api/v1/paragraphs/:id
 
 ### Success Response
 
 Success-Response:
 
-```json
+```js
 HTTP/1.1 200 OK
-[
-    {
+{
         "ID": 1,
         "CONTENT": "Lorem ipsum dolor sit amet.",
         "POSITION": 1,
         "ARTICLE_ID": 1
-    },
-    {
-        "ID": 2,
-        "CONTENT": "Ut enim ad minim veniam.",
-        "POSITION": 2,
-        "ARTICLE_ID": 1
-    },
-    ...
-]
+}
 ```
 
 ### Success 200
@@ -215,31 +177,24 @@ HTTP/1.1 200 OK
 | ID | Number | <p>Id of the paragraph</p>|
 | CONTENT | String | <p>Content of the article</p>|
 | POSITION | Number | <p>The position of the paragraph in the article</p>|
-| ARTICLE_ID | Number | <p>The Id of the article associated to the paragraph</p>|
-
-
-
+| ARTICLE_ID | Number | <p>The Id of the article associated to the paragraphe</p>|
 
 # Article
 
 ## Delete an article
+
 [Back to top](#top)
 
-
-
   DELETE /api/v1/articles/:id
-
-
-
 
 ### Success Response
 
 201 Success-Response:
 
-```json
+```js
 HTTP/1.1 201 OK
 {
-    "Response: "Successfully deleted article with ID <code>ID</code>",
+    "Response" : "Successfully deleted article with ID <code>ID</code>",
 }
 ```
 
@@ -249,39 +204,34 @@ HTTP/1.1 201 OK
 |:---------|:-----------|:--------------------------------------|
 | ID | Number | <p>Id of the deleted article</p>|
 
-
 ### Error 4xx
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
 | ArticleNotFound |  | <p>No article with the ID <code>ID</code> found</p>|
 
-
 ### Error Response
 
 Error-Response:
 
-```json
+```js
 HTTP/1.1 404 Not Found
     {
         "Error": "No article with the ID <code>ID</code> found"
     }
 ```
+
 ## request Article information
+
 [Back to top](#top)
 
-
-
   GET /api/v1/articles/:id
-
-
-
 
 ### Success Response
 
 Success-Response:
 
-```json
+```js
 HTTP/1.1 201 OK
 {
     "ID": 1,
@@ -296,24 +246,17 @@ HTTP/1.1 201 OK
 | ID | Number | <p>Id of the article</p>|
 | TITLE | String | <p>Title of the article</p>|
 
-
 ### Error 4xx
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
 | ArticleNotFound |  | <p>No article with the ID <code>ID</code> found</p>|
 
-
 ## Modify an article
+
 [Back to top](#top)
 
-
-
   PATCH /api/v1/articles/:id
-
-
-
-
 
 ### Parameter Parameters
 
@@ -325,7 +268,7 @@ HTTP/1.1 201 OK
 
 Success-Response:
 
-```json
+```js
 HTTP/1.1 201 OK
 {
     "ID": 1,
@@ -340,36 +283,26 @@ HTTP/1.1 201 OK
 | ID | Number | <p>Id of the article patched</p>|
 | TITLE | String | <p>Title of the article patched</p>|
 
-
-
-
 # Paragraph
 
-## Add a new paragraph of the article
+## Add a new paragraph in the article
 [Back to top](#top)
 
-
-
   POST /api/v1/articles/:idA/paragraphs
-
-
-
-
 
 ### Parameter Parameters
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
-| ID | Number | <p>Optional Id of the paragraph patched</p>|
-| CONTENT | String | <p>Optional Content of the paragraph patched</p>|
-| POSITION | Number | <p>Optional position of the paragraph in the article</p>|
-| ARTICLE_ID | Number | <p>Optional Id of the article associated to the paragraph</p>|
+| CONTENT | String | <p>Content of the paragraph patched</p>|
+| POSITION | Number | <p>Optional position of the paragraph in the article (if empty, the paragraph is added at the end of the article)</p>|
+| ARTICLE_ID | Number | <p>Id of the article associated to the paragraph</p>|
 
 ### Success Response
 
 Success-Response:
 
-```json
+```js
 HTTP/1.1 201 OK
     [
         {
@@ -386,32 +319,24 @@ HTTP/1.1 201 OK
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
-| ID | Number | <p>Id of the article patched</p>|
-| TITLE | String | <p>Title of the article patched</p>|
+| ID | Number | <p>Id of the article</p>|
+| TITLE | String | <p>Title of the article</p>|
 | POSITION | Number | <p>The position of the paragraph in the article</p>|
 | ARTICLE_ID | Number | <p>The Id of the article associated to the paragraph</p>|
-
-
-
 
 ## Delete a paragraph
 [Back to top](#top)
 
-
-
   DELETE /api/v1/paragraphs/:id
-
-
-
 
 ### Success Response
 
 201 Success-Response:
 
-```json
+```js
 HTTP/1.1 201 OK
 {
-    "Response: "Successfully deleted paragraph with ID <code>ID</code>",
+    "Response" : "Successfully deleted paragraph with ID <code>ID</code>",
 }
 ```
 
@@ -421,19 +346,17 @@ HTTP/1.1 201 OK
 |:---------|:-----------|:--------------------------------------|
 | ID | Number | <p>Id of the deleted paragraph</p>|
 
-
 ### Error 4xx
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
 | ArticleNotFound |  | <p>No paragraph with the ID <code>ID</code> found</p>|
 
-
 ### Error Response
 
 Error-Response:
 
-```json
+```js
 HTTP/1.1 404 Not Found
     {
         "Error": "No paragraph with the ID <code>ID</code> found"
@@ -442,18 +365,13 @@ HTTP/1.1 404 Not Found
 ## Get the pos-ian paragraph of the article
 [Back to top](#top)
 
-
-
   GET /api/v1/articles/:idA/paragraphs/:pos
-
-
-
 
 ### Success Response
 
 Success-Response:
 
-```json
+```js
 HTTP/1.1 201 OK
     [
         {
@@ -475,19 +393,11 @@ HTTP/1.1 201 OK
 | POSITION | Number | <p>The position of the paragraph in the article</p>|
 | ARTICLE_ID | Number | <p>The Id of the article associated to the paragraph</p>|
 
-
-
-
 ## Modify a paragraph
+
 [Back to top](#top)
 
-
-
   PATCH /api/v1/paragraphs/:id
-
-
-
-
 
 ### Parameter Parameters
 
@@ -502,7 +412,7 @@ HTTP/1.1 201 OK
 
 Success-Response:
 
-```json
+```js
 HTTP/1.1 201 OK
     {
         "ID": 2,
@@ -521,26 +431,19 @@ HTTP/1.1 201 OK
 | POSITION | Number | <p>The position of the paragraph in the article</p>|
 | ARTICLE_ID | Number | <p>The Id of the article associated to the paragraph</p>|
 
-
-
-
 # Paragraphs
 
 ## Request all paragraphs of the article
+
 [Back to top](#top)
 
-
-
   GET /api/v1/articles/:idA/paragraphs
-
-
-
 
 ### Success Response
 
 Success-Response:
 
-```json
+```js
 HTTP/1.1 201 OK
     [
         {
@@ -557,11 +460,7 @@ HTTP/1.1 201 OK
 
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
-| ID | Number | <p>Id of the article patched</p>|
-| TITLE | String | <p>Title of the article patched</p>|
+| ID | Number | <p>Id of the paragraph</p>|
+| CONTENT | String | <p>Content of the paragraph</p>|
 | POSITION | Number | <p>The position of the paragraph in the article</p>|
 | ARTICLE_ID | Number | <p>The Id of the article associated to the paragraph</p>|
-
-
-
-

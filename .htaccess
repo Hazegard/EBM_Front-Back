@@ -6,5 +6,5 @@ RewriteRule ^(.*) /Front/src/$1 [L]
 RewriteBase /
 
 RewriteRule ^api/v1/ /Back/src/Dispatcher.php
-
+RewriteRule ^api/doc/ /Back/doc
 RewriteRule ^node_modules Front/src/node_modules
