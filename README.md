@@ -36,12 +36,14 @@
 ### Langages et librairies utilisées
 
 Au niveau du __Back-End__, les choix se sont portés sur:
+
 - Apache comme serveur web
 - Php 7 afin d'apporter un typage, ermettant une meilleure robustesse du code
 - apidoc pour générer une documentation de l'api
 - MariaDB/MySQL comme SGBD
 
 Au niveau du __Front-End__ :
+
 - Bootstrap comme librairie pour la présentation
 - jQuery pour l'interaction
 
@@ -126,6 +128,14 @@ Le module rewrite est nécessaire :
 a2enmod rewrite
 ```
 
+Ajouter :
+
+```apache
+AllowOverride All
+```
+
+Afin d'activer le .htaccess
+
 #### Configuration du serveur php
 
 Renommer Back/src/config.example.php en config.php
@@ -163,19 +173,25 @@ Le callback se charge ainsi simplement d'extraire les valeurs des paramètres et
 6. Le callback apelle la fonction response() de RouterUtils avec comme paramètre le résultat du contrôlleur pour l'émmettre au client.
 
 ## Présentation du Front-End
+
 Vue la nature du travail demandé, nous avons choisi pour le Front-End de faire une Single Page Application. Le Front-End ne comprend donc qu'une seule page qui affiche dynamiquement les informations demandées.
 
 ### Affichage par défaut
+
 À l'arrivée sur la page, l'utilisateur ne voit qu'un message de présentation et la barre de navigation (qui sera toujours présente), depuis laquelle il peut :
+
 - Réafficher ce "message de garde" en cliquant sur le titre de la page
 - Voir la liste des articles présents dans la base de données depuis le menu déroulant
 - Ajouter un article dans le formulaire prévu à cet effet
 
 ### Affichage d'un article en mode vue
+
 C'est l'affichage par défaut lorsqu'on sélectionne un article depuis le menu déroulant. Il affiche simplement le titre et les paragraphes concernant l'article. Il y a également un bouton pour passer en "mode édition".
 
 ### Affichage d'un article en mode édition
-C'est dans ce mode, moins adapté à la lecture, qu'on peut modifier les données concernant l'article en question. C'est aussi l'affichage par défaut de l'article après l'avoir créé.  
+
+C'est dans ce mode, moins adapté à la lecture, qu'on peut modifier les données concernant l'article en question. C'est aussi l'affichage par défaut de l'article après l'avoir créé.
+
 - Il y a deux boutons, l'un pour revenir en mode vue, l'autre pour supprimer totalement l'article.
 - On peut cliquer sur le titre ou sur un paragraphe pour en modifier le contenu. Il faut valider les changements en appuyant sur <kbd>ENTRÉE</kbd>, ou les annuler en appuyant sur <kbd>ÉCHAP</kbd>.
 - On peut cliquer sur le bouton `+` à la fin d'un paragraphe pour ajouter un nouveau paragraphe juste après. Le fonctionnement est similaire à l'édition.
