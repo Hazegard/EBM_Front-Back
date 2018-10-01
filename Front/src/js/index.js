@@ -201,7 +201,7 @@ addTxtArea = (paragraph, id, paraPosition) => {
         '<textarea class="form-control" rows="5"></textarea>' +
         '</div>');
 
-    champ.on("keypress", "textarea", function (context) {
+    champ.on("keydown", "textarea", function (context) {
         if (context.which === 13) {
             const content = $(this).val();
 
@@ -225,7 +225,7 @@ addTxtArea = (paragraph, id, paraPosition) => {
                 $(this).parent().remove();
             }
         }
-        if (context.which === 0) {
+        if (context.which === 27) {
             switchValue($(this).parent().prev().children("input"));
             $(this).parent().remove();
         }
@@ -264,7 +264,7 @@ switchValue = (button) => {
 editPara = (paragraph, paraHTML, id) => {
     let champ = $('<textarea class="form-control" rows="5"></textarea>');
     paraHTML.replaceWith(champ);
-    champ.on('keypress', function (context) {
+    champ.on('keydown', function (context) {
         if (context.which === 13) {
             const content = $(this).val();
 
@@ -284,7 +284,7 @@ editPara = (paragraph, paraHTML, id) => {
                 deletePara(paragraph.ID, id);
             }
         }
-        if (context.which === 0) {
+        if (context.which === 27) {
             $(this).replaceWith(paraHTML.click(function () {
                 editPara(paragraph, paraHTML, id);
             }));
